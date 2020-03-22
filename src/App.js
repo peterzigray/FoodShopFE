@@ -1,10 +1,9 @@
-import React from 'react';
+
+import React, { Component } from 'react';
 
 import './App.css';
 import ReturnFromAPI from './ReturnFromAPI';
 
-
-import ReactDOM from 'react-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -21,28 +20,45 @@ import Typography from '@material-ui/core/Typography';
 
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
 
-function App() {
-  const classes = useStyles();
+
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      
+      isClicked: false,
+    };
+  }
+
+// function App() {
+
+  onClick = () => {
+    console.log(this.state.isClicked)
+    this.setState({isClicked: !this.state.isClicked});
+  }
+  
+  render() {
+    const classes = makeStyles(theme => ({
+      paper: {
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      },
+      avatar: {
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
+      },
+      form: {
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+      },
+      submit: {
+        margin: theme.spacing(3, 0, 2),
+      },
+    }));
+    console.log(classes.paper)
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -81,10 +97,11 @@ function App() {
             label="Remember me"
           />
           <Button
-            type="submit"
+            // type="submit"
             fullWidth
             variant="contained"
             color="primary"
+            onClick={this.onClick}
          
           >
             Sign In
@@ -106,10 +123,11 @@ function App() {
       <Box mt={8}>
      
       </Box>
-    <ReturnFromAPI/>
+      {this.state.isClicked ? <div><p>Here we are:</p> <ReturnFromAPI /></div> : <p>Neboj sa a klikni na ten buttonik</p>}
+    
     </Container>
     
   );
 }
-
+}
 export default App;

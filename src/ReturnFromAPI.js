@@ -34,21 +34,12 @@ class ReturnFromAPI extends Component {
   componentDidMount() {
     // const mockData = mockData();
  
-    fetch("http://randomuser.me/api/")
+    fetch("https://jsonplaceholder.typicode.com/todos/1")
       .then(results => {
         return results.json();
       })
       .then(data => {
-        let oneid = data.results.map(oneData => {
-          return (
-            <div key={oneData.results}>
-              <img src={oneData.id.name}></img>
-            </div>
-          );
-        });
-
-        this.setState({ pictures: oneid });
-        console.log("state", this.state.oneid);
+        this.setState({ pictures: data.title});
       });
       
   }
