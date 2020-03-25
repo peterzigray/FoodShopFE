@@ -34,12 +34,13 @@ class ReturnFromAPI extends Component {
   componentDidMount() {
     // const mockData = mockData();
  
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
+    fetch("http://localhost:8080/api/manage/health")
       .then(results => {
         return results.json();
       })
       .then(data => {
-        this.setState({ pictures: data.title});
+        this.setState({ pictures: data.status});
+        console.log('toto je to' + data.status)
       });
       
   }
