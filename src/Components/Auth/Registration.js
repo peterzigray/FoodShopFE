@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Registration = ({ setAlert, register }) => {
+const Registration = ({ setAlert }) => {
   // React hooks
   const [formData, setFormData] = useState({
     firstName: '',
@@ -75,27 +75,28 @@ const Registration = ({ setAlert, register }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
+    setAlert('paswords do not match', 'danger');
     // console.log('waiting for registration on BE side');
     // This is standard post request PREPARING....
-    const newUser = {
-      firstName,
-      lastName,
-      email,
-      password
-    };
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      };
-      const body = JSON.stringify(newUser);
-      const res = await axios.post('/api/users', body, config);
-      console.log(res.data);
-    } catch (err) {
-      setAlert('paswords do not match', 'danger');
-      console.error(err.response.data);
-    }
+    // const newUser = {
+    //   firstName,
+    //   lastName,
+    //   email,
+    //   password
+    // };
+    // try {
+    //   const config = {
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   };
+    //   const body = JSON.stringify(newUser);
+    //   const res = await axios.post('/api/users', body, config);
+    //   console.log(res.data);
+    // } catch (err) {
+    //   setAlert('paswords do not match', 'danger');
+    //   console.error(err.response.data);
+    // }
 
     console.log(formData);
   };

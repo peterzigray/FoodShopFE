@@ -89,7 +89,13 @@ export default function LogIn() {
         body,
         config
       );
-      console.log('toto je response' + ' ' + res);
+      console.log(
+        'toto je response' +
+          ' ' +
+          JSON.stringify(res) +
+          '//////////////////////' +
+          res.data
+      );
     } catch (err) {
       console.error(err);
     }

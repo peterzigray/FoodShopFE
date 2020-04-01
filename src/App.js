@@ -16,7 +16,7 @@ const App = () => (
         <Navbar />
         <Route exact path="/" component={Body} />
         <section className="container">
-          {/* <Alert></Alert> */}
+          <Alert></Alert>
           <Switch>
             <Route exact path="/login" component={Login} />
             <Route exact path="/registration" component={Registration} />
