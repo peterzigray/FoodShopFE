@@ -1,45 +1,30 @@
+import React, { Fragment } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Body from './Components/Layouts/Body';
+import Navbar from './Components/Layouts/Navbar';
+import Login from './Components/Auth/LogIn';
+import Alert from './Components/Layouts/Alert';
+import Registration from './Components/Auth/Registration';
+// Redux
+import { Provider } from 'react-redux';
+import store from './store';
 
-import React, { Component, Fragment } from 'react';
+const App = () => (
+  <Provider store={store}>
+    <Router>
+      <Fragment>
+        <Navbar />
+        <Route exact path="/" component={Body} />
+        <section className="container">
+          {/* <Alert></Alert> */}
+          <Switch>
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/registration" component={Registration} />
+          </Switch>
+        </section>
+      </Fragment>
+    </Router>
+  </Provider>
+);
 
-import './App.css';
-import ReturnFromAPI from './API/ReturnFromAPI';
-
-
-import { makeStyles } from '@material-ui/core/styles';
-
-
-import Header from '../src/Components/Layouts/Header';
-import LogIn from '../src/Components/Auth/LogIn';
-
-
-
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      makeStyles,
-      isClicked: false,
-    };
-  }
-
-// function App() {
-
-  onClick = () => {
-    console.log(this.state.isClicked)
-    this.setState({isClicked: !this.state.isClicked});
-  }
-  
-  render() {
-    
-  return (
-  <Fragment>
-      <Header/>
-      <LogIn/>
-  </Fragment>
-     
-  
-    
-  );
-}
-}
 export default App;

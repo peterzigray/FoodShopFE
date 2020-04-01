@@ -1,68 +1,59 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-// import { makeStyles } from "@material-ui/core/styles";
+// import React, { Component } from 'react';
+// import axios from 'axios';
+// // import { makeStyles } from "@material-ui/core/styles";
 
-// const mockData = makeStyles(theme => ({
-//   paper: {
-//     marginTop: theme.spacing(8),
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//   },
-//   avatar: {
-//     margin: theme.spacing(1),
-//     backgroundColor: theme.palette.secondary.main,
-//   },
-//   form: {
-//     width: '100%', // Fix IE 11 issue.
-//     marginTop: theme.spacing(1),
-//   },
-//   submit: {
-//     margin: theme.spacing(3, 0, 2),
-//   },
-// }));
+// // const mockData = makeStyles(theme => ({
+// //   paper: {
+// //     marginTop: theme.spacing(8),
+// //     display: 'flex',
+// //     flexDirection: 'column',
+// //     alignItems: 'center',
+// //   },
+// //   avatar: {
+// //     margin: theme.spacing(1),
+// //     backgroundColor: theme.palette.secondary.main,
+// //   },
+// //   form: {
+// //     width: '100%', // Fix IE 11 issue.
+// //     marginTop: theme.spacing(1),
+// //   },
+// //   submit: {
+// //     margin: theme.spacing(3, 0, 2),
+// //   },
+// // }));
 
-class ReturnFromAPI extends Component {
-  constructor(){
-    super();
-    this.state = {
-      pictures: '',
-    };
-  }
+// class ReturnFromAPI extends Component {
+//   constructor(){
+//     super();
+//     this.state = {
+//       pictures: '',
+//     };
+//   }
 
+//   componentDidMount() {
+//     // const mockData = mockData();
 
-  componentDidMount() {
-    // const mockData = mockData();
- 
-    fetch("http://localhost:8080/api/manage/health")
-      .then(results => {
-        return results.json();
-      })
-      .then(data => {
-        this.setState({ pictures: data.status});
-        console.log('toto je to' + data.status)
-      });
-      
-  }
+//     fetch("http://localhost:8080/api/manage/health")
+//       .then(results => {
+//         return results.json();
+//       })
+//       .then(data => {
+//         this.setState({ pictures: data.status});
+//         console.log('toto je to' + data.status)
+//       });
 
-  render(){
-    return(
-      <div>
-        <div>
-          {this.state.pictures}
-        </div>
-      </div>
-    )
+//   }
 
-  }
+//   render(){
+//     return(
+//       <div>
+//         <div>
+//           {this.state.pictures}
+//         </div>
+//       </div>
+//     )
 
+//   }
 
-
-
-
-
-
-
-
-}
-export default ReturnFromAPI;
+// }
+// export default ReturnFromAPI;
