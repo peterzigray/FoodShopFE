@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import { Link, Redirect } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -16,7 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 // import { Link } from 'react-router-dom';
 
-import axios from 'axios';
+import { register } from '../../actions/auth';
 import { setAlert } from '../../actions/alert';
 import PropTypes from 'prop-types';
 
@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Registration = ({ setAlert }) => {
+const Registration = ({ setAlert, register, isAuthenticated }) => {
   // React hooks
   const [formData, setFormData] = useState({
     firstName: '',
@@ -75,31 +75,12 @@ const Registration = ({ setAlert }) => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    setAlert('paswords do not match', 'danger');
-    // console.log('waiting for registration on BE side');
-    // This is standard post request PREPARING....
-    // const newUser = {
-    //   firstName,
-    //   lastName,
-    //   email,
-    //   password
-    // };
-    // try {
-    //   const config = {
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   };
-    //   const body = JSON.stringify(newUser);
-    //   const res = await axios.post('/api/users', body, config);
-    //   console.log(res.data);
-    // } catch (err) {
-    //   setAlert('paswords do not match', 'danger');
-    //   console.error(err.response.data);
-    // }
-
-    console.log(formData);
+    register({ firstName, lastName, email, password });
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -201,7 +182,13 @@ const Registration = ({ setAlert }) => {
 };
 
 Registration.propTypes = {
-  setAlert: PropTypes.func.isRequired
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
 };
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
 //1.paramenter any state we want to map for example from alert or profile etc. 2.parameter object with action we wanna use, in order to use it as a props!!!
-export default connect(null, { setAlert })(Registration);
+export default connect(mapStateToProps, { setAlert, register })(Registration);

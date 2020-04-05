@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
@@ -13,6 +13,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import axios from 'axios';
+import { login } from '../../actions/auth';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
 function Copyright() {
   return (
@@ -47,13 +51,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function LogIn() {
+const Login = ({ login, isAuthenticated }) => {
   // React hooks
   const [formData, setFormData] = useState({
-    login: '',
+    username: '',
     password: ''
   });
-  const { firstName, lastName, login, password } = formData;
+  const { username, password } = formData;
   const classes = useStyles();
 
   const onChange = e => {
@@ -66,42 +70,12 @@ export default function LogIn() {
 
   const onSubmit = async e => {
     e.preventDefault();
-
-    // // This is standard post request
-    const newUser = {
-      login,
-      password
-    };
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json'
-          // Host: '<calculated when request is sent>',
-          // 'User-Agent': 'PostmanRuntime/7.24.0',
-          // Accept: '*/*',
-          // 'Accept-Encoding': 'gzip, deflate, br',
-          // Connection: 'keep-alive'
-        }
-      };
-      const body = JSON.stringify(newUser);
-      const res = await axios.post(
-        'http://localhost:8080/api/authentication/login',
-        body,
-        config
-      );
-      console.log(
-        'toto je response' +
-          ' ' +
-          JSON.stringify(res) +
-          '//////////////////////' +
-          res.data
-      );
-    } catch (err) {
-      console.error(err);
-    }
-
-    console.log(formData);
+    login(username, password);
   };
+
+  if (isAuthenticated) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -117,12 +91,12 @@ export default function LogIn() {
             margin="normal"
             required
             fullWidth
-            id="login"
+            id="username"
             label="Email Address"
-            name="login"
-            autoComplete="login"
+            name="username"
+            autoComplete="username"
             autoFocus
-            value={login}
+            value={username}
             onChange={e => onChange(e)}
           />
           <TextField
@@ -170,4 +144,15 @@ export default function LogIn() {
       </Box>
     </Container>
   );
-}
+};
+
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { login })(Login);
