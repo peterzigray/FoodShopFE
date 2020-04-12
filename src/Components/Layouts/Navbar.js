@@ -58,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.tab,
 
     minWidth: 10,
-    marginLeft: '25px',
+    marginLeft: '-5px',
+    // marginRight: '-8px',
   },
   button: {
     borderRadius: '50px',
@@ -115,6 +116,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const [value, setValue] = useState(null);
 
   const handleChange = (e, value) => {
+    console.log(value);
     setValue(value);
   };
 
@@ -150,11 +152,11 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                   <Fragment>
                     <Tabs
                       value={value}
-                      onChange={handleChange}
+                      // onChange={handleChange}
                       className={classes.tabContainer}
                       indicatorColor="primary"
                     >
-                      <Button c>
+                      <Button disableRipple className={classes.logoContainer}>
                         <div className={classes.root}>
                           <StyledBadge
                             overlap="circle"
