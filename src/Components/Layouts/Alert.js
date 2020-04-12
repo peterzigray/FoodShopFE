@@ -9,20 +9,26 @@ const Alert1 = ({ alerts }) => {
   return (
     alerts !== null &&
     alerts.length > 0 &&
-    alerts.map(alert => (
+    alerts.map((alert) => (
       <div key={alert.id}>
-        <Alert severity="error"> {alert.msg} </Alert>
+        <Alert
+          // severity="error"
+          color="error"
+        >
+          {' '}
+          {alert.msg}{' '}
+        </Alert>
       </div>
     ))
   );
 };
 Alert.propTypes = {
-  alerts: PropTypes.array.isRequired
+  alerts: PropTypes.array.isRequired,
 };
 
 // this component is getting alert state and putting him inside prop of alerts, destracturing up in component
-const mapStateToProps = state => ({
-  alerts: state.alert
+const mapStateToProps = (state) => ({
+  alerts: state.alert,
 });
 
 export default connect(mapStateToProps)(Alert1);

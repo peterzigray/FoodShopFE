@@ -5,32 +5,36 @@ import {
   USER_LOADED,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
 } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: false,
   loading: false,
-  user: null
+  masterToken: null,
+  user: null,
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    // case USER_LOADED:
-    //   return {
-    //     ...state,
-    //     isAuthenticated: true,
-    //     loading: false,
-    //     user: payload
-    //   };
+    case USER_LOADED:
+      localStorage.setItem('token', localStorage.token);
+      return {
+        ...state,
+        token: localStorage.getItem('token'),
+        isAuthenticated: true,
+        loading: false,
+        user: payload,
+      };
+
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       // Set token to lacalstorage
-      // localStorage.setItem('token', payload.token);
-      localStorage.setItem('token', payload.jwt);
+      // console.log('token this is the token', payload);
+      localStorage.setItem('token', payload.authToken);
 
       return {
         ...state,
@@ -38,7 +42,8 @@ export default function(state = initialState, action) {
         token: localStorage.getItem('token'),
         isAuthenticated: true,
         loading: false,
-        user: payload.userData
+        masterToken: payload.masterToken,
+        user: payload.userData,
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:
@@ -49,7 +54,7 @@ export default function(state = initialState, action) {
         ...state,
         token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
       };
     default:
       return state;

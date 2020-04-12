@@ -10,21 +10,23 @@ import { loadUser } from './actions/auth';
 import { Provider } from 'react-redux';
 import store from './store';
 import setAuthToken from './utils/setAuthToken';
-
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './Components/Style/Theme';
 // if (localStorage.token) {
 //   setAuthToken(localStorage.token);
 // }
 
 const App = () => {
   // it is basicaly componentDidMount and [] means just once
-  // useEffect(() => {
-  //   store.dispatch(loadUser());
-  // }, []);
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
     <Provider store={store}>
       <Router>
         <Fragment>
-          <section className="container">
+          <ThemeProvider theme={theme}>
+            {/* <section className="container"> */}
             <Navbar />
             <Route exact path="/" component={Body} />
 
@@ -33,7 +35,8 @@ const App = () => {
               <Route exact path="/login" component={Login} />
               <Route exact path="/registration" component={Registration} />
             </Switch>
-          </section>
+          </ThemeProvider>
+          {/* </section> */}
         </Fragment>
       </Router>
     </Provider>
