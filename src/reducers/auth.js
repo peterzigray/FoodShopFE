@@ -21,10 +21,8 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case USER_LOADED:
-      localStorage.setItem('token', localStorage.token);
       return {
         ...state,
-        token: localStorage.getItem('token'),
         isAuthenticated: true,
         loading: false,
         user: payload,
@@ -38,8 +36,6 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
-        // ...payload,
-        token: localStorage.getItem('token'),
         isAuthenticated: true,
         loading: false,
         masterToken: payload.masterToken,

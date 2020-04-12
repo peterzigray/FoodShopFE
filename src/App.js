@@ -12,9 +12,9 @@ import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './Components/Style/Theme';
-// if (localStorage.token) {
-//   setAuthToken(localStorage.token);
-// }
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
 
 const App = () => {
   // it is basicaly componentDidMount and [] means just once

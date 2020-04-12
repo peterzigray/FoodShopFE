@@ -14,35 +14,25 @@ import setAuthToken from '../utils/setAuthToken';
 
 // Load User
 export const loadUser = () => async (dispatch) => {
-  // if (localStorage.token) {
-  //   setAuthToken(localStorage.token);
-  // }
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
-  const body = JSON.stringify({ authToken: localStorage.token });
-  console.log('this is body' + ' ' + body);
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+
+  // const body = JSON.stringify({ authToken: localStorage.token });
+
   try {
-    // const res = await axios.get('/api/auth');
-    const res = await axios.post(
-      'http://localhost:8080/api/security/verify',
-      body,
-      config
-    );
+    const res = await axios.get('http://localhost:8080/api/security/verify');
     dispatch({
       type: USER_LOADED,
       payload: res.data,
     });
   } catch (err) {
-    dispatch(setAlert(err.toString(), 'danger'));
+    // dispatch(setAlert(err.toString()));
     dispatch({
       type: AUTH_ERROR,
     });
   }
 };
-
 // Register User
 export const register = ({ firstName, lastName, email, password }) => async (
   dispatch

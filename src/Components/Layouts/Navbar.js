@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -15,6 +15,9 @@ import logo from '../../assets/logo.svg';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
+//Avatar MatarialUI
+import Badge from '@material-ui/core/Badge';
+import Avatar from '@material-ui/core/Avatar';
 
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 
@@ -32,6 +35,7 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
+    paddingTop: '1rem',
   },
   logo: {
     paddingLeft: '0.2rem',
@@ -61,70 +65,54 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '25px',
     marginRight: '30px',
   },
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
 }));
+
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}))(Badge);
+
+const SmallAvatar = withStyles((theme) => ({
+  root: {
+    width: 22,
+    height: 22,
+    border: `2px solid ${theme.palette.background.paper}`,
+  },
+}))(Avatar);
 
 const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const classes = useStyles();
   const [value, setValue] = useState(null);
-  const authLinks = (
-    <Fragment>
-      {user && (
-        <Fragment>
-          <FaceIcon />
-          <p>
-            {' '}
-            {user.firstName} {user.lastName}{' '}
-          </p>
-        </Fragment>
-      )}
-      {/* <Button color="inherit">
-        <Link onClick={logout} to="/" style={{ textDecoration: 'none' }}>
-          <i className="fas fa-sign-out-alt"> </i>{' '}
-          <span className="hide-sm">Logout</span>
-        </Link>
-      </Button> */}
-      <i className="fas fa-sign-out-alt"> </i>{' '}
-      <Tab
-        onClick={logout}
-        label="Logout"
-        className={classes.tab}
-        component={Link}
-        to="/"
-      />
-    </Fragment>
-  );
-
-  const guesLinks = (
-    <Fragment>
-      {/* <Button color="white">
-        <Link color="white" to="/login" style={{ textDecoration: 'none' }}>
-          Login
-        </Link>
-      </Button>
-      <Button color="inherit">
-        <Link
-          color="white"
-          to="/registration"
-          style={{ textDecoration: 'none' }}
-        >
-          SignUp
-        </Link>
-      </Button> */}
-      <Tab
-        className={classes.tab}
-        component={Link}
-        to="/login"
-        label="Login"
-      ></Tab>
-      <Tab
-        className={classes.tab}
-        component={Link}
-        to="/registration"
-        label="SignUp"
-      ></Tab>
-    </Fragment>
-  );
-  console.log('');
 
   const handleChange = (e, value) => {
     setValue(value);
@@ -157,13 +145,51 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
           {!loading && (
             <Fragment>
-              {/* <Tabs
-                value={value}n
-                onChange={handleChange}
-                className={classes.tabContainer}
-              > */}
               {isAuthenticated ? (
-                authLinks
+                <Fragment>
+                  <Fragment>
+                    <Tabs
+                      value={value}
+                      onChange={handleChange}
+                      className={classes.tabContainer}
+                      indicatorColor="primary"
+                    >
+                      <Button c>
+                        <div className={classes.root}>
+                          <StyledBadge
+                            overlap="circle"
+                            anchorOrigin={{
+                              vertical: 'bottom',
+                              horizontal: 'right',
+                            }}
+                            variant="dot"
+                          >
+                            <Avatar
+                              alt="Remy Sharp"
+                              src={user.imageUrl}
+                              // "/static/images/avatar/1.jpg"
+                            />
+                          </StyledBadge>
+                        </div>
+                        {user ? (
+                          <p>
+                            {user.firstName} {user.lastName}{' '}
+                          </p>
+                        ) : (
+                          <p>UNDEFINED USER</p>
+                        )}
+                      </Button>
+
+                      <Tab
+                        onClick={logout}
+                        label="Logout"
+                        className={classes.tab}
+                        component={Link}
+                        to="/"
+                      ></Tab>
+                    </Tabs>
+                  </Fragment>
+                </Fragment>
               ) : (
                 <Tabs
                   value={value}
