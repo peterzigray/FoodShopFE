@@ -18,6 +18,11 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import { loadUser } from '../../actions/auth';
+import { getUsers } from '../../actions/auth';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 // import './App.css';
 // import ReturnFromAPI from './API/ReturnFromAPI';
@@ -44,6 +49,10 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
+  },
+
+  buttons: {
+    margin: '2rem',
   },
 }));
 
@@ -73,13 +82,22 @@ const count1 = [
 
 // class Body extends Component {
 
-export default function Body() {
+const Body = ({ auth: { users }, loadUser, getUsers }) => {
   // function App() {
 
   // onClick = () => {
   //   console.log(this.state.isClicked);
   //   this.setState({ isClicked: !this.state.isClicked });
   // };
+
+  const getUserVerify = () => {
+    loadUser();
+    console.log('jedna');
+  };
+
+  const getAllUsers = () => {
+    getUsers();
+  };
 
   // render() {
   const classes = useStyles();
@@ -198,7 +216,38 @@ export default function Body() {
             <FormRow />
           </Paper>
         </Grid> */}
-        Obrazky
+        <p className={classes.buttons}>
+          Instrukcie: najprv sa prihlas a potom stukaj butoniky :D
+        </p>
+
+        <Button
+          className={classes.buttons}
+          onClick={getUserVerify}
+          variant="contained"
+          color="primary"
+        >
+          /api/security/verify - az po logine
+        </Button>
+
+        <Button
+          className={classes.buttons}
+          onClick={getAllUsers}
+          variant="contained"
+          color="secondary"
+        >
+          /api/internal/user-management/users
+        </Button>
+        <p className={classes.buttons}>
+          Ak bude request na verifikaciu usera ok, nezobrazi sa ziadna error
+          hlaska
+        </p>
+        {users ? (
+          users.map((user) => <p>{user}</p>)
+        ) : (
+          <p className={classes.buttons}>
+            Ak bude request na get users ok, zobrazia sa tu
+          </p>
+        )}
       </Grid>
     </div>
   );
@@ -225,6 +274,17 @@ export default function Body() {
   //   </Grid>
   // </div>
   // );
-}
+};
 // }
 // export default Body;
+Body.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  getUsers: PropTypes.func.isRequired,
+  auth: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { loadUser, getUsers })(Body);

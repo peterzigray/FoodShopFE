@@ -18,9 +18,9 @@ import theme from './Components/Style/Theme';
 
 const App = () => {
   // it is basicaly componentDidMount and [] means just once
-  useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);
+  // useEffect(() => {
+  //   store.dispatch(loadUser());
+  // }, []);
   return (
     <Provider store={store}>
       <Router>

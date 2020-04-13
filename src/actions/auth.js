@@ -8,9 +8,43 @@ import {
   LOGIN_FAIL,
   LOGIN_SUCCESS,
   LOGOUT,
+  GET_USERS,
 } from './types';
 
 import setAuthToken from '../utils/setAuthToken';
+//*******************************************************************/
+// Get all Users
+//*******************************************************************/
+export const getUsers = () => async (dispatch) => {
+  // if (localStorage.token) {
+  //   setAuthToken(localStorage.token);
+  // }
+  console.log('clicked');
+  try {
+    const token = localStorage.token;
+
+    const url = 'http://localhost:8080/api/internal/user-management/users';
+
+    const res = await axios.get(url, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('this is response' + '--' + res);
+    dispatch({
+      type: GET_USERS,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err);
+    dispatch(setAlert(err.toString()));
+    // dispatch({
+    //   type: AUTH_ERROR,
+    // });
+  }
+};
+
 //*******************************************************************/
 // Load User
 //*******************************************************************/
@@ -35,8 +69,8 @@ export const loadUser = () => async (dispatch) => {
     //   payload: res.data,
     // });
   } catch (err) {
-    console.log(err.toString());
-    // dispatch(setAlert(err.toString()));
+    console.log(err);
+    dispatch(setAlert(err.toString()));
     // dispatch({
     //   type: AUTH_ERROR,
     // });
