@@ -115,6 +115,12 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const classes = useStyles();
   const [value, setValue] = useState(null);
 
+  const logoutfun = async (e) => {
+    e.preventDefault();
+    //User email
+    logout(user.username);
+  };
+
   const handleChange = (e, value) => {
     console.log(value);
     setValue(value);
@@ -174,16 +180,16 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                           </StyledBadge>
                         </div>
                         {user ? (
-                          <p>
+                          <h3>
                             {user.firstName} {user.lastName}{' '}
-                          </p>
+                          </h3>
                         ) : (
                           <p>UNDEFINED USER</p>
                         )}
                       </Button>
 
                       <Tab
-                        onClick={logout}
+                        onClick={logoutfun}
                         label="Logout"
                         className={classes.tab}
                         component={Link}

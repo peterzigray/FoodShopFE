@@ -33,6 +33,7 @@ export default function (state = initialState, action) {
       // Set token to lacalstorage
       // console.log('token this is the token', payload);
       localStorage.setItem('token', payload.authToken);
+      localStorage.setItem('tokenMaster', payload.masterToken);
 
       return {
         ...state,
@@ -46,6 +47,8 @@ export default function (state = initialState, action) {
     case LOGIN_FAIL:
     case LOGOUT:
       localStorage.removeItem('token');
+      localStorage.removeItem('tokenMaster');
+      // navigation to '/' Dashboard in progress..
       return {
         ...state,
         token: null,
