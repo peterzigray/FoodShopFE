@@ -1,29 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Fragment, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Body from './Components/Layouts/Body';
+import Navbar from './Components/Layouts/Navbar';
+import Login from './Components/Auth/LogIn';
+import Alert from './Components/Layouts/Alert';
+import Registration from './Components/Auth/Registration';
+import { loadUser } from './actions/auth';
+// Redux
+import { Provider } from 'react-redux';
+import store from './store';
+import setAuthToken from './utils/setAuthToken';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from './Components/Style/Theme';
+// if (localStorage.token) {
+//   setAuthToken(localStorage.token);
+// }
 
 const App = () => {
   // it is basicaly componentDidMount and [] means just once
-  // useEffect(() => {
-  //   store.dispatch(loadUser());
-  // }, []);
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <Router>
+        <Fragment>
+          <ThemeProvider theme={theme}>
+            {/* <section className="container"> */}
+            <Navbar />
+            <Route exact path="/" component={Body} />
+
+            <Alert></Alert>
+            <Switch>
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/registration" component={Registration} />
+            </Switch>
+          </ThemeProvider>
+          {/* </section> */}
+        </Fragment>
+      </Router>
+    </Provider>
   );
 };
 
