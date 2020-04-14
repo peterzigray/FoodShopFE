@@ -31,6 +31,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 // responsive design
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+// Drawer
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import MenuIcon from '@material-ui/icons/Menu';
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -164,7 +167,10 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   // Responsive UI
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+
   //****************************************************** */
+  const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(null);
   //****************************************************** */
   // const [anchorEl, setAnchorEl] = useState(null);
@@ -352,6 +358,26 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
       </Button>
     </React.Fragment>
   );
+  const drawer = (
+    <React.Fragment>
+      <SwipeableDrawer
+        disableBackdropTransition={!iOS}
+        disableDiscovery={iOS}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+        onOpen={() => setOpenDrawer(true)}
+      >
+        {' '}
+        EXAMPLE DRAWER
+      </SwipeableDrawer>
+      <IconButton>
+        <MenuIcon
+          onClick={() => setOpenDrawer(!openDrawer)}
+          disableRipple
+        ></MenuIcon>
+      </IconButton>
+    </React.Fragment>
+  );
   return (
     <React.Fragment>
       <AppBar position="fixed">
@@ -375,7 +401,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
 
             <img alt="company logo" className={classes.logo} src={logo} />
           </Button>
-          {matches ? null : tabs}
+          {matches ? drawer : tabs}
         </Toolbar>
       </AppBar>
       <div className={classes.toolbarMargin}></div>
