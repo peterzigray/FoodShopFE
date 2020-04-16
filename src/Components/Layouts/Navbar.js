@@ -391,13 +391,12 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   );
   const drawer = (
     <React.Fragment>
-      {user ? (
+      {user && isAuthenticated ? (
         <h3>
           {user.firstName} {user.lastName}{' '}
         </h3>
-      ) : (
-        <p>UNDEFINED USER</p>
-      )}
+      ) : null}
+
       <SwipeableDrawer
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
