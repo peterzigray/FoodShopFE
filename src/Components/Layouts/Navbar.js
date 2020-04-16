@@ -23,7 +23,6 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 //*************************************************** */
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import PersonIcon from '@material-ui/icons/Person';
@@ -34,6 +33,9 @@ import { useTheme } from '@material-ui/core/styles';
 // Drawer
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -91,6 +93,30 @@ const useStyles = makeStyles((theme) => ({
     '& > *': {
       margin: theme.spacing(1),
     },
+  },
+  draweIconContainer: {
+    marginLeft: 'auto',
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
+  },
+  draweIconIcon: {
+    height: '50px',
+    width: '50px',
+  },
+  drawer: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  drawerItem: {
+    ...theme.typography.tab,
+    color: 'white',
+    opacity: 0.7,
+  },
+  drawerCart: {
+    backgroundColor: theme.palette.secondary.main,
+  },
+  drawerItemSelected: {
+    opacity: 1,
   },
 }));
 
@@ -213,6 +239,10 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
       setValue(0);
     } else if (path === '/registration' && value !== 1) {
       setValue(1);
+    } else if (path === '/' && value !== 3) {
+      setValue(3);
+    } else if (path === '/order' && value !== 4) {
+      setValue(4);
     }
   }, [value]);
 
@@ -366,12 +396,113 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
         onOpen={() => setOpenDrawer(true)}
+        classes={{ paper: classes.drawer }}
       >
-        {' '}
-        EXAMPLE DRAWER
+        <List disablePadding>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(3);
+            }}
+            divider
+            button
+            component={Link}
+            to="/"
+            selected={value === 3}
+          >
+            <ListItemText
+              className={
+                value === 3
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Home
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(0);
+            }}
+            divider
+            button
+            component={Link}
+            to="/login"
+            selected={value === 0}
+          >
+            <ListItemText
+              className={
+                value === 0
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Login
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(1);
+            }}
+            selected={value === 1}
+            divider
+            button
+            component={Link}
+            to="/registration"
+          >
+            <ListItemText
+              className={
+                value === 1
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              SignUp
+            </ListItemText>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              setOpenDrawer(false);
+              setValue(4);
+            }}
+            // selected={value === null}
+            selected={value === 4}
+            divider
+            button
+            component={Link}
+            to="/cart"
+            className={classes.drawerCart}
+          >
+            <ListItemText
+              className={
+                value === 1
+                  ? [classes.drawerItem, classes.drawerItemSelected]
+                  : classes.drawerItem
+              }
+              disableTypography
+            >
+              Cart
+            </ListItemText>
+          </ListItem>
+          {/* <ListItem component={Link} to="/about">
+            <ListItemText>about</ListItemText>
+          </ListItem>
+          <ListItem component={Link} to="/contact">
+            <ListItemText>contact</ListItemText>
+          </ListItem>
+          <ListItem component={Link} to="/estimate">
+            <ListItemText>estimate</ListItemText>
+          </ListItem> */}
+        </List>
       </SwipeableDrawer>
-      <IconButton>
+      <IconButton className={classes.draweIconContainer}>
         <MenuIcon
+          className={classes.draweIconIcon}
           onClick={() => setOpenDrawer(!openDrawer)}
           disableRipple
         ></MenuIcon>

@@ -12,6 +12,7 @@ import store from './store';
 import setAuthToken from './utils/setAuthToken';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './Components/Style/Theme';
+import Order from './Components/Layouts/Order';
 // if (localStorage.token) {
 //   setAuthToken(localStorage.token);
 // }
@@ -34,6 +35,7 @@ const App = () => {
             <Switch>
               <Route exact path="/login" component={Login} />
               <Route exact path="/registration" component={Registration} />
+              <Route exact path="/order" component={Order} />
             </Switch>
           </ThemeProvider>
           {/* </section> */}
