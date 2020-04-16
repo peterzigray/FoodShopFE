@@ -36,6 +36,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import HomeIcon from '@material-ui/icons/Inbox';
 
 // const useStyles = makeStyles((theme) => ({
 //   root: {
@@ -212,7 +213,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   };
   //****************************************************** */
   const logoutfun = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     //User email
     logout(user.username);
     handleClose();
@@ -390,6 +391,13 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   );
   const drawer = (
     <React.Fragment>
+      {user ? (
+        <h3>
+          {user.firstName} {user.lastName}{' '}
+        </h3>
+      ) : (
+        <p>UNDEFINED USER</p>
+      )}
       <SwipeableDrawer
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
@@ -410,6 +418,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             to="/"
             selected={value === 3}
           >
+            {/* <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon> */}
             <ListItemText
               className={
                 value === 3
@@ -421,50 +432,76 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
               Home
             </ListItemText>
           </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false);
-              setValue(0);
-            }}
-            divider
-            button
-            component={Link}
-            to="/login"
-            selected={value === 0}
-          >
-            <ListItemText
-              className={
-                value === 0
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-              disableTypography
+
+          {!isAuthenticated ? (
+            <ListItem
+              onClick={() => {
+                setOpenDrawer(false);
+                setValue(0);
+              }}
+              divider
+              button
+              component={Link}
+              to="/login"
+              selected={value === 0}
             >
-              Login
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              setOpenDrawer(false);
-              setValue(1);
-            }}
-            selected={value === 1}
-            divider
-            button
-            component={Link}
-            to="/registration"
-          >
-            <ListItemText
-              className={
-                value === 1
-                  ? [classes.drawerItem, classes.drawerItemSelected]
-                  : classes.drawerItem
-              }
-              disableTypography
+              <ListItemText
+                className={
+                  value === 0
+                    ? [classes.drawerItem, classes.drawerItemSelected]
+                    : classes.drawerItem
+                }
+                disableTypography
+              >
+                Login
+              </ListItemText>
+            </ListItem>
+          ) : (
+            <ListItem
+              onClick={() => {
+                setOpenDrawer(false);
+
+                logoutfun();
+              }}
+              divider
+              button
+              component={Link}
+              to="/"
             >
-              SignUp
-            </ListItemText>
-          </ListItem>
+              <ListItemText
+                className={[classes.drawerItem, classes.drawerItemSelected]}
+                disableTypography
+              >
+                Logout
+              </ListItemText>
+            </ListItem>
+          )}
+
+          {!isAuthenticated ? (
+            <ListItem
+              onClick={() => {
+                setOpenDrawer(false);
+                setValue(1);
+              }}
+              selected={value === 1}
+              divider
+              button
+              component={Link}
+              to="/registration"
+            >
+              <ListItemText
+                className={
+                  value === 1
+                    ? [classes.drawerItem, classes.drawerItemSelected]
+                    : classes.drawerItem
+                }
+                disableTypography
+              >
+                SignUp
+              </ListItemText>
+            </ListItem>
+          ) : null}
+
           <ListItem
             onClick={() => {
               setOpenDrawer(false);
@@ -475,12 +512,12 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             divider
             button
             component={Link}
-            to="/cart"
+            to="/order"
             className={classes.drawerCart}
           >
             <ListItemText
               className={
-                value === 1
+                value === 4
                   ? [classes.drawerItem, classes.drawerItemSelected]
                   : classes.drawerItem
               }
@@ -518,7 +555,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             to="/"
             disableRipple
             className={classes.logoContainer}
-            onClick={() => setValue(null)}
+            onClick={() => setValue(3)}
           >
             {matches ? (
               <Typography variant="h5" className={classes.title}>
