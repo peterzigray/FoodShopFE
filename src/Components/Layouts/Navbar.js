@@ -119,6 +119,9 @@ const useStyles = makeStyles((theme) => ({
   drawerItemSelected: {
     opacity: 1,
   },
+  appbar: {
+    zIndex: theme.zIndex.modal + 1,
+  },
 }));
 
 const StyledBadge = withStyles((theme) => ({
@@ -224,28 +227,24 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
     setValue(value);
   };
 
-  // const handleClick = (e, value) => {
-  //   setAnchorEl(e.currentTarget);
-  //   setOpen(true);
-  // };
-
-  // const handleClose = (e) => {
-  //   setAnchorEl(null);
-  //   setOpen(false);
-  // };
+  // smaller switch for setting value of clicked button in header
+  const routes = [
+    { name: 'login', link: '/login', activeIndex: 0 },
+    { name: 'registration', link: '/registration', activeIndex: 1 },
+    { name: 'home', link: '/', activeIndex: 3 },
+    { name: 'order', link: '/order', activeIndex: 4 },
+  ];
 
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path === '/login' && value !== 0) {
-      setValue(0);
-    } else if (path === '/registration' && value !== 1) {
-      setValue(1);
-    } else if (path === '/' && value !== 3) {
-      setValue(3);
-    } else if (path === '/order' && value !== 4) {
-      setValue(4);
-    }
-  }, [value]);
+    [...routes].forEach((route) => {
+      switch (window.location.pathname) {
+        case `${route.link}`:
+          if (value !== route.activeIndex) {
+            setValue(route.activeIndex);
+          }
+      }
+    });
+  }, [value, routes]);
 
   const tabs = (
     <React.Fragment>
@@ -297,25 +296,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <p>UNDEFINED USER</p>
                     )}
                   </Button>
-                  {/* <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{ onMouseLeave: handleClose }}
-                      >
-                        <MenuItem onClick={handleClose}>Settings</MenuItem>
-                        <MenuItem
-                          onClick={logoutfun}
-                          label="Logout"
-                          className={classes.tab}
-                          component={Link}
-                          to="/"
-                          onClick={handleClose}
-                        >
-                          Logout
-                        </MenuItem>
-                      </Menu> */}
                   <StyledMenu
                     id="customized-menu"
                     anchorEl={anchorEl}
@@ -344,14 +324,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
                       <ListItemText primary="Logout" />
                     </StyledMenuItem>
                   </StyledMenu>
-
-                  {/* <Tab
-                        onClick={logoutfun}
-                        label="Logout"
-                        className={classes.tab}
-                        component={Link}
-                        to="/"
-                      ></Tab> */}
                 </Tabs>
               </Fragment>
             </Fragment>
@@ -405,6 +377,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         onOpen={() => setOpenDrawer(true)}
         classes={{ paper: classes.drawer }}
       >
+        <div className={classes.toolbarMargin}></div>
         <List disablePadding>
           <ListItem
             onClick={() => {
@@ -547,7 +520,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   );
   return (
     <React.Fragment>
-      <AppBar position="fixed">
+      <AppBar position="fixed" className={classes.appbar}>
         <Toolbar disableGutters>
           <Button
             component={Link}
