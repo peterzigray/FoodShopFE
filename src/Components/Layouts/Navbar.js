@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
       marginBottom: '2em',
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '1.25em',
+      marginBottom: '0.25em',
     },
   },
   logo: {
@@ -79,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
   tab: {
     ...theme.typography.tab,
+    // color: 'white',
 
     minWidth: 10,
     marginLeft: '-5px',
@@ -112,6 +113,10 @@ const useStyles = makeStyles((theme) => ({
     ...theme.typography.tab,
     color: 'white',
     opacity: 0.7,
+  },
+  headerItems: {
+    ...theme.typography.tab,
+    color: 'white',
   },
   drawerCart: {
     backgroundColor: theme.palette.secondary.main,
@@ -364,9 +369,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   const drawer = (
     <React.Fragment>
       {user && isAuthenticated ? (
-        <h3>
+        <Typography className={classes.headerItems}>
           {user.firstName} {user.lastName}{' '}
-        </h3>
+        </Typography>
       ) : null}
 
       <SwipeableDrawer
@@ -530,13 +535,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             onClick={() => setValue(3)}
           >
             {matches ? (
-              <Typography variant="h5" className={classes.title}>
-                FS
-              </Typography>
+              <Typography className={classes.headerItems}>FS</Typography>
             ) : (
-              <Typography variant="h5" className={classes.title}>
-                Food Shop
-              </Typography>
+              <Typography className={classes.headerItems}>Food Shop</Typography>
             )}
 
             <img alt="company logo" className={classes.logo} src={logo} />

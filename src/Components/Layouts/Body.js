@@ -27,6 +27,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    marginBottom: '1rem',
   },
   media: {
     height: 0,
@@ -45,6 +46,17 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  gridItem: {
+    margin: '3em',
+  },
+  // root: {
+  //   flexGrow: 1,
+  // },
+  // paper: {
+  //   padding: theme.spacing(1),
+  //   textAlign: 'center',
+  //   color: theme.palette.text.secondary,
+  // },
 }));
 
 const count1 = [
@@ -56,18 +68,6 @@ const count1 = [
   },
   {
     id: 3,
-  },
-  {
-    id: 4,
-  },
-  {
-    id: 5,
-  },
-  {
-    id: 6,
-  },
-  {
-    id: 7,
   },
 ];
 
@@ -187,20 +187,67 @@ export default function Body() {
     return <React.Fragment>{count}</React.Fragment>;
   }
 
+  // function FormRow() {
+  //   return (
+  //     <React.Fragment>
+  //       <Grid item xs={4}>
+  //         <img
+  //           width="300px"
+  //           alt="icecone"
+  //           src="https://image.shutterstock.com/z/stock-photo-healthy-food-clean-eating-selection-fruit-vegetable-seeds-superfood-cereals-leaf-vegetable-on-722718082.jpg"
+  //         ></img>
+  //       </Grid>
+  //       <Grid item xs={4}>
+  //         <img
+  //           width="300px"
+  //           alt="icecone"
+  //           src="https://image.shutterstock.com/z/stock-photo-healthy-food-clean-eating-selection-fruit-vegetable-seeds-superfood-cereals-leaf-vegetable-on-722718082.jpg"
+  //         ></img>
+  //       </Grid>
+  //       <Grid item xs={4}>
+  //         <img
+  //           width="300px"
+  //           alt="icecone"
+  //           src="https://image.shutterstock.com/z/stock-photo-healthy-food-clean-eating-selection-fruit-vegetable-seeds-superfood-cereals-leaf-vegetable-on-722718082.jpg"
+  //         ></img>
+  //       </Grid>
+  //     </React.Fragment>
+  //   );
+  // }
+
   return (
     <div>
-      <Grid container>
-        {/* <Grid item xs={2}>
-          <Paper style={style}>left pannel</Paper>
-        </Grid>
-        <Grid item xs={10}>
-          <Paper style={style}>
+      <Grid container justify="center">
+        <Grid item className={classes.gridItem}>
+          <Paper>
             <FormRow />
           </Paper>
-        </Grid> */}
-        Obrazky
+        </Grid>
+        <Grid item className={classes.gridItem}>
+          <Paper>
+            <FormRow />
+          </Paper>
+        </Grid>
+        <Grid item className={classes.gridItem}>
+          <Paper>
+            <FormRow />
+          </Paper>
+        </Grid>
       </Grid>
     </div>
+    // <div>
+    //   <Grid container justify="center" spacing={1}>
+    //     <Grid container item xs={12} spacing={2}>
+    //       <FormRow />
+    //     </Grid>
+    //     <Grid container item xs={12} spacing={2}>
+    //       <FormRow />
+    //     </Grid>
+    //     <Grid container item xs={12} spacing={2}>
+    //       <FormRow />
+    //     </Grid>
+    //   </Grid>
+    // </div>
   );
   // return (
   // <Grid container className={classes.root} spacing={2}>
