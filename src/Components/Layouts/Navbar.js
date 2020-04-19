@@ -109,14 +109,25 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     backgroundColor: theme.palette.primary.main,
   },
+  // drawer2: {
+  //   ...root,
+  //   color: 'white',
+  // },
+
   drawerItem: {
     ...theme.typography.tab,
     color: 'white',
     opacity: 0.7,
   },
+  logo: {
+    ...theme.typography.tab,
+    color: 'white',
+  },
+
   headerItems: {
     ...theme.typography.tab,
     color: 'white',
+    marginLeft: 'auto',
   },
   drawerCart: {
     backgroundColor: theme.palette.secondary.main,
@@ -207,6 +218,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   //****************************************************** */
   const [openDrawer, setOpenDrawer] = useState(false);
   const [value, setValue] = useState(null);
+
   //****************************************************** */
   // const [anchorEl, setAnchorEl] = useState(null);
   // const [open, setOpen] = useState(false);
@@ -233,15 +245,19 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   };
 
   // smaller switch for setting value of clicked button in header
-  const routes = [
-    { name: 'login', link: '/login', activeIndex: 0 },
-    { name: 'registration', link: '/registration', activeIndex: 1 },
+  const routesLogin = [
     { name: 'home', link: '/', activeIndex: 3 },
     { name: 'order', link: '/order', activeIndex: 4 },
   ];
+  const routesLogout = [
+    { name: 'Login', link: '/login', activeIndex: 0 },
+    { name: 'SignUp', link: '/registration', activeIndex: 1 },
+  ];
 
   useEffect(() => {
-    [...routes].forEach((route) => {
+    console.log(user);
+    [...routesLogin, ...routesLogout].forEach((route) => {
+      console.log('sem to preslo');
       switch (window.location.pathname) {
         case `${route.link}`:
           if (value !== route.activeIndex) {
@@ -249,7 +265,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
           }
       }
     });
-  }, [value, routes]);
+  }, [value, routesLogin]);
 
   const tabs = (
     <React.Fragment>
@@ -257,80 +273,73 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         <Fragment>
           {isAuthenticated ? (
             <Fragment>
-              <Fragment>
-                <Tabs
-                  value={value}
-                  // onChange={handleChange}
-                  className={classes.tabContainer}
-                  indicatorColor="primary"
+              <Tabs
+                value={value}
+                className={classes.tabContainer}
+                indicatorColor="primary"
+              >
+                <Button
+                  aria-controls="customized-menu"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                  className={classes.logoContainer}
+                  onMouseOver={(e) => handleClick(e)}
+                  disableRipple
+                  keepMounted
                 >
-                  <Button
-                    // aria-owns={anchorEl ? 'simple-menu' : undefined}
-                    // aria-haspopup={anchorEl ? 'true' : undefined}
-                    // onMouseOver={(e) => handleClick(e)}
-                    // disableRipple
-                    aria-controls="customized-menu"
-                    aria-haspopup="true"
-                    // variant="contained"
-                    onClick={handleClick}
-                    className={classes.logoContainer}
-                    onMouseOver={(e) => handleClick(e)}
-                    disableRipple
-                  >
-                    <div className={classes.root}>
-                      <StyledBadge
-                        overlap="circle"
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'right',
-                        }}
-                        variant="dot"
-                      >
-                        <Avatar
-                          alt="Remy Sharp"
-                          src={user.imageUrl}
-                          // "/static/images/avatar/1.jpg"
-                        />
-                      </StyledBadge>
-                    </div>
-                    {user ? (
-                      <h3>
-                        {user.firstName} {user.lastName}{' '}
-                      </h3>
-                    ) : (
-                      <p>UNDEFINED USER</p>
-                    )}
-                  </Button>
-                  <StyledMenu
-                    id="customized-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    // onClose={handleClose}
-                    // onClose={handleClose}
-                    MenuListProps={{ onMouseLeave: handleClose }}
-                  >
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <PersonIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="Your profile" />
-                    </StyledMenuItem>
-                    <StyledMenuItem>
-                      <ListItemIcon>
-                        <SettingsIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="Settings" />
-                    </StyledMenuItem>
-                    <StyledMenuItem component={Link} to="/" onClick={logoutfun}>
-                      <ListItemIcon>
-                        <ExitToAppIcon fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary="Logout" />
-                    </StyledMenuItem>
-                  </StyledMenu>
-                </Tabs>
-              </Fragment>
+                  <div className={classes.root}>
+                    <StyledBadge
+                      overlap="circle"
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      variant="dot"
+                    >
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={user.imageUrl}
+                        // "/static/images/avatar/1.jpg"
+                      />
+                    </StyledBadge>
+                  </div>
+                  {user ? (
+                    <h3>
+                      {user.firstName} {user.lastName}{' '}
+                    </h3>
+                  ) : (
+                    <p>UNDEFINED USER</p>
+                  )}
+                </Button>
+                <StyledMenu
+                  id="customized-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  // onClose={handleClose}
+                  // onClose={handleClose}
+                  MenuListProps={{ onMouseLeave: handleClose }}
+                >
+                  <StyledMenuItem>
+                    <ListItemIcon>
+                      <PersonIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Your profile" />
+                  </StyledMenuItem>
+                  <StyledMenuItem>
+                    <ListItemIcon>
+                      <SettingsIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Settings" />
+                  </StyledMenuItem>
+                  <StyledMenuItem component={Link} to="/" onClick={logoutfun}>
+                    <ListItemIcon>
+                      <ExitToAppIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </StyledMenuItem>
+                </StyledMenu>
+              </Tabs>
             </Fragment>
           ) : (
             <Tabs
@@ -339,18 +348,14 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
               className={classes.tabContainer}
               indicatorColor="primary"
             >
-              <Tab
-                className={classes.tab}
-                component={Link}
-                to="/login"
-                label="Login"
-              ></Tab>
-              <Tab
-                className={classes.tab}
-                component={Link}
-                to="/registration"
-                label="SignUp"
-              ></Tab>
+              {routesLogout.map((route) => (
+                <Tab
+                  className={classes.tab}
+                  component={Link}
+                  to={route.link}
+                  label={route.name}
+                />
+              ))}
             </Tabs>
           )}
           {/* </Tabs> */}
@@ -409,30 +414,33 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
               Home
             </ListItemText>
           </ListItem>
-
           {!isAuthenticated ? (
-            <ListItem
-              onClick={() => {
-                setOpenDrawer(false);
-                setValue(0);
-              }}
-              divider
-              button
-              component={Link}
-              to="/login"
-              selected={value === 0}
-            >
-              <ListItemText
-                className={
-                  value === 0
-                    ? [classes.drawerItem, classes.drawerItemSelected]
-                    : classes.drawerItem
-                }
-                disableTypography
-              >
-                Login
-              </ListItemText>
-            </ListItem>
+            <Fragment>
+              {routesLogout.map((route) => (
+                <ListItem
+                  onClick={() => {
+                    setOpenDrawer(false);
+                    setValue(route.activeIndex);
+                  }}
+                  selected={value === route.activeIndex}
+                  divider
+                  button
+                  component={Link}
+                  to={route.link}
+                >
+                  <ListItemText
+                    className={
+                      value === route.activeIndex
+                        ? [classes.drawerItem, classes.drawerItemSelected]
+                        : classes.drawerItem
+                    }
+                    disableTypography
+                  >
+                    {route.name}
+                  </ListItemText>
+                </ListItem>
+              ))}
+            </Fragment>
           ) : (
             <ListItem
               onClick={() => {
@@ -453,31 +461,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
               </ListItemText>
             </ListItem>
           )}
-
-          {!isAuthenticated ? (
-            <ListItem
-              onClick={() => {
-                setOpenDrawer(false);
-                setValue(1);
-              }}
-              selected={value === 1}
-              divider
-              button
-              component={Link}
-              to="/registration"
-            >
-              <ListItemText
-                className={
-                  value === 1
-                    ? [classes.drawerItem, classes.drawerItemSelected]
-                    : classes.drawerItem
-                }
-                disableTypography
-              >
-                SignUp
-              </ListItemText>
-            </ListItem>
-          ) : null}
 
           <ListItem
             onClick={() => {
@@ -503,15 +486,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
               Cart
             </ListItemText>
           </ListItem>
-          {/* <ListItem component={Link} to="/about">
-            <ListItemText>about</ListItemText>
-          </ListItem>
-          <ListItem component={Link} to="/contact">
-            <ListItemText>contact</ListItemText>
-          </ListItem>
-          <ListItem component={Link} to="/estimate">
-            <ListItemText>estimate</ListItemText>
-          </ListItem> */}
         </List>
       </SwipeableDrawer>
       <IconButton className={classes.draweIconContainer}>
@@ -534,10 +508,9 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
             className={classes.logoContainer}
             onClick={() => setValue(3)}
           >
-            {matches ? (
-              <Typography className={classes.headerItems}>FS</Typography>
-            ) : (
-              <Typography className={classes.headerItems}>Food Shop</Typography>
+            {matches ? null : (
+              // <Typography className={classes.logo}>FS</Typography>
+              <Typography className={classes.logo}>Food Shop</Typography>
             )}
 
             <img alt="company logo" className={classes.logo} src={logo} />

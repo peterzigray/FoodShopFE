@@ -33,24 +33,34 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    paddingTop: '6rem',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '2em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '0.25em',
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
-  }
+    margin: theme.spacing(3, 0, 2),
+  },
 }));
 
 const Registration = ({ setAlert, register, isAuthenticated }) => {
@@ -59,21 +69,21 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
     firstName: '',
     lastName: '',
     email: '',
-    password: ''
+    password: '',
   });
   const { firstName, lastName, email, password } = formData;
 
   const classes = useStyles();
 
-  const onChange = e => {
+  const onChange = (e) => {
     console.log(e.target.value);
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     register({ firstName, lastName, email, password });
   };
@@ -92,7 +102,7 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} onSubmit={e => onSubmit(e)}>
+        <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -104,7 +114,7 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
                 id="firstName"
                 label="First Name"
                 value={firstName}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
                 autoFocus
               />
             </Grid>
@@ -118,7 +128,7 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
                 name="lastName"
                 autoComplete="lname"
                 value={lastName}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -131,7 +141,7 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
                 name="email"
                 autoComplete="email"
                 value={email}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -146,7 +156,7 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
                 id="password"
                 autoComplete="current-password"
                 value={password}
-                onChange={e => onChange(e)}
+                onChange={(e) => onChange(e)}
               />
             </Grid>
             <Grid item xs={12}>
@@ -177,6 +187,7 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
       <Box mt={5}>
         <Copyright />
       </Box>
+      <div className={classes.toolbarMargin}></div>
     </Container>
   );
 };
@@ -184,11 +195,11 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
 Registration.propTypes = {
   setAlert: PropTypes.func.isRequired,
   register: PropTypes.func.isRequired,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
 };
 
-const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
 });
 //1.paramenter any state we want to map for example from alert or profile etc. 2.parameter object with action we wanna use, in order to use it as a props!!!
 export default connect(mapStateToProps, { setAlert, register })(Registration);

@@ -216,7 +216,7 @@ export default function Body() {
   // }
 
   return (
-    <div>
+    <Fragment>
       <Grid container justify="center">
         <Grid item className={classes.gridItem}>
           <Paper>
@@ -234,7 +234,7 @@ export default function Body() {
           </Paper>
         </Grid>
       </Grid>
-    </div>
+    </Fragment>
     // <div>
     //   <Grid container justify="center" spacing={1}>
     //     <Grid container item xs={12} spacing={2}>

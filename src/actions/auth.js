@@ -30,16 +30,16 @@ export const loadUser = () => async (dispatch) => {
       },
     });
     console.log('this is response' + '--' + res);
-    // dispatch({
-    //   type: USER_LOADED,
-    //   payload: res.data,
-    // });
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data,
+    });
   } catch (err) {
-    console.log(err.toString());
+    // console.log(err.toString());
     // dispatch(setAlert(err.toString()));
-    // dispatch({
-    //   type: AUTH_ERROR,
-    // });
+    dispatch({
+      type: AUTH_ERROR,
+    });
   }
 };
 //*******************************************************************/
@@ -143,8 +143,8 @@ export const logout = (email) => async (dispatch) => {
     dispatch({ type: LOGOUT });
   } catch (err) {
     dispatch(setAlert(err.toString()));
-    //  dispatch({
-    //    type: LOGIN_FAIL,
-    //  });
+    dispatch({
+      type: LOGIN_FAIL,
+    });
   }
 };

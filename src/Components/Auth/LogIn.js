@@ -32,6 +32,16 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  toolbarMargin: {
+    ...theme.mixins.toolbar,
+    paddingTop: '10rem',
+    [theme.breakpoints.down('md')]: {
+      marginBottom: '2em',
+    },
+    [theme.breakpoints.down('xs')]: {
+      marginBottom: '0.25em',
+    },
+  },
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -142,6 +152,7 @@ const Login = ({ login, isAuthenticated }) => {
       <Box mt={8}>
         <Copyright />
       </Box>
+      <div className={classes.toolbarMargin}></div>
     </Container>
   );
 };
