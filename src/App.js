@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Body from './Components/Layouts/Body';
+import Dashboard from './Components/Dashboard/Dashboard';
 import Navbar from './Components/Layouts/Navbar';
 import Login from './Components/Auth/LogIn';
 import Alert from './Components/Layouts/Alert';
@@ -14,6 +14,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import theme from './Components/Style/Theme';
 import Order from './Components/Layouts/Order';
 import Footer from './Components/Layouts/Footer';
+import PrivateRoute from './Components/Routing/PrivateRoute';
 // if (localStorage.token) {
 //   setAuthToken(localStorage.token);
 // }
@@ -30,10 +31,10 @@ const App = () => {
           <ThemeProvider theme={theme}>
             {/* <section className="container"> */}
             <Navbar />
-            <Route exact path="/" component={Body} />
 
             <Alert></Alert>
             <Switch>
+              <Route exact path="/" component={Dashboard} />
               <Route exact path="/login" component={Login} />
               <Route exact path="/registration" component={Registration} />
               <Route exact path="/order" component={Order} />

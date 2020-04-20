@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
     margin: '3em',
   },
   icon: {
-    height: '4em',
-    width: '4em',
+    height: '3em',
+    width: '3em',
     [theme.breakpoints.down('xs')]: {
       height: '2.5em',
       width: '2.5em',
