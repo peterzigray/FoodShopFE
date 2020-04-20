@@ -17,7 +17,7 @@ export default function (state = initialState, action) {
     case CATEGORIES_ERROR:
       return {
         ...state,
-        error: payload,
+        // error: payload,
       };
     default:
       return state;

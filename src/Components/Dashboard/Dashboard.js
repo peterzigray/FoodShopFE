@@ -1,6 +1,7 @@
 import React, { Component, Fragment, useEffect, useState } from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
 import { getCategories } from '../../actions/categories';
 
@@ -24,6 +25,7 @@ import Paper from '@material-ui/core/Paper';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import Spinner from '../Layouts/Spinner';
 
@@ -33,16 +35,25 @@ import Spinner from '../Layouts/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   maxWidth: 345,
-  //   marginBottom: '1rem',
-  // },
+  title: {
+    // maxWidth: 345,
+    marginBottom: '1rem',
+  },
+  tab: {
+    ...theme.typography.tab,
+    // color: 'white',
+
+    minWidth: 10,
+    marginLeft: '-5px',
+    // marginRight: '-8px',
+  },
   root: {
     flexGrow: 1,
   },
   paper: {
-    height: 140,
-    width: 100,
+    height: 200,
+    width: 230,
+    // margin: '5rem',
   },
   control: {
     padding: theme.spacing(2),
@@ -67,6 +78,27 @@ const useStyles = makeStyles((theme) => ({
   gridItem: {
     margin: '3em',
   },
+  appbar: {
+    zIndex: theme.zIndex.modal + 1,
+  },
+  cardWrapper: {
+    display: 'inline-block',
+    position: 'relative',
+  },
+  layer: {
+    position: 'absolute',
+    color: 'white',
+    top: '50%',
+
+    left: '10%',
+    // align: 'center',
+
+    display: 'none',
+  },
+  media: {
+    backgroundColor: 'grey',
+  },
+
   // root: {
   //   flexGrow: 1,
   // },
@@ -76,20 +108,8 @@ const useStyles = makeStyles((theme) => ({
   //   color: theme.palette.text.secondary,
   // },
 }));
+// const Typography = Typography(()=>)
 
-const count1 = [
-  {
-    id: 1,
-  },
-  {
-    id: 2,
-  },
-  {
-    id: 3,
-  },
-];
-
-// class Body extends Component {
 const Dashboard = ({ categories: { categories, loading }, getCategories }) => {
   const [value, setValue] = useState({
     id: 1,
@@ -115,132 +135,95 @@ const Dashboard = ({ categories: { categories, loading }, getCategories }) => {
   // render() {
   const classes = useStyles();
 
-  const style = {
-    Paper: {
-      padding: 20,
-      marginTop: 10,
-      marginBottom: 10,
-    },
-  };
-
   function FormRow() {
     return loading ? (
       <Spinner />
     ) : (
       <Fragment>
-        {categories.map((category) => (
-          <Fragment>
-            <Grid
-              container
-              direction="row"
-              className={classes.root}
-              spacing={2}
-            >
-              <Grid
-                item
-                // lg={12}
-              >
-                <Grid container direction="row" justify="center" spacing={2}>
-                  <Grid key={category.id} item>
-                    <Paper className={classes.paper}>{category.name}</Paper>
-                  </Grid>
+        {/* <div
+          component="div"
+          variant="body1"
+          backgroundColor="green"
+          style={{ height: 100, width: '100%', position: 'relative' }}
+        >
+          <Box
+            bgcolor="grey.700"
+            color="red"
+            p={2}
+            position="absolute"
+            top={40}
+            left="40%"
+            zIndex="tooltip"
+          >
+            z-index tooltip
+          </Box>
+          <Box
+            bgcolor="black"
+            color="blue"
+            p={2}
+            position="absolute"
+            top={0}
+            left="43%"
+            zIndex="modal"
+          >
+            z-index modal
+          </Box> */}
+        {/* </div> */}
+        <Grid container justify="center" className={classes.title}>
+          <Grid item>
+            <ListItemText>
+              <h1>Shop by category</h1>
+            </ListItemText>
+          </Grid>
+        </Grid>
+        <Grid container justify="center" spacing={4}>
+          <Grid item>
+            <Grid container spacing={4} justify="center">
+              {categories.map((category) => (
+                <Grid item>
+                  <Card
+                  // className={classes.root}
+                  >
+                    <div className={classes.cardWrapper}>
+                      <CardMedia
+                        alt="My cool img"
+                        component="img"
+                        className={classes.media}
+                        src={category.imageUrl}
+                      />
+                      <div
+                        className={classes.layer}
+                        style={{ display: 'block' }}
+                      >
+                        <ListItemText> {category.name}</ListItemText>
+                      </div>
+                    </div>
+
+                    {/* <img
+                      height="250px"
+                      width="250px"
+                      alt={category.code}
+                      src={category.imageUrl}
+                    ></img> */}
+
+                    {/* </Paper> */}
+                  </Card>
                 </Grid>
-              </Grid>
+              ))}
             </Grid>
-          </Fragment>
-        ))}
+          </Grid>
+        </Grid>
       </Fragment>
     );
   }
-
-  // function FormRow() {
-  //   return (
-  //     <React.Fragment>
-  //       <Grid item xs={4}>
-  //         <img
-  //           width="300px"
-  //           alt="icecone"
-  //           src="https://image.shutterstock.com/z/stock-photo-healthy-food-clean-eating-selection-fruit-vegetable-seeds-superfood-cereals-leaf-vegetable-on-722718082.jpg"
-  //         ></img>
-  //       </Grid>
-  //       <Grid item xs={4}>
-  //         <img
-  //           width="300px"
-  //           alt="icecone"
-  //           src="https://image.shutterstock.com/z/stock-photo-healthy-food-clean-eating-selection-fruit-vegetable-seeds-superfood-cereals-leaf-vegetable-on-722718082.jpg"
-  //         ></img>
-  //       </Grid>
-  //       <Grid item xs={4}>
-  //         <img
-  //           width="300px"
-  //           alt="icecone"
-  //           src="https://image.shutterstock.com/z/stock-photo-healthy-food-clean-eating-selection-fruit-vegetable-seeds-superfood-cereals-leaf-vegetable-on-722718082.jpg"
-  //         ></img>
-  //       </Grid>
-  //     </React.Fragment>
-  //   );
-  // }
 
   return loading && categories === null ? (
     <Spinner />
   ) : (
     <Fragment>
       <FormRow />
-      {/* <Grid container justify="center">
-        <Grid item className={classes.gridItem}>
-          <Paper>
-            <FormRow />
-          </Paper>
-        </Grid> */}
-      {/* <Grid item className={classes.gridItem}>
-          <Paper>
-            <FormRow />
-          </Paper>
-        </Grid>
-        <Grid item className={classes.gridItem}>
-          <Paper>
-            <FormRow />
-          </Paper>
-        </Grid> */}
-      {/* </Grid> */}
     </Fragment>
   );
-  // <div>
-  //   <Grid container justify="center" spacing={1}>
-  //     <Grid container item xs={12} spacing={2}>
-  //       <FormRow />
-  //     </Grid>
-  //     <Grid container item xs={12} spacing={2}>
-  //       <FormRow />
-  //     </Grid>
-  //     <Grid container item xs={12} spacing={2}>
-  //       <FormRow />
-  //     </Grid>
-  //   </Grid>
-  // </div>
-  // return (
-  // <Grid container className={classes.root} spacing={2}>
-  //   <Grid item xs={12}>
-  //     <Grid container justify="center">
-  //       <div>{count}</div>;
-  //     </Grid>
-  //   </Grid>
-  // </Grid>
-
-  // <div className={classes.root}>
-  //   <Grid container spacing={1}>
-  //     <Grid container item xs={12} spacing={3}>
-  //       <p>s</p>
-  //     </Grid>
-  //     <Grid container item xs={12} spacing={3}>
-  //       <p>s</p>
-  //     </Grid>
-  //     <Grid container item xs={12} spacing={3}>
-  //       <p>s</p>
-  //     </Grid>
-  //   </Grid>
-  // </div>
-  // );
 };
 
 Dashboard.propTypes = {

@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { setAlert } from './alert';
 import { CATEGORIES_ERROR, GET_CATEGORIES } from './types';
 // import setAuthToken from '../utils/setAuthToken';
 
@@ -15,9 +15,10 @@ export const getCategories = () => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
+    dispatch(setAlert(err.toString()));
     dispatch({
       type: CATEGORIES_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status },
+      // payload: { msg: err.toString() },
     });
   }
 };

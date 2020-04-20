@@ -52,12 +52,12 @@ import HomeIcon from '@material-ui/icons/Inbox';
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    paddingTop: '3rem',
+    paddingTop: '1rem',
     [theme.breakpoints.down('md')]: {
-      marginBottom: '2em',
+      marginBottom: '0.5em',
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '0.25em',
+      marginBottom: '0.05em',
     },
   },
   logo: {
