@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   paper: {
-    height: 200,
+    height: 230,
     width: 230,
     // margin: '5rem',
   },
@@ -88,15 +88,20 @@ const useStyles = makeStyles((theme) => ({
   layer: {
     position: 'absolute',
     color: 'white',
-    top: '50%',
-
+    top: '25%',
+    borderBottom: '4px',
     left: '10%',
-    // align: 'center',
-
+    right: '10%',
+    bottom: '25%',
+    // backgroundColor: 'grey',
     display: 'none',
+    // opacity: 0.5,
   },
   media: {
     backgroundColor: 'grey',
+  },
+  inline: {
+    display: 'inline',
   },
 
   // root: {
@@ -185,17 +190,36 @@ const Dashboard = ({ categories: { categories, loading }, getCategories }) => {
                   // className={classes.root}
                   >
                     <div className={classes.cardWrapper}>
-                      <CardMedia
-                        alt="My cool img"
+                      {/* <CardMedia
+                        alt={category.name}
                         component="img"
                         className={classes.media}
                         src={category.imageUrl}
-                      />
+                      /> */}
+
+                      <img
+                        height="250px"
+                        width="250px"
+                        alt={category.code}
+                        src={category.imageUrl}
+                      ></img>
                       <div
                         className={classes.layer}
                         style={{ display: 'block' }}
                       >
-                        <ListItemText> {category.name}</ListItemText>
+                        <ListItemText>
+                          <Typography
+                            style={{
+                              'text-align': 'center',
+                              'vertical-align': 'middle',
+                              padding: '25px',
+                              'text-shadow': '0 0 5rem #000',
+                            }}
+                            variant="h5"
+                          >
+                            {category.name}
+                          </Typography>{' '}
+                        </ListItemText>
                       </div>
                     </div>
 
