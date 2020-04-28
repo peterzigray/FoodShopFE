@@ -13,7 +13,7 @@ const Alert1 = ({ alerts }) => {
       <div key={alert.id}>
         <Alert
           // severity="error"
-          color="error"
+          color={alert.alertType}
         >
           {' '}
           {alert.msg}{' '}

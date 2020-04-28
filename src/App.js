@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Dashboard from './Components/Dashboard/Dashboard';
+import Category from './Components/Dashboard/Category';
 import Navbar from './Components/Layouts/Navbar';
 import Login from './Components/Auth/LogIn';
 import Alert from './Components/Layouts/Alert';
@@ -38,6 +39,7 @@ const App = () => {
               <Route exact path="/login" component={Login} />
               <Route exact path="/registration" component={Registration} />
               <Route exact path="/order" component={Order} />
+              <Route exact path="/category/products" component={Category} />
             </Switch>
             <Footer />
           </ThemeProvider>

@@ -38,6 +38,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import HomeIcon from '@material-ui/icons/Inbox';
 
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     flexGrow: 1,
@@ -87,8 +89,8 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     borderRadius: '50px',
-    marginLeft: '25px',
-    marginRight: '30px',
+    marginLeft: '10px',
+    marginRight: '15px',
   },
   root: {
     display: 'flex',
@@ -139,6 +141,15 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.modal + 1,
   },
 }));
+
+const StyledBadgeCart = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -362,12 +373,16 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
         </Fragment>
       )}
       <Button
-        variant="contained"
-        color="secondary"
-        startIcon={<ShoppingBasketIcon />}
+        // variant="contained"
+        // color="secondary"
+        // startIcon={<ShoppingBasketIcon />}
         className={classes.button}
       >
-        Cart
+        <IconButton aria-label="cart">
+          <StyledBadgeCart badgeContent={1} color="secondary">
+            <ShoppingCartIcon />
+          </StyledBadgeCart>
+        </IconButton>
       </Button>
     </React.Fragment>
   );

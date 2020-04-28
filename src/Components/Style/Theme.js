@@ -5,6 +5,9 @@ const arcGreen = '#26a69a';
 const arcRed = '#f50057';
 
 export default createMuiTheme({
+  // MuiPaper: {
+  //   elevation1: 0,
+  // },
   palette: {
     // common: {
     //   blue: `${arcBlue}`,

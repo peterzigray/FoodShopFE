@@ -3,8 +3,9 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import { getCategories } from '../../actions/categories';
-
+import { getCategories } from '../../actions/products';
+import { getCategoryProducts } from '../../actions/products';
+import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -37,7 +38,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   title: {
     // maxWidth: 345,
-    marginBottom: '1rem',
+    marginBottom: '2.5rem',
   },
   tab: {
     ...theme.typography.tab,
@@ -115,16 +116,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 // const Typography = Typography(()=>)
 
-const Dashboard = ({ categories: { categories, loading }, getCategories }) => {
-  const [value, setValue] = useState({
-    id: 1,
-    code: 'FAV',
-    name: 'FRUITS & VEGETABLES',
-    description: null,
-    imageUrl: 'https://foodshopfs.000webhostapp.com/images/category/FAV.jpg',
-    order: '1',
-    state: 'ACTIVE',
-  });
+const Dashboard = ({
+  products: { categories, loading },
+  getCategories,
+  getCategoryProducts,
+  history,
+}) => {
   useEffect(() => {
     console.log(getCategories());
     getCategories();
@@ -139,6 +136,10 @@ const Dashboard = ({ categories: { categories, loading }, getCategories }) => {
 
   // render() {
   const classes = useStyles();
+
+  const getProducts = (id) => {
+    getCategoryProducts(id, history);
+  };
 
   function FormRow() {
     return loading ? (
@@ -187,42 +188,50 @@ const Dashboard = ({ categories: { categories, loading }, getCategories }) => {
               {categories.map((category) => (
                 <Grid item>
                   <Card
-                  // className={classes.root}
+                    key={category.id}
+                    // onClick={openCategoryDetail()}
+                    // className={classes.root}
                   >
-                    <div className={classes.cardWrapper}>
-                      {/* <CardMedia
+                    <Button
+                      keepMounted
+                      onClick={() => getProducts(category.id)}
+                    >
+                      <div className={classes.cardWrapper}>
+                        {/* <CardMedia
                         alt={category.name}
                         component="img"
                         className={classes.media}
                         src={category.imageUrl}
                       /> */}
 
-                      <img
-                        height="250px"
-                        width="250px"
-                        alt={category.code}
-                        src={category.imageUrl}
-                      ></img>
-                      <div
-                        className={classes.layer}
-                        style={{ display: 'block' }}
-                      >
-                        <ListItemText>
-                          <Typography
-                            style={{
-                              'text-align': 'center',
-                              'vertical-align': 'middle',
-                              padding: '25px',
-                              'text-shadow': '0 0 5rem #000',
-                            }}
-                            variant="h5"
-                          >
-                            {category.name}
-                          </Typography>{' '}
-                        </ListItemText>
+                        <img
+                          height="250px"
+                          width="250px"
+                          alt={category.code}
+                          src={category.imageUrl}
+                        ></img>
+                        <div
+                          className={classes.layer}
+                          style={{ display: 'block' }}
+                        >
+                          <ListItemText>
+                            <Typography
+                              style={{
+                                'text-align': 'center',
+                                'vertical-align': 'middle',
+                                padding: '25px',
+                                'text-shadow': '0 0 5rem #000',
+                                'font-weight': '600',
+                                // 'font-size': '1.5rem',
+                              }}
+                              variant="h5"
+                            >
+                              {category.name}
+                            </Typography>{' '}
+                          </ListItemText>
+                        </div>
                       </div>
-                    </div>
-
+                    </Button>
                     {/* <img
                       height="250px"
                       width="250px"
@@ -251,16 +260,18 @@ const Dashboard = ({ categories: { categories, loading }, getCategories }) => {
 };
 
 Dashboard.propTypes = {
-  categories: PropTypes.func.isRequired,
+  products: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   // profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  categories: state.categories,
+  products: state.products,
 });
 
-export default connect(mapStateToProps, { getCategories })(Dashboard);
+export default connect(mapStateToProps, { getCategories, getCategoryProducts })(
+  Dashboard
+);
 // }
 // export default Body;
