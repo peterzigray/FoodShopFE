@@ -54,9 +54,9 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
-    paddingTop: '1rem',
+    paddingTop: '0.02rem',
     [theme.breakpoints.down('md')]: {
-      marginBottom: '0.5em',
+      marginBottom: '0.4em',
     },
     [theme.breakpoints.down('xs')]: {
       marginBottom: '0.05em',

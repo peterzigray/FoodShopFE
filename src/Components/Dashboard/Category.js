@@ -28,6 +28,12 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
 import ListItem from '@material-ui/core/ListItem';
 
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import PropTypes from 'prop-types';
@@ -43,6 +49,15 @@ import Spinner from '../Layouts/Spinner';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  selectPanel: {
+    marginBottom: '1rem',
+    paddingBottom: '2rem',
+    paddingTop: '1.5rem',
+    // backgroundColor: theme.palette.primary.main,
+  },
+  capitalize: {
+    textTransform: 'capitalize',
+  },
   badge: {
     bottom: 210,
     left: 33,
@@ -208,31 +223,98 @@ const Category = ({
   function Layout() {
     return (
       <Fragment>
-        <Grid container spacing={4} justify="center">
-          <Grid item xs={12} spacing={3}>
-            <Grid container spacing={4} justify="center">
-              <Grid item spacing={4}>
-                <Button
-                  // onClick={getCategoriesByName}
-                  variant="contained"
-                  color="secondary"
-                >
-                  click
-                </Button>
-                <Button variant="contained" color="secondary">
+        <Grid container>
+          <Grid item xs={12} spacing={3} className={classes.selectPanel}>
+            <Grid
+              container
+              direction="row"
+              justify="space-around"
+              alignItems="center"
+            >
+              <Grid item item xs={6}></Grid>
+              <Grid item item xs={2}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Sort by
+                  </InputLabel>
+                  <Select
+                    native
+                    // value={state.age}
+                    // onChange={handleChange}
+                    label="Sort by"
+                    inputProps={{
+                      name: 'Sort by',
+                      id: 'outlined-age-native-simple',
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={10}>New</option>
+                    <option value={20}>Price</option>
+                    <option value={30}>Best Offer</option>
+                    <option value={30}>A - Z</option>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={2} spacing={4}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Sort by
+                  </InputLabel>
+                  <Select
+                    native
+                    // value={state.age}
+                    // onChange={handleChange}
+                    label="Sort by"
+                    inputProps={{
+                      name: 'Sort by',
+                      id: 'outlined-age-native-simple',
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={10}>New</option>
+                    <option value={20}>Price</option>
+                    <option value={30}>Best Offer</option>
+                    <option value={30}>A - Z</option>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={2} spacing={4}>
+                <FormControl variant="outlined" className={classes.formControl}>
+                  <InputLabel htmlFor="outlined-age-native-simple">
+                    Sort by
+                  </InputLabel>
+                  <Select
+                    native
+                    // value={state.age}
+                    // onChange={handleChange}
+                    label="Sort by"
+                    inputProps={{
+                      name: 'Sort by',
+                      id: 'outlined-age-native-simple',
+                    }}
+                  >
+                    <option aria-label="None" value="" />
+                    <option value={10}>New</option>
+                    <option value={20}>Price</option>
+                    <option value={30}>Best Offer</option>
+                    <option value={30}>A - Z</option>
+                  </Select>
+                </FormControl>
+              </Grid>
+              {/* <Button variant="contained" color="secondary">
                   asdsd
                 </Button>
                 <Button variant="contained" color="secondary">
                   nsdns
-                </Button>
-              </Grid>
+                </Button> */}
             </Grid>
           </Grid>
+
           <Grid item xs={3} spacing={3}>
             <Grid
               container
-              direction="column"
-              justify="flex-start"
+              direction="row"
+              justify="center"
               alignItems="center"
             >
               <Paper
@@ -242,7 +324,9 @@ const Category = ({
                 {titles
                   ? titles.map((category) => (
                       <Fragment>
-                        <Typography variant="h6">{category}</Typography>
+                        <Typography variant="h6" className={classes.capitalize}>
+                          {category}
+                        </Typography>
                         <List component="ul">
                           {subtitles.map(({ name }) => (
                             <ListItem button>
@@ -267,7 +351,12 @@ const Category = ({
             </Grid>
           </Grid>
           <Grid item xs={9} spacing={3}>
-            <Grid container spacing={4} justify="flex-start">
+            <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="flex-start"
+            >
               {products.map((product) => (
                 <Grid item>
                   <Card
@@ -280,9 +369,7 @@ const Category = ({
                         className={classes.badge}
                         color="secondary"
                         overlap="circle"
-                        badgeContent={`-${(
-                          product.sale * product.price
-                        ).toFixed(2)}%`}
+                        badgeContent={`-${product.sale * 100}%`}
                         // variant="dot"
                       ></Badge>
                     ) : null}
@@ -302,7 +389,7 @@ const Category = ({
                               'text-align': 'center',
                               'vertical-align': 'middle',
                               padding: '25px',
-                              'text-shadow': '0 0 1rem #000',
+                              // 'text-shadow': '0 0 1rem #000',
                               'font-weight': '600',
                               // 'font-size': '1.5rem',
                             }}
@@ -315,6 +402,12 @@ const Category = ({
                     <Box component="fieldset" mb={3} borderColor="transparent">
                       <Typography component="legend">{product.name}</Typography>
                       <Typography component="legend">
+                        {product.sale
+                          ? `$${(
+                              (product.price * 100) /
+                              (100 - product.sale * 100)
+                            ).toFixed(2)}`
+                          : null}{' '}
                         {'$'}
                         {product.price}
                       </Typography>

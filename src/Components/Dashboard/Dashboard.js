@@ -142,7 +142,7 @@ const Dashboard = ({
   };
 
   function FormRow() {
-    return loading ? (
+    return loading && categories ? (
       <Spinner />
     ) : (
       <Fragment>
