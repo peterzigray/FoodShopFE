@@ -27,7 +27,7 @@ import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
 import ListItemText from '@material-ui/core/ListItemText';
-
+import { loadUser } from '../../actions/auth';
 import Spinner from '../Layouts/Spinner';
 
 // import './App.css';
@@ -120,10 +120,12 @@ const Dashboard = ({
   products: { categories, loading },
   getCategories,
   getCategoryProducts,
+  loadUser,
   history,
 }) => {
   useEffect(() => {
-    console.log(getCategories());
+    loadUser();
+    console.log('sem');
     getCategories();
   }, []);
 
@@ -270,8 +272,10 @@ const mapStateToProps = (state) => ({
   products: state.products,
 });
 
-export default connect(mapStateToProps, { getCategories, getCategoryProducts })(
-  Dashboard
-);
+export default connect(mapStateToProps, {
+  getCategories,
+  getCategoryProducts,
+  loadUser,
+})(Dashboard);
 // }
 // export default Body;

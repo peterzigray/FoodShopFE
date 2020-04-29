@@ -33,6 +33,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
@@ -43,8 +44,14 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import Spinner from '../Layouts/Spinner';
 
+import TreeView from '@material-ui/lab/TreeView';
+
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TreeItem from '@material-ui/lab/TreeItem';
+
 // import './App.css';
 // import ReturnFromAPI from './API/ReturnFromAPI';
+import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -155,6 +162,7 @@ const Category = ({
   history,
 }) => {
   const [value, setValue] = useState(null);
+  const [arrow, setArrow] = useState(true);
   useEffect(() => {
     getCategoryProducts(1, history);
   }, []);
@@ -165,43 +173,40 @@ const Category = ({
   const subtitles = [
     {
       categoryname: 'fruits',
-      name: 'Apples & Pears',
+      names: 'Apples & Pears',
     },
     {
       categoryname: 'vegetables',
-      name: 'Advocadoes & Exotic Fruits',
+      names: 'Advocadoes & Exotic Fruits',
     },
     {
       categoryname: 'vegan & vegetarian',
-      name: 'Bananas & Plantains',
+      names: 'Bananas & Plantains',
     },
   ];
-
-  // const getCategoriesByName = () => {
-  //   const muscles = ['fruits', 'vegetables', 'vegan & vegetarian'];
-  //   const exercises = [
+  // const getCategoriesByName = (names) => {
+  //   const names = ['fruits', 'vegetables', 'vegan & vegetarian'];
+  //   const subnames = [
   //     {
   //       categoryname: 'fruits',
-  //       muscles: 'Apples & Pears',
+  //       names: 'Apples & Pears',
   //     },
   //     {
   //       categoryname: 'vegetables',
-  //       muscles: 'Advocadoes & Exotic Fruits',
+  //       names: 'Advocadoes & Exotic Fruits',
   //     },
   //     {
   //       categoryname: 'vegan & vegetarian',
-  //       muscles: 'Bananas & Plantains',
+  //       names: 'Bananas & Plantains',
   //     },
   //   ];
 
   //   return Object.entries(
-  //     exercises.reduce((exercises, exercise) => {
-  //       const { muscles } = exercise;
-  //       console.log(muscles);
-  //       console.log(exercises[muscles]);
+  //     exercises.reduce((acc, value) => {
+  //       const { categoryname } = value;
 
-  //       exercises[muscles] = exercises[muscles]
-  //         ? [...exercises[muscles], exercise]
+  //       acc[categoryname] = value[categoryname]
+  //         ? [...exercises[categoryname], exercise]
   //         : [exercise];
   //       console.log(exercises);
   //       return exercises;
@@ -219,6 +224,9 @@ const Category = ({
       </Fragment>
     );
   }
+  const changeArrowDirection = () => {
+    setArrow(!arrow);
+  };
 
   function Layout() {
     return (
@@ -321,19 +329,61 @@ const Category = ({
                 //  className={classes.Paper}
                 classes={{ root: classes.elevation }}
               >
+                {/*=========================================================================*/}
+                {/* {names.map((name) => (
+                  <Fragment>
+                    <p>{name}</p>
+                  </Fragment>
+                ))} */}
+                {/* {subNames.map(sub => (<Fragment>
+                  <p>{name}</p>
+                </Fragment>))} */}
                 {titles
                   ? titles.map((category) => (
                       <Fragment>
-                        <Typography variant="h6" className={classes.capitalize}>
+                        {/* <TreeView
+                          // className={classes.capitalize}
+                          className={classes.root}
+                          defaultCollapseIcon={<ExpandMoreIcon />}
+                          defaultExpandIcon={<ChevronRightIcon />}
+                        >
+                          <TreeItem
+                            className={classes.capitalize}
+                            nodeId="1"
+                            label={category}
+                          >
+                            {subtitles.map(({ name }) => (
+                              <TreeItem nodeId="2" label={name} />
+                            ))}
+                      
+                          </TreeItem> */}
+                        {/* <TreeItem nodeId="5" label="Documents">
+                            <TreeItem nodeId="10" label="OSS" />
+                            <TreeItem nodeId="6" label="Material-UI">
+                              <TreeItem nodeId="7" label="src">
+                                <TreeItem nodeId="8" label="index.js" />
+                                <TreeItem nodeId="9" label="tree-view.js" />
+                              </TreeItem>
+                            </TreeItem>
+                          </TreeItem> */}
+                        {/* </TreeView> */}
+                        <Typography
+                          variant="h6"
+                          className={classes.capitalize}
+                          onClick={() => changeArrowDirection()}
+                        >
                           {category}
+                          {arrow ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                         </Typography>
-                        <List component="ul">
-                          {subtitles.map(({ name }) => (
-                            <ListItem button>
-                              <ListItemText primary={name} />
-                            </ListItem>
-                          ))}
-                        </List>
+                        {arrow ? (
+                          <List component="ul">
+                            {subtitles.map(({ name }) => (
+                              <ListItem button>
+                                <ListItemText primary={name} />
+                              </ListItem>
+                            ))}
+                          </List>
+                        ) : null}
                       </Fragment>
                     ))
                   : null}
@@ -354,7 +404,7 @@ const Category = ({
             <Grid
               container
               direction="row"
-              justify="center"
+              justify="flex-start"
               alignItems="flex-start"
             >
               {products.map((product) => (

@@ -18,6 +18,7 @@ export const loadUser = () => async (dispatch) => {
   // if (localStorage.token) {
   //   setAuthToken(localStorage.token);
   // }
+
   try {
     const token = localStorage.token;
 
