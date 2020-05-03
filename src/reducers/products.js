@@ -3,6 +3,8 @@ import {
   CATEGORIES_ERROR,
   GET_CATEGORYPRODUCT,
   CATEGORYPRODUCT_ERROR,
+  GET_PRODUCTDETAIL,
+  PRODUCTDETAIL_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -21,6 +23,7 @@ export default function (state = initialState, action) {
         categories: payload,
       };
     case GET_CATEGORYPRODUCT:
+    case GET_PRODUCTDETAIL:
       return {
         ...state,
         loading: false,
@@ -28,6 +31,7 @@ export default function (state = initialState, action) {
       };
     case CATEGORIES_ERROR:
     case CATEGORYPRODUCT_ERROR:
+    case PRODUCTDETAIL_ERROR:
       return {
         ...state,
         // error: payload,

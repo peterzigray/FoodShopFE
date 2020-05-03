@@ -30,12 +30,18 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { loadUser } from '../../actions/auth';
 import Spinner from '../Layouts/Spinner';
 
+//carusel
+import Carousel from 'react-material-ui-carousel';
+
 // import './App.css';
 // import ReturnFromAPI from './API/ReturnFromAPI';
 
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  itemCarusel: {
+    // height: '5%',
+  },
   title: {
     // maxWidth: 345,
     marginBottom: '2.5rem',
@@ -125,7 +131,6 @@ const Dashboard = ({
 }) => {
   useEffect(() => {
     loadUser();
-    console.log('sem');
     getCategories();
   }, []);
 
@@ -140,11 +145,44 @@ const Dashboard = ({
   const classes = useStyles();
 
   const getProducts = (id) => {
-    getCategoryProducts(id, history);
+    getCategoryProducts(id, null, history);
   };
 
+  var items = [
+    {
+      name: 'Random Name #1',
+      description: 'Probably the most random thing you have ever seen!',
+      img:
+        'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183017/blog-inline-fullwidth_catering.jpg',
+    },
+    {
+      name: 'Random Name #2',
+      description: 'Hello World!',
+      img:
+        'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183052/blog-inline-fullwidth_japanese.jpg',
+    },
+    {
+      name: 'Random Name #2',
+      description: 'Hello World!',
+      img:
+        'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183128/blog-inline-fullwidth_deli.jpg',
+    },
+  ];
+
+  function Item(props) {
+    return (
+      <Paper className={classes.itemCarusel}>
+        {/* <h2>{props.item.name}</h2> */}
+        <img height="100%" width="100%" src={props.item.img} />
+        {/* <p>{props.item.description}</p>
+
+        <Button className="CheckButton">Check it out!</Button> */}
+      </Paper>
+    );
+  }
+
   function FormRow() {
-    return loading && categories ? (
+    return loading && categories !== null ? (
       <Spinner />
     ) : (
       <Fragment>
@@ -177,74 +215,84 @@ const Dashboard = ({
             z-index modal
           </Box> */}
         {/* </div> */}
-        <Grid container justify="center" className={classes.title}>
+        {/* <Grid container justify="center" className={classes.title}>
+          
+        </Grid> */}
+        <Grid container justify="center" spacing={4}>
+          <Grid item xs={12}>
+            <Carousel>
+              {items.map((item) => (
+                <Item item={item} />
+              ))}
+            </Carousel>
+          </Grid>
           <Grid item>
             <ListItemText>
               <h1>Shop by category</h1>
             </ListItemText>
           </Grid>
-        </Grid>
-        <Grid container justify="center" spacing={4}>
           <Grid item>
             <Grid container spacing={4} justify="center">
-              {categories.map((category) => (
-                <Grid item>
-                  <Card
-                    key={category.id}
-                    // onClick={openCategoryDetail()}
-                    // className={classes.root}
-                  >
-                    <Button
-                      keepMounted
-                      onClick={() => getProducts(category.id)}
-                    >
-                      <div className={classes.cardWrapper}>
-                        {/* <CardMedia
+              {categories
+                ? categories.map((category) => (
+                    <Grid item>
+                      <Card
+                        key={category.id}
+                        // onClick={openCategoryDetail()}
+                        // className={classes.root}
+                      >
+                        <Button
+                          keepMounted
+                          onClick={() => getProducts(category.id)}
+                        >
+                          <div className={classes.cardWrapper}>
+                            {/* <CardMedia
                         alt={category.name}
                         component="img"
                         className={classes.media}
                         src={category.imageUrl}
                       /> */}
 
-                        <img
-                          height="250px"
-                          width="250px"
-                          alt={category.code}
-                          src={category.imageUrl}
-                        ></img>
-                        <div
-                          className={classes.layer}
-                          style={{ display: 'block' }}
-                        >
-                          <ListItemText>
-                            <Typography
-                              style={{
-                                'text-align': 'center',
-                                'vertical-align': 'middle',
-                                padding: '25px',
-                                'text-shadow': '0 0 5rem #000',
-                                'font-weight': '600',
-                                // 'font-size': '1.5rem',
-                              }}
-                              variant="h5"
+                            <img
+                              height="250px"
+                              width="250px"
+                              alt={category.code}
+                              src={category.imageUrl}
+                            ></img>
+                            <div
+                              className={classes.layer}
+                              style={{ display: 'block' }}
                             >
-                              {category.name}
-                            </Typography>{' '}
-                          </ListItemText>
-                        </div>
-                      </div>
-                    </Button>
-                    {/* <img
+                              <ListItemText>
+                                <Typography
+                                  style={{
+                                    'text-align': 'center',
+                                    'vertical-align': 'middle',
+                                    padding: '25px',
+                                    'text-shadow': '0 0 5rem #000',
+                                    'font-weight': '600',
+                                    // 'font-size': '1.5rem',
+                                  }}
+                                  variant="h5"
+                                >
+                                  {category.name}
+                                </Typography>{' '}
+                              </ListItemText>
+                            </div>
+                          </div>
+                        </Button>
+                        {/* <img
                       height="250px"
                       width="250px"
                       alt={category.code}
                       src={category.imageUrl}
                     ></img> */}
 
-                    {/* </Paper> */}
-                  </Card>
-                </Grid>
-              ))}
+                        {/* </Paper> */}
+                      </Card>
+                    </Grid>
+                  ))
+                : null}
             </Grid>
           </Grid>
         </Grid>
