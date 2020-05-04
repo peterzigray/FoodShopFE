@@ -147,6 +147,9 @@ function AirbnbThumbComponent(props) {
   );
 }
 const defaultProps = {
+  //   strike: {
+  //     textDecoration: 'line-through',
+  //   },
   bgcolor: 'background.paper',
   m: 1,
   style: { width: '10rem', height: '3rem' },
@@ -293,6 +296,11 @@ const Category = ({
 
   useEffect(() => {
     // getCategoryProducts(1, history);
+    var query = '?query=id=in=(1);name=lig=*a*;sale=nnl=sale&page=0&size=20';
+    // window.location.search.toString();
+    var matched = query.match(/^\(([^\)]+)\)$/);
+    console.log(matched);
+    console.log('Category');
   }, []);
 
   const classes = useStyles();
@@ -433,9 +441,9 @@ const Category = ({
   const handleSort = (id) => {
     // .substring(1);
     // .match(/^\(([^\)]+)\)$/))
-    var query = window.location.search.toString();
-    var matched = query.match(/^[a]$/);
-    console.log(query);
+    //   var query = window.location.search.toString();
+    //   var matched = query.match(/^[a]$/);
+    //   console.log(query);
 
     const newSort = getCurrentSort(id);
     getCategoryProducts(1, newSort, history);
@@ -626,80 +634,97 @@ const Category = ({
               </Grid>
               <Grid item>
                 <Grid container>
-                  {products.content.map((product) => (
-                    <Grid item>
-                      <Card
-                        classes={{ root: classes.elevation }}
-                        position="relative"
-                      >
-                        {product.sale ? (
-                          <Badge
-                            position="absolute"
-                            className={classes.badge}
-                            color="secondary"
-                            overlap="circle"
-                            badgeContent={`-${product.sale * 100}%`}
-                            // variant="dot"
-                          ></Badge>
-                        ) : null}
-                        <div className={classes.cardWrapper}>
-                          {/* <Button keepMounted> */}
-                          <img
-                            onClick={() => getProduct(product.id)}
-                            height="250px"
-                            width="250px"
-                            src={product.imageUrl}
-                          ></img>
-                          <div
-                            className={classes.layer}
-                            style={{ display: 'block' }}
+                  {products.content
+                    ? products.content.map((product) => (
+                        <Grid item onClick={() => getProduct(product.id)}>
+                          {/* <Button> */}
+                          <Card
+                            classes={{ root: classes.elevation }}
+                            position="relative"
                           >
-                            <ListItemText>
-                              <Typography
-                                style={{
-                                  'text-align': 'center',
-                                  'vertical-align': 'middle',
-                                  padding: '25px',
-                                  // 'text-shadow': '0 0 1rem #000',
-                                  'font-weight': '600',
-                                  // 'font-size': '1.5rem',
-                                }}
-                                variant="h5"
-                              ></Typography>{' '}
-                            </ListItemText>
-                          </div>
-                          {/* </Button> */}
-                        </div>
+                            {product.sale ? (
+                              <Badge
+                                position="absolute"
+                                className={classes.badge}
+                                color="secondary"
+                                overlap="circle"
+                                badgeContent={`-${product.sale * 100}%`}
+                                // variant="dot"
+                              ></Badge>
+                            ) : null}
+                            <div className={classes.cardWrapper}>
+                              {/* <Button keepMounted> */}
+                              <img
+                                height="250px"
+                                width="250px"
+                                src={product.imageUrl}
+                              ></img>
+                              <div
+                                className={classes.layer}
+                                style={{ display: 'block' }}
+                              >
+                                <ListItemText>
+                                  <Typography
+                                    style={{
+                                      'text-align': 'center',
+                                      'vertical-align': 'middle',
+                                      padding: '25px',
+                                      // 'text-shadow': '0 0 1rem #000',
+                                      'font-weight': '600',
+                                      // 'font-size': '1.5rem',
+                                    }}
+                                    variant="h5"
+                                  ></Typography>{' '}
+                                </ListItemText>
+                              </div>
+                              {/* </Button> */}
+                            </div>
 
-                        <Box
-                          component="fieldset"
-                          mb={3}
-                          borderColor="transparent"
-                        >
-                          <Typography component="legend">
-                            {product.name}
-                          </Typography>
-                          <Typography component="legend">
-                            {product.sale
-                              ? `$${(
-                                  (product.price * 100) /
-                                  (100 - product.sale * 100)
-                                ).toFixed(2)}`
-                              : null}{' '}
-                            {'$'}
-                            {product.price}
-                          </Typography>
-                          <Rating
-                            name="simple-controlled"
-                            value={product.rating}
-                            // onChange={(event, newValue) => {
-                            //   setValue(newValue);
-                            // }}
-                          />
-                        </Box>
-                      </Card>
-                    </Grid>
-                  ))}
+                            <Box
+                              component="fieldset"
+                              mb={3}
+                              borderColor="transparent"
+                            >
+                              <Typography component="legend">
+                                {product.name}
+                              </Typography>
+                              <CardActions padding="3px">
+                                {product.sale ? (
+                                  <Fragment>
+                                    <Typography
+                                      variant="caption"
+                                      color="error"
+                                      style={{
+                                        textDecoration: 'line-through',
+                                      }}
+                                    >
+                                      {' '}
+                                      {`${product.price}$`}
+                                    </Typography>
+                                    <Typography>{`${(
+                                      product.price * product.sale
+                                    ).toFixed(2)}$`}</Typography>
+                                  </Fragment>
+                                ) : (
+                                  <Typography>
+                                    {' '}
+                                    {`${product.price}$`}
+                                  </Typography>
+                                )}
+                              </CardActions>
+                              <Rating
+                                name="simple-controlled"
+                                value={product.rating}
+                                // onChange={(event, newValue) => {
+                                //   setValue(newValue);
+                                // }}
+                              />
+                            </Box>
+                          </Card>
+                          {/* </Button> */}
+                        </Grid>
+                      ))
+                    : null}
                 </Grid>
               </Grid>
             </Grid>

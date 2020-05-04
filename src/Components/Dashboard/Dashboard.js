@@ -39,8 +39,12 @@ import Carousel from 'react-material-ui-carousel';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
-  itemCarusel: {
-    // height: '5%',
+  carusel: {
+    // height: '50em',
+    // width: '70em',
+    marginTop: '2rem',
+    // paddingLeft: '10%',
+    // paddingRight: '10%',
   },
   title: {
     // maxWidth: 345,
@@ -186,45 +190,17 @@ const Dashboard = ({
       <Spinner />
     ) : (
       <Fragment>
-        {/* <div
-          component="div"
-          variant="body1"
-          backgroundColor="green"
-          style={{ height: 100, width: '100%', position: 'relative' }}
-        >
-          <Box
-            bgcolor="grey.700"
-            color="red"
-            p={2}
-            position="absolute"
-            top={40}
-            left="40%"
-            zIndex="tooltip"
-          >
-            z-index tooltip
-          </Box>
-          <Box
-            bgcolor="black"
-            color="blue"
-            p={2}
-            position="absolute"
-            top={0}
-            left="43%"
-            zIndex="modal"
-          >
-            z-index modal
-          </Box> */}
-        {/* </div> */}
-        {/* <Grid container justify="center" className={classes.title}>
-          
-        </Grid> */}
-        <Grid container justify="center" spacing={4}>
-          <Grid item xs={12}>
-            <Carousel>
-              {items.map((item) => (
-                <Item item={item} />
-              ))}
-            </Carousel>
+        <Grid container justify="center" alignItems="center" spacing={4}>
+          <Grid item xs={12} className={classes.carusel}>
+            <Grid container justify="center" alignItems="center" spacing={4}>
+              <Grid item xs={10}>
+                <Carousel>
+                  {items.map((item) => (
+                    <Item item={item} />
+                  ))}
+                </Carousel>
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item>
             <ListItemText>

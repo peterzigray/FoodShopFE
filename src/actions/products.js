@@ -82,7 +82,7 @@ export const getDetailProduct = (id, history) => async (dispatch) => {
       type: GET_PRODUCTDETAIL,
       payload: res.data,
     });
-    history.push('/category/product');
+    history.push(`/category/products/${id}`);
   } catch (err) {
     dispatch(setAlert(err.toString()));
     dispatch({

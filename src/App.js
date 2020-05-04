@@ -46,7 +46,11 @@ const App = () => {
                 component={(props) => <Category {...props} />}
               />
               />
-              <Route exact path="/category/product" component={DetailProduct} />
+              <Route
+                exact
+                path="/category/products/:id"
+                component={DetailProduct}
+              />
             </Switch>
             <Footer />
           </ThemeProvider>
