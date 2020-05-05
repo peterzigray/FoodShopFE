@@ -50,7 +50,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Spinner from '../Layouts/Spinner';
 
 import TreeView from '@material-ui/lab/TreeView';
-
+import AppBar from '@material-ui/core/AppBar';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
@@ -59,15 +59,29 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
+  skuska: { height: '255px' },
   leftItem: {
-    alignSelf: 'flex-end',
+    marginLeft: 'auto',
   },
+  ButtonBuy: { width: '100%' },
   priceArea: { backgroundColor: '#fff59d', display: 'flex' },
   cardCont: { display: 'flex', paddingBottom: '0px', paddingTop: '0px' },
   cardCont2: { display: 'flex', paddingTop: '0px' },
-  elevation: { boxShadow: ' 0px 0px 0px 0px' },
+  cardWrapper: {
+    display: 'inline-block',
+    position: 'relative',
+    boxShadow: ' 0px 0px 0px 0px',
+    // marginLeft: 'auto',
+    height: '555px',
+    width: '500px',
+  },
+  elevation: {
+    boxShadow: ' 0px 0px 0px 0px',
+    // display: 'inline-block',
+    // position: 'relative',
+  },
   mainContainer: { marginTop: '5rem', marginBottom: '10rem' },
-  secondGrid: { height: '25em' },
+  // secondGrid: { height: '25em' },
   icon: {
     height: '1.4em',
 
@@ -105,111 +119,118 @@ const DetailProduct = ({
         <Grid
           container
           direction="row"
-          justify="center"
-          alignItems="center"
+          justify="flex-start"
+          alignItems="flex-start"
+          spacing={4}
           className={classes.mainContainer}
         >
-          <Grid item xs={6}>
+          <Grid item md={7}>
             <Grid
               container
               direction="row"
-              justify="center"
-              alignItems="center"
-              className={classes.secondGrid}
+              justify="flex-end"
+              alignItems="flex-end"
             >
-              <Grid item xs={5}>
-                {/* {products.map((product) => ( */}
-
-                <img height="500em" width="500em" src={products.imageUrl}></img>
-
-                {/* ))} */}
+              <Grid item>
+                <div className={classes.cardWrapper}>
+                  <img height="100%" width="100%" src={products.imageUrl}></img>
+                </div>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item md={5}>
             <Grid
               container
               direction="row"
-              justify="center"
-              alignItems="center"
-              className={classes.secondGrid}
+              justify="flex-start"
+              alignItems="flex-start"
             >
               <Grid item>
-                <Card classes={{ root: classes.elevation }}>
-                  <CardContent className={classes.cardCont}>
-                    <Typography variant="h2" color="primary" gutterBottom>
-                      {products.name}
-                    </Typography>
-                  </CardContent>
-                  <CardContent className={classes.cardCont2}>
-                    <Rating
-                      name="simple-controlled"
-                      value={products.rating}
-                      // onChange={(event, newValue) => {
-                      //   setValue(newValue);
-                      // }}
-                    />
-                    <Grid
-                      item
-                      component={'a'}
-                      href="https://www.facebook.com"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      <img
-                        alt="facebook logo"
-                        src={facebook}
-                        className={classes.icon}
+                {/* <AppBar position="static"> */}
+                <div className={classes.cardWrapper}>
+                  {/* <Button keepMounted> */}
+                  <Card classes={{ root: classes.elevation }}>
+                    <CardContent className={classes.cardCont}>
+                      <Typography variant="h2" color="primary" gutterBottom>
+                        {products.name}
+                      </Typography>
+                    </CardContent>
+                    <CardContent className={classes.cardCont2}>
+                      <Rating
+                        name="simple-controlled"
+                        value={products.rating}
+                        // onChange={(event, newValue) => {
+                        //   setValue(newValue);
+                        // }}
                       />
                       <Grid
                         item
                         component={'a'}
-                        href="https://www.twitter.com"
+                        href="https://www.facebook.com"
                         rel="noopener noreferrer"
                         target="_blank"
                       >
                         <img
-                          alt="twitter logo"
-                          src={twitter}
+                          alt="facebook logo"
+                          src={facebook}
                           className={classes.icon}
                         />
+                        <Grid
+                          item
+                          component={'a'}
+                          href="https://www.twitter.com"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                        >
+                          <img
+                            alt="twitter logo"
+                            src={twitter}
+                            className={classes.icon}
+                          />
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </CardContent>
-                  <CardContent>
-                    <Typography>
-                      Cheesecake liquorice sweet roll jujubes dragée liquorice
-                      sugar plum. Soufflé dessert tart liquorice cotton candy
-                      cheesecake bear claw powder cupcake. Macaroon dessert
-                      danish donut jelly-o powder candy marshmallow soufflé.
-                      Carrot cake cake marshmallow pie cake pie candy canes
-                      topping. Chocolate donut jelly beans. Sweet lollipop
-                      topping. Chupa chups wafer candy topping sweet roll toffee
-                      halvah. Biscuit gummies candy canes icing chupa chups
-                      apple pie sesame snaps pie. Wafer donut chocolate candy
-                      canes. Marzipan pudding fruitcake jelly beans oat cake
-                      cotton candy cake. Muffin marzipan oat cake pudding
-                      pudding lemon drops gummi bears. Icing gummies marshmallow
-                      cake caramels chocolate cake.
-                    </Typography>
-                  </CardContent>
-                  <CardContent>
-                    <Box className={classes.priceArea}>
-                      <Typography variant="h2">{'Price: '}</Typography>
-                      <Typography variant="h2">
-                        {products.price}
-                        {'$'}
+                    </CardContent>
+                    <CardContent>
+                      <Typography align="justify">
+                        Cheesecake liquorice sweet roll jujubes dragée liquorice
+                        sugar plum. Soufflé dessert tart liquorice cotton candy
+                        cheesecake bear claw powder cupcake. Macaroon dessert
+                        danish donut jelly-o powder candy marshmallow soufflé.
+                        Carrot cake cake marshmallow pie cake pie candy canes
+                        topping. Chocolate donut jelly beans. Sweet lollipop
+                        topping. Chupa chups wafer candy topping sweet roll
+                        toffee halvah. Biscuit gummies candy canes icing chupa
+                        chups apple pie sesame snaps pie. Wafer donut chocolate
+                        candy canes. Marzipan pudding fruitcake jelly beans oat
+                        cake cotton candy cake. Muffin marzipan oat cake pudding
+                        pudding lemon drops gummi bears. Icing gummies
+                        marshmallow cake caramels chocolate cake.
                       </Typography>
-                    </Box>
-                  </CardContent>
-                  <CardContent>
-                    <Box>
-                      <Button variant="contained" size="large" color="primary">
-                        Buy
-                      </Button>
-                    </Box>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                    <CardContent>
+                      <Box className={classes.priceArea}>
+                        <Typography variant="h2">{'Price: '}</Typography>
+                        <Typography variant="h2" className={classes.leftItem}>
+                          {products.price}
+                          {'$'}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                    <CardContent>
+                      <Box className={classes.priceArea}>
+                        <Button
+                          variant="contained"
+                          size="large"
+                          color="primary"
+                          className={classes.ButtonBuy}
+                        >
+                          <Typography variant="h6"> Buy</Typography>
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </div>
+                {/* </AppBar> */}
               </Grid>
             </Grid>
           </Grid>

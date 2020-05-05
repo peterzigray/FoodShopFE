@@ -296,10 +296,10 @@ const Category = ({
 
   useEffect(() => {
     // getCategoryProducts(1, history);
-    var query = '?query=id=in=(1);name=lig=*a*;sale=nnl=sale&page=0&size=20';
+    var query = window.location.search;
     // window.location.search.toString();
-    var matched = query.match(/^\(([^\)]+)\)$/);
-    console.log(matched);
+    var matched = query.match(/\(([^\)]+)\)/g);
+    console.log(matched.toString());
     console.log('Category');
   }, []);
 
