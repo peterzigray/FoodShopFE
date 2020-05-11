@@ -44,7 +44,13 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 
+import FormGroup from '@material-ui/core/FormGroup';
+
+import MenuList from '@material-ui/core/MenuList';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import PropTypes from 'prop-types';
@@ -277,6 +283,9 @@ const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
+  formControl: {
+    margin: theme.spacing(3),
+  },
 }));
 
 function valuetext(value) {
@@ -301,6 +310,7 @@ const Category = ({
     var matched = query.match(/\(([^\)]+)\)/g);
     console.log(matched.toString());
     console.log('Category');
+    getCategoryProducts(1, null, history);
   }, []);
 
   const classes = useStyles();
@@ -453,15 +463,22 @@ const Category = ({
     return (
       <Fragment>
         <Grid container>
-          <Grid item xs={2} className={classes.mainItems} spacing={3}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={2}
+            className={classes.mainItems}
+            spacing={3}
+          >
             <Grid
               container
-              direction="row"
-              justify="center"
-              alignItems="center"
+              direction="column"
+              justify="flex-start"
+              alignItems="flex-start"
               className={classes.LeftGrid}
             >
-              <Grid item xs={12}>
+              <Grid item>
                 <div className={classes.root}>
                   <Typography id="range-slider" gutterBottom>
                     Price
@@ -474,82 +491,193 @@ const Category = ({
                     valueLabelDisplay="auto"
                     aria-labelledby="range-slider"
                     getAriaValueText={valuetext}
-                    // ThumbComponent={AirbnbThumbComponent}
                   />
                 </div>
               </Grid>
-              <Grid item xs={12}>
-                {' '}
-                <Box display="flex" justifyContent="center">
-                  <Box borderBottom={1} {...defaultProps}>
-                    {' '}
-                    <Button>Categories</Button>
-                  </Box>
-                </Box>
+              <Grid item>
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Suplier</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={gilad}
+                          // onChange={handleChange}
+                          name="Banaras de luxe"
+                        />
+                      }
+                      label="Jablanor"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={jason}
+                          // onChange={handleChange}
+                          name="Banaras de luxe"
+                        />
+                      }
+                      label="Banaras de luxe"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="Chiquita"
+                        />
+                      }
+                      label="Chiquita"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="ANAMONDAS"
+                        />
+                      }
+                      label="ANAMONDAS"
+                    />
+                  </FormGroup>
+                  <FormHelperText>Next 20</FormHelperText>
+                </FormControl>
               </Grid>
-              <Grid item xs={12}>
-                <Box display="flex" justifyContent="center">
-                  <Box borderBottom={1} {...defaultProps}>
-                    {' '}
-                    <Button>Season</Button>
-                  </Box>
-                </Box>
+              <Grid item>
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Country</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={gilad}
+                          // onChange={handleChange}
+                          name="Slovakia"
+                        />
+                      }
+                      label="Slovakia"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={jason}
+                          // onChange={handleChange}
+                          name="Hungary"
+                        />
+                      }
+                      label="Hungary"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="Czech republic"
+                        />
+                      }
+                      label="Czech republic"
+                    />
+                  </FormGroup>
+                  <FormHelperText>Next 20</FormHelperText>
+                </FormControl>
               </Grid>
-              <Grid item xs={12}>
-                <Box display="flex" justifyContent="center">
-                  <Box borderBottom={1} {...defaultProps}>
-                    {' '}
-                    <Button
-                    //   variant="contained"
-                    //   color="primary"
-                    //   disableElevation
-                    >
-                      Discounted
-                    </Button>
-                  </Box>
-                </Box>
+              <Grid item>
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Name</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={gilad}
+                          // onChange={handleChange}
+                          name="Apple"
+                        />
+                      }
+                      label="Apple"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={jason}
+                          // onChange={handleChange}
+                          name="Banana"
+                        />
+                      }
+                      label="Banana"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="Pear"
+                        />
+                      }
+                      label="Pear"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="Pineaple"
+                        />
+                      }
+                      label="Pineaple"
+                    />
+                  </FormGroup>
+                  <FormHelperText>Next 20</FormHelperText>
+                </FormControl>
               </Grid>
-              <Grid item xs={12}>
-                <Box display="flex" justifyContent="center">
-                  <Box borderBottom={1} {...defaultProps}>
-                    {' '}
-                    <Button>Dodavatel</Button>
-                  </Box>
-                </Box>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Fragment>
-                  {titles.map(({ name, categoryname }) => (
-                    <TreeView
-                      // className={classes.capitalize}
-                      className={classes.root}
-                      defaultCollapseIcon={<ExpandMoreIcon />}
-                      defaultExpandIcon={<ChevronRightIcon />}
-                    >
-                      <TreeItem
-                        className={classes.capitalize}
-                        nodeId="1"
-                        label={name}
-                      >
-                        <TreeItem nodeId="2" label={categoryname} />
-                      </TreeItem>
-                      {/* <TreeItem nodeId="5" label="Documents">
-                        <TreeItem nodeId="10" label="OSS" />
-                        <TreeItem nodeId="6" label="Material-UI">
-                          <TreeItem nodeId="7" label="src">
-                            <TreeItem nodeId="8" label="index.js" />
-                            <TreeItem nodeId="9" label="tree-view.js" />
-                          </TreeItem>
-                        </TreeItem>
-                      </TreeItem> */}
-                    </TreeView>
-                  ))}
-                </Fragment>
+              <Grid item>
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Others</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={gilad}
+                          // onChange={handleChange}
+                          name="Seasonal"
+                        />
+                      }
+                      label="Seasonal"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={jason}
+                          // onChange={handleChange}
+                          name="Availability"
+                        />
+                      }
+                      label="Availability"
+                    />
+                  </FormGroup>
+                  {/* <FormHelperText>Next 20</FormHelperText> */}
+                </FormControl>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={10} className={classes.mainItems} spacing={3}>
+          <Grid
+            item
+            xs={12}
+            md={12}
+            lg={10}
+            className={classes.mainItems}
+            spacing={3}
+          >
             <Grid
               container
               direction="row"
@@ -605,7 +733,7 @@ const Category = ({
               <Grid item xs={12}>
                 <Grid container className={classes.title}>
                   <Grid item xs={8}>
-                    <Typography variant="body2">
+                    <Typography variant="body2" align="justify">
                       Jujubes marshmallow danish bonbon jelly beans tart lemon
                       drops toffee. Jujubes pudding pudding. Powder toffee
                       caramels cotton candy liquorice candy gingerbread pudding.

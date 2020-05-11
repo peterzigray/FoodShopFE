@@ -65,10 +65,17 @@ const useStyles = makeStyles((theme) => ({
   },
   ButtonBuy: { width: '100%' },
   priceArea: { backgroundColor: '#fff59d', display: 'flex' },
-  cardCont: { display: 'flex', paddingBottom: '0px', paddingTop: '0px' },
-  cardCont2: { display: 'flex', paddingTop: '0px' },
+  cardCont: {
+    // display: 'flex',
+    paddingBottom: '0px',
+    paddingTop: '0px',
+  },
+  cardCont2: {
+    //  display: 'flex',
+    paddingTop: '0px',
+  },
   cardWrapper: {
-    display: 'inline-block',
+    // display: 'inline-block',
     position: 'relative',
     boxShadow: ' 0px 0px 0px 0px',
     // marginLeft: 'auto',

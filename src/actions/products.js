@@ -32,11 +32,14 @@ export const getCategories = () => async (dispatch) => {
 // GET Product and sort API
 export const getCategoryProducts = (id, sort, history) => async (dispatch) => {
   const newSort = sort ? sort : '';
-  const newURL = `browse/?${newSort}query=id=in=(${id},2,3);name=lig=*a*;sale=nnl=sale&page=0&size=20`;
+  const newURL = `browse/?${newSort}query=category.id==(${id})`;
+
+  // ;name=lig=*a*;sale=nnl=sale&page=0&size=20`;
 
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/public/product-management/products/browse?${newSort}query=id=in=(${id},2,3);name=lig=*a*;sale=nnl=sale&page=0&size=20`
+      `http://localhost:8080/api/public/product-management/products/browse?${newSort}query=category.id==(${id})`
+      // ;name=lig=*a*;sale=nnl=sale&page=0&size=20`
     );
     dispatch({
       type: GET_CATEGORYPRODUCT,
