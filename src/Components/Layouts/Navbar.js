@@ -268,7 +268,6 @@ const Navbar = ({ auth: { isAuthenticated, loading, user }, logout }) => {
   useEffect(() => {
     console.log(user);
     [...routesLogin, ...routesLogout].forEach((route) => {
-      console.log('sem to preslo');
       switch (window.location.pathname) {
         case `${route.link}`:
           if (value !== route.activeIndex) {

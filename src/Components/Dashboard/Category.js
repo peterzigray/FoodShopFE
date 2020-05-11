@@ -47,6 +47,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
 import FormGroup from '@material-ui/core/FormGroup';
 
@@ -61,6 +62,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Spinner from '../Layouts/Spinner';
 
 import TreeView from '@material-ui/lab/TreeView';
+import Link from '@material-ui/core/Link';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -72,6 +74,12 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { MenuItem, getContrastRatio } from '@material-ui/core';
 
+// const TabPanel2 = withStyles({
+//   tabpanelName: {
+//     backgroundColor: 'black',
+//     // '.MuiBox-root-476': { padding: '0px' },
+//   },
+// })(TabPanel);
 const AirbnbSlider = withStyles({
   root: {
     color: '#3a8589',
@@ -162,6 +170,27 @@ const defaultProps = {
   borderColor: 'text.primary',
 };
 const useStyles = makeStyles((theme) => ({
+  tabpanelName: {
+    '& .MuiBox-root MuiBox-root-476': {
+      padding: 0,
+    },
+    // backgroundColor: 'black',
+    '.MuiBox-root-476': { padding: '0px' },
+  },
+  MuiBox: { padding: '0rem' },
+
+  appBarOnTop: {
+    paddingLeft: '10rem',
+    paddingRight: '17rem',
+    backgroundColor: 'white',
+  },
+  containerWithSortAndQuery: { paddingLeft: '10rem', paddingRight: '7rem' },
+  itemWithNameAndDescription: { borderBottom: ' 1.5px solid #bdbdbd' },
+  containerWithNameAndDescription: {
+    paddingTop: '2rem',
+    paddingLeft: '12rem',
+    backgroundColor: '#f5f5f5',
+  },
   LeftGrid: { paddingLeft: '2em', paddingRight: '5em' },
   icon: {
     height: '1.4em',
@@ -292,6 +321,39 @@ function valuetext(value) {
   return `${value}°C`;
 }
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index - 1}
+      id={`scrollable-auto-tabpanel-${index - 1}`}
+      aria-labelledby={`scrollable-auto-tab-${index - 1}`}
+      {...other}
+    >
+      {value === index - 1 && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index - 1}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index - 1}`,
+  };
+}
+
 const Category = ({
   products: { products, loading },
   getDetailProduct,
@@ -299,18 +361,35 @@ const Category = ({
   history,
   props,
 }) => {
-  const [value, setValue] = React.useState([0, 100]);
+  const [value, setValue] = React.useState(0);
+  const [checkboxValue, setcheckboxValue] = React.useState({
+    Jablanor: false,
+    Banaras: false,
+    Chiquita: false,
+  });
+  const [apiValue, setApiValue] = React.useState({
+    query: null,
+    filter: null,
+  });
+  const [valueText, setValueText] = React.useState(0);
   const [arrow, setArrow] = useState(false);
   const [valueSlider, setValueSlider] = useState([0, 100]);
 
   useEffect(() => {
+    // const interval = setInterval(() => {
+    //   setvalueText((valueText) => valueText + 1);
+    // }, 5000);
+    // const timer = setTimeout(() => {
+    //   console.log('This will run after 1 second!');
+    // }, 1000);
+    // return () => clearTimeout(timer);
     // getCategoryProducts(1, history);
     var query = window.location.search;
     // window.location.search.toString();
     var matched = query.match(/\(([^\)]+)\)/g);
     console.log(matched.toString());
     console.log('Category');
-    getCategoryProducts(1, null, history);
+    getCategoryProducts(1, null, null, history);
   }, []);
 
   const classes = useStyles();
@@ -388,22 +467,22 @@ const Category = ({
     console.log(id);
   };
 
-  const handleChange = (e) => {
-    // frontValue = 's';
-    // console.log(e);
-    // var frontValue = document.getElementsByClassName(
-    //   'MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-343'
-    // )[1].innerText;
-    // var backValue = document.getElementsByClassName(
-    //   'MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-343'
-    // )[0].innerText;
-    // // e.type === 'mousemove'
-    // //   ? setValueSlider([Number(backValue), Number(frontValue)])
-    // //   : console.log(null);
-    // console.log([Number(backValue), Number(frontValue)]);
-    // // setValue(newValue);
-    // // setValueSlider(w);
-  };
+  // const handleChange = (e) => {
+  // frontValue = 's';
+  // console.log(e);
+  // var frontValue = document.getElementsByClassName(
+  //   'MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-343'
+  // )[1].innerText;
+  // var backValue = document.getElementsByClassName(
+  //   'MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-343'
+  // )[0].innerText;
+  // // e.type === 'mousemove'
+  // //   ? setValueSlider([Number(backValue), Number(frontValue)])
+  // //   : console.log(null);
+  // console.log([Number(backValue), Number(frontValue)]);
+  // // setValue(newValue);
+  // // setValueSlider(w);
+  // };
 
   const sortOptions = [
     { name: 'Price High to Low', activeIndex: 1, selectedIndex: 0 },
@@ -447,7 +526,7 @@ const Category = ({
         return null;
     }
   };
-
+  //----------------API-----------------------------------------------------------
   const handleSort = (id) => {
     // .substring(1);
     // .match(/^\(([^\)]+)\)$/))
@@ -455,239 +534,155 @@ const Category = ({
     //   var matched = query.match(/^[a]$/);
     //   console.log(query);
 
+    const { query } = apiValue;
     const newSort = getCurrentSort(id);
-    getCategoryProducts(1, newSort, history);
+    setApiValue({
+      ...apiValue,
+      filter: newSort,
+    });
+    console.log(id);
+    console.log(newSort + '' + query);
+    getCategoryProducts(1, newSort, query, history);
   };
 
+  const handleCategoryChange = (event, newValue) => {
+    setValue(newValue);
+    getCategoryProducts(newValue + 1, null, null, history);
+  };
+
+  // QUERY API CALL
+  const handleQueryChange = (event) => {
+    const { filter } = apiValue;
+    const newQuery = event.target.checked
+      ? `;supplier.name=="${event.target.name}"`
+      : null;
+
+    setApiValue({
+      ...apiValue,
+      query: newQuery,
+    });
+    setcheckboxValue({
+      ...checkboxValue,
+      [event.target.name]: event.target.checked,
+    });
+
+    getCategoryProducts(1, filter, newQuery, history);
+  };
+  //----------------------------------------------------------------------------
+
+  const labelArray = [
+    { label: 'FRUITS & VEGETABLES', id: 1 },
+    { label: 'DAIRY & EGGS', id: 2 },
+    { label: 'PANTRY', id: 3 },
+    { label: 'BEVERAGES', id: 4 },
+    { label: 'BEER & WINE', id: 5 },
+    { label: 'MEAT & POULTRY', id: 6 },
+    { label: 'VEGAN & VEGETARIAN', id: 7 },
+    { label: 'ORGANIC GROCERIES', id: 8 },
+    { label: 'SNACKS', id: 9 },
+    { label: 'FROZEN', id: 10 },
+    { label: 'BREAD & BAKERY', id: 11 },
+    { label: 'DELI & PREPARED MEALS', id: 12 },
+    { label: 'FISH & SEAFOOD', id: 13 },
+    { label: 'WORLD CUSINE', id: 14 },
+    { label: 'HOUSEHOLD & CLEANING', id: 15 },
+    { label: 'BABY', id: 16 },
+    { label: 'HEALTH & BEAUTY', id: 17 },
+    { label: 'PET CARE', id: 18 },
+    { label: 'PHARMACY', id: 19 },
+  ];
+  const text = [
+    { text: '🚚Free shipping on order 15$ +', id: 0 },
+    { text: '5 % Off on First Order', id: 1 },
+    { text: 'discount for nothing 3', id: 3 },
+  ];
+
+  // setTimeout(() => {
+  //   setValueText(
+  //     valueText > 1 && valueText !== 0 ? 0 : (valueText) => valueText + 1
+  //   ); // count is 0 here
+  //   console.log(valueText);
+  // }, 2000);
+
   function Layout() {
+    const { Jablanor, Chiquita, Banaras } = checkboxValue;
     return (
       <Fragment>
         <Grid container>
-          <Grid
-            item
-            xs={12}
-            md={12}
-            lg={2}
-            className={classes.mainItems}
-            spacing={3}
-          >
-            <Grid
-              container
-              direction="column"
-              justify="flex-start"
-              alignItems="flex-start"
-              className={classes.LeftGrid}
-            >
-              <Grid item>
-                <div className={classes.root}>
-                  <Typography id="range-slider" gutterBottom>
-                    Price
-                  </Typography>
-
-                  <Slider
-                    // value={valueSlider}
-                    defaultValue={value}
-                    onChange={handleChange}
-                    valueLabelDisplay="auto"
-                    aria-labelledby="range-slider"
-                    getAriaValueText={valuetext}
-                  />
-                </div>
-              </Grid>
-              <Grid item>
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
+          <Grid item xs={12} spacing={3}>
+            <div className={classes.root}>
+              <AppBar
+                position="static"
+                color="default"
+                className={classes.appBarOnTop}
+              >
+                <Tabs
+                  value={value}
+                  onChange={handleCategoryChange}
+                  indicatorColor="primary"
+                  textColor="primary"
+                  variant="scrollable"
+                  scrollButtons="auto"
+                  aria-label="scrollable auto tabs example"
                 >
-                  <FormLabel component="legend">Suplier</FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={gilad}
-                          // onChange={handleChange}
-                          name="Banaras de luxe"
-                        />
-                      }
-                      label="Jablanor"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={jason}
-                          // onChange={handleChange}
-                          name="Banaras de luxe"
-                        />
-                      }
-                      label="Banaras de luxe"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="Chiquita"
-                        />
-                      }
-                      label="Chiquita"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="ANAMONDAS"
-                        />
-                      }
-                      label="ANAMONDAS"
-                    />
-                  </FormGroup>
-                  <FormHelperText>Next 20</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item>
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  <FormLabel component="legend">Country</FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={gilad}
-                          // onChange={handleChange}
-                          name="Slovakia"
-                        />
-                      }
-                      label="Slovakia"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={jason}
-                          // onChange={handleChange}
-                          name="Hungary"
-                        />
-                      }
-                      label="Hungary"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="Czech republic"
-                        />
-                      }
-                      label="Czech republic"
-                    />
-                  </FormGroup>
-                  <FormHelperText>Next 20</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item>
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  <FormLabel component="legend">Name</FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={gilad}
-                          // onChange={handleChange}
-                          name="Apple"
-                        />
-                      }
-                      label="Apple"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={jason}
-                          // onChange={handleChange}
-                          name="Banana"
-                        />
-                      }
-                      label="Banana"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="Pear"
-                        />
-                      }
-                      label="Pear"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="Pineaple"
-                        />
-                      }
-                      label="Pineaple"
-                    />
-                  </FormGroup>
-                  <FormHelperText>Next 20</FormHelperText>
-                </FormControl>
-              </Grid>
-              <Grid item>
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  <FormLabel component="legend">Others</FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={gilad}
-                          // onChange={handleChange}
-                          name="Seasonal"
-                        />
-                      }
-                      label="Seasonal"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={jason}
-                          // onChange={handleChange}
-                          name="Availability"
-                        />
-                      }
-                      label="Availability"
-                    />
-                  </FormGroup>
-                  {/* <FormHelperText>Next 20</FormHelperText> */}
-                </FormControl>
-              </Grid>
-            </Grid>
+                  {labelArray.map((element) => (
+                    <Tab label={element.label} {...a11yProps(element.id)} />
+                  ))}
+                </Tabs>
+              </AppBar>
+            </div>
           </Grid>
           <Grid
             item
             xs={12}
-            md={12}
-            lg={10}
-            className={classes.mainItems}
             spacing={3}
+            className={classes.itemWithNameAndDescription}
           >
-            <Grid
-              container
-              direction="row"
-              justify="flex-start"
-              alignItems="flex-start"
-            >
+            <Grid container className={classes.containerWithNameAndDescription}>
+              <Grid item xs={12}>
+                <Breadcrumbs aria-label="breadcrumb">
+                  <Link
+                    color="inherit"
+                    href="/"
+                    // onClick={handleClick}
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    color="inherit"
+                    href="/product-management/products/browse/?query=category.id==(1)"
+                    // onClick={handleClick}
+                  >
+                    Products
+                  </Link>
+                  {/* <Link
+                    color="textPrimary"
+                    href="/components/breadcrumbs/"
+                    // onClick={handleClick}
+                    aria-current="page"
+                  >
+                    Breadcrumb
+                  </Link> */}
+                </Breadcrumbs>
+              </Grid>
               <Grid item xs={12}>
                 <Grid container>
                   <Grid item>
-                    <Typography variant="h4">Fruits & Vegetables</Typography>
+                    {labelArray.map((element) => (
+                      <TabPanel
+                        value={value}
+                        index={element.id}
+                        className={classes.tabpanelName}
+                        // classes={{ root: classes.tabpanelName }}
+                        // classes={{ root: 'MenuItem', selected: 'selected' }}
+                        style={{ paddingLeft: 0, paddingRight: 0 }}
+                      >
+                        <Typography variant="h4" className={classes.capitalize}>
+                          {element.label}
+                        </Typography>
+                        {/* {element.label} */}
+                      </TabPanel>
+                    ))}
                   </Grid>
                   <Grid
                     item
@@ -728,6 +723,16 @@ const Category = ({
                       className={classes.icon}
                     />
                   </Grid>
+                  <Grid item>
+                    {text.map((t) => (
+                      <TabPanel value={valueText} index={t.id}>
+                        <Typography variant="h5" align="justify">
+                          {t.text}
+                        </Typography>
+                        {/* {element.label} */}
+                      </TabPanel>
+                    ))}
+                  </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
@@ -742,117 +747,346 @@ const Category = ({
                   <Grid item xs={4}></Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
-                <Grid container className={classes.title}>
-                  {sortOptions.map((option) => (
-                    <Grid item xs={2}>
-                      <div className={classes.root}>
-                        <AppBar position="static">
-                          <Button
-                            onClick={() => handleSort(option.selectedIndex)}
-                          >
-                            {option.name}
-                          </Button>
-                        </AppBar>
-                      </div>
-                    </Grid>
-                  ))}
-                  <Grid item xs={2}></Grid>
+              <Grid item xs={12}></Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Grid container className={classes.containerWithSortAndQuery}>
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={2}
+                className={classes.mainItems}
+                spacing={3}
+              >
+                <Grid
+                  container
+                  direction="column"
+                  justify="flex-start"
+                  alignItems="flex-start"
+                  className={classes.LeftGrid}
+                >
+                  <Grid item>
+                    <div className={classes.root}>
+                      <Typography id="range-slider" gutterBottom>
+                        Price
+                      </Typography>
+
+                      <Slider
+                        // value={valueSlider}
+                        // defaultValue={value}
+                        // onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="range-slider"
+                        getAriaValueText={valuetext}
+                      />
+                    </div>
+                  </Grid>
+                  <Grid item>
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">Suplier</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Jablanor}
+                              onChange={handleQueryChange}
+                              name="Jablanor"
+                            />
+                          }
+                          label="Jablanor"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Banaras}
+                              onChange={handleQueryChange}
+                              name="Banaras"
+                            />
+                          }
+                          label="Banaras de luxe"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={Chiquita}
+                              onChange={handleQueryChange}
+                              name="Chiquita"
+                            />
+                          }
+                          label="Chiquita"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={antoine}
+                              // onChange={handleChange}
+                              name="ANAMONDAS"
+                            />
+                          }
+                          label="ANAMONDAS"
+                        />
+                      </FormGroup>
+                      <FormHelperText>Next 20</FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">Country</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={gilad}
+                              // onChange={handleChange}
+                              name="Slovakia"
+                            />
+                          }
+                          label="Slovakia"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={jason}
+                              // onChange={handleChange}
+                              name="Hungary"
+                            />
+                          }
+                          label="Hungary"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={antoine}
+                              // onChange={handleChange}
+                              name="Czech republic"
+                            />
+                          }
+                          label="Czech republic"
+                        />
+                      </FormGroup>
+                      <FormHelperText>Next 20</FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">Name</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={gilad}
+                              // onChange={handleChange}
+                              name="Apple"
+                            />
+                          }
+                          label="Apple"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={jason}
+                              // onChange={handleChange}
+                              name="Banana"
+                            />
+                          }
+                          label="Banana"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={antoine}
+                              // onChange={handleChange}
+                              name="Pear"
+                            />
+                          }
+                          label="Pear"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={antoine}
+                              // onChange={handleChange}
+                              name="Pineaple"
+                            />
+                          }
+                          label="Pineaple"
+                        />
+                      </FormGroup>
+                      <FormHelperText>Next 20</FormHelperText>
+                    </FormControl>
+                  </Grid>
+                  <Grid item>
+                    <FormControl
+                      component="fieldset"
+                      className={classes.formControl}
+                    >
+                      <FormLabel component="legend">Others</FormLabel>
+                      <FormGroup>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={gilad}
+                              // onChange={handleChange}
+                              name="Seasonal"
+                            />
+                          }
+                          label="Seasonal"
+                        />
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              // checked={jason}
+                              // onChange={handleChange}
+                              name="Availability"
+                            />
+                          }
+                          label="Availability"
+                        />
+                      </FormGroup>
+                      {/* <FormHelperText>Next 20</FormHelperText> */}
+                    </FormControl>
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid item>
-                <Grid container>
-                  {products.content
-                    ? products.content.map((product) => (
-                        <Grid item onClick={() => getProduct(product.id)}>
-                          {/* <Button> */}
-                          <Card
-                            classes={{ root: classes.elevation }}
-                            position="relative"
-                          >
-                            {product.sale ? (
-                              <Badge
-                                position="absolute"
-                                className={classes.badge}
-                                color="secondary"
-                                overlap="circle"
-                                badgeContent={`-${product.sale * 100}%`}
-                                // variant="dot"
-                              ></Badge>
-                            ) : null}
-                            <div className={classes.cardWrapper}>
-                              {/* <Button keepMounted> */}
-                              <img
-                                height="250px"
-                                width="250px"
-                                src={product.imageUrl}
-                              ></img>
-                              <div
-                                className={classes.layer}
-                                style={{ display: 'block' }}
+              <Grid
+                item
+                xs={12}
+                md={12}
+                lg={10}
+                className={classes.mainItems}
+                spacing={3}
+              >
+                <Grid
+                  container
+                  direction="row"
+                  justify="flex-start"
+                  alignItems="flex-start"
+                >
+                  <Grid item xs={12}>
+                    <Grid container className={classes.title}>
+                      {sortOptions.map((option) => (
+                        <Grid item xs={2}>
+                          <div className={classes.root}>
+                            <AppBar position="static">
+                              <Button
+                                onClick={() => handleSort(option.selectedIndex)}
                               >
-                                <ListItemText>
-                                  <Typography
-                                    style={{
-                                      'text-align': 'center',
-                                      'vertical-align': 'middle',
-                                      padding: '25px',
-                                      // 'text-shadow': '0 0 1rem #000',
-                                      'font-weight': '600',
-                                      // 'font-size': '1.5rem',
-                                    }}
-                                    variant="h5"
-                                  ></Typography>{' '}
-                                </ListItemText>
-                              </div>
-                              {/* </Button> */}
-                            </div>
-
-                            <Box
-                              component="fieldset"
-                              mb={3}
-                              borderColor="transparent"
-                            >
-                              <Typography component="legend">
-                                {product.name}
-                              </Typography>
-                              <CardActions padding="3px">
-                                {product.sale ? (
-                                  <Fragment>
-                                    <Typography
-                                      variant="caption"
-                                      color="error"
-                                      style={{
-                                        textDecoration: 'line-through',
-                                      }}
-                                    >
-                                      {' '}
-                                      {`${product.price}$`}
-                                    </Typography>
-                                    <Typography>{`${(
-                                      product.price * product.sale
-                                    ).toFixed(2)}$`}</Typography>
-                                  </Fragment>
-                                ) : (
-                                  <Typography>
-                                    {' '}
-                                    {`${product.price}$`}
-                                  </Typography>
-                                )}
-                              </CardActions>
-                              <Rating
-                                name="simple-controlled"
-                                value={product.rating}
-                                // onChange={(event, newValue) => {
-                                //   setValue(newValue);
-                                // }}
-                              />
-                            </Box>
-                          </Card>
-                          {/* </Button> */}
+                                {option.name}
+                              </Button>
+                            </AppBar>
+                          </div>
                         </Grid>
-                      ))
-                    : null}
+                      ))}
+                      <Grid item xs={2}></Grid>
+                    </Grid>
+                  </Grid>
+                  <Grid item>
+                    <Grid container>
+                      {products.content
+                        ? products.content.map((product) => (
+                            <Grid item onClick={() => getProduct(product.id)}>
+                              {/* <Button> */}
+                              <Card
+                                classes={{ root: classes.elevation }}
+                                position="relative"
+                              >
+                                {product.sale ? (
+                                  <Badge
+                                    position="absolute"
+                                    className={classes.badge}
+                                    color="secondary"
+                                    overlap="circle"
+                                    badgeContent={`-${product.sale * 100}%`}
+                                    // variant="dot"
+                                  ></Badge>
+                                ) : null}
+                                <div className={classes.cardWrapper}>
+                                  {/* <Button keepMounted> */}
+                                  <img
+                                    height="250px"
+                                    width="250px"
+                                    src={product.imageUrl}
+                                  ></img>
+                                  <div
+                                    className={classes.layer}
+                                    style={{ display: 'block' }}
+                                  >
+                                    <ListItemText>
+                                      <Typography
+                                        style={{
+                                          'text-align': 'center',
+                                          'vertical-align': 'middle',
+                                          padding: '25px',
+                                          // 'text-shadow': '0 0 1rem #000',
+                                          'font-weight': '600',
+                                          // 'font-size': '1.5rem',
+                                        }}
+                                        variant="h5"
+                                      ></Typography>{' '}
+                                    </ListItemText>
+                                  </div>
+                                  {/* </Button> */}
+                                </div>
+
+                                <Box
+                                  component="fieldset"
+                                  mb={3}
+                                  borderColor="transparent"
+                                >
+                                  <Typography component="legend">
+                                    {product.name}
+                                  </Typography>
+                                  <CardActions padding="3px">
+                                    {product.sale ? (
+                                      <Fragment>
+                                        <Typography
+                                          variant="caption"
+                                          color="error"
+                                          style={{
+                                            textDecoration: 'line-through',
+                                          }}
+                                        >
+                                          {' '}
+                                          {`${product.price}$`}
+                                        </Typography>
+                                        <Typography>{`${(
+                                          product.price * product.sale
+                                        ).toFixed(2)}$`}</Typography>
+                                      </Fragment>
+                                    ) : (
+                                      <Typography>
+                                        {' '}
+                                        {`${product.price}$`}
+                                      </Typography>
+                                    )}
+                                  </CardActions>
+                                  <Rating
+                                    name="simple-controlled"
+                                    value={product.rating}
+                                    // onChange={(event, newValue) => {
+                                    //   setValue(newValue);
+                                    // }}
+                                  />
+                                </Box>
+                              </Card>
+                              {/* </Button> */}
+                            </Grid>
+                          ))
+                        : null}
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>

@@ -149,7 +149,7 @@ const Dashboard = ({
   const classes = useStyles();
 
   const getProducts = (id) => {
-    getCategoryProducts(id, null, history);
+    getCategoryProducts(id, null, null, history);
   };
 
   var items = [
@@ -214,6 +214,7 @@ const Dashboard = ({
                     <Grid item>
                       <Card
                         key={category.id}
+                        elevation={0}
                         // onClick={openCategoryDetail()}
                         // className={classes.root}
                       >

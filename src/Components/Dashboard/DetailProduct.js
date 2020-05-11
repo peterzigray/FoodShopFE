@@ -41,7 +41,8 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 import Autocomplete from '@material-ui/lab/Autocomplete';
-
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import Link from '@material-ui/core/Link';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -131,6 +132,32 @@ const DetailProduct = ({
           spacing={4}
           className={classes.mainContainer}
         >
+          <Grid item xs={12}>
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link
+                color="inherit"
+                href="/"
+                // onClick={handleClick}
+              >
+                Home
+              </Link>
+              <Link
+                color="inherit"
+                href="/product-management/products/browse/?query=category.id==(1)"
+                // onClick={handleClick}
+              >
+                Products
+              </Link>
+              <Link
+                color="textPrimary"
+                href="/category/products/1"
+                // onClick={handleClick}
+                aria-current="page"
+              >
+                Detail
+              </Link>
+            </Breadcrumbs>
+          </Grid>
           <Grid item md={7}>
             <Grid
               container
