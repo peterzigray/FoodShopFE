@@ -16,6 +16,7 @@ import instagram from '../../assets/instagram.svg';
 import facebook from '../../assets/facebook.svg';
 import twitter from '../../assets/twitter.svg';
 import { getDetailProduct, getCategoryProducts } from '../../actions/products';
+import { getCategories, getSuppliers } from '../../actions/categories';
 import Slider from '@material-ui/core/Slider';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -49,6 +50,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 
+import Chip from '@material-ui/core/Chip';
+import FaceIcon from '@material-ui/icons/Face';
+import DoneIcon from '@material-ui/icons/Done';
 import FormGroup from '@material-ui/core/FormGroup';
 
 import MenuList from '@material-ui/core/MenuList';
@@ -63,6 +67,8 @@ import Spinner from '../Layouts/Spinner';
 
 import TreeView from '@material-ui/lab/TreeView';
 import Link from '@material-ui/core/Link';
+import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
@@ -73,7 +79,7 @@ import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { MenuItem, getContrastRatio } from '@material-ui/core';
-
+import CategoryName from './CategoryName';
 // const TabPanel2 = withStyles({
 //   tabpanelName: {
 //     backgroundColor: 'black',
@@ -169,7 +175,12 @@ const defaultProps = {
   style: { width: '10rem', height: '3rem' },
   borderColor: 'text.primary',
 };
+
 const useStyles = makeStyles((theme) => ({
+  chipItem: { marginLeft: '5rem' },
+  chip: { margin: '0.3rem' },
+  spinnerProducts: { marginLeft: '35rem' },
+  spiner: { width: '110px', height: '100px', backgroundColor: 'red' },
   tabpanelName: {
     '& .MuiBox-root MuiBox-root-476': {
       padding: 0,
@@ -177,12 +188,40 @@ const useStyles = makeStyles((theme) => ({
     // backgroundColor: 'black',
     '.MuiBox-root-476': { padding: '0px' },
   },
+  AppBarSort: {
+    backgroundColor: 'white',
+    height: '5rem',
+    // '&:focus, &:hover, &$active': {
+    //   backgroundColor: '#26a69a',
+    // },
+  },
+  AppBarSortButton: {
+    height: '4rem',
+    marginLeft: '3.5rem',
+    marginRight: '3.5rem',
+    borderBottom: '1.5px solid',
+    borderTop: '1.5px solid',
+    color: '#26a69a',
+    position: 'relative',
+    zIndex: 1,
+    fontSize:'1.1rem',
+    borderRadius:0
+  },
+  AppBarSortButtonBorder: {
+    // position: 'absolute',
+    // left: '58px',
+    // bottom: 0,
+    // height: '5px',
+    // width: '50%',
+    // borderBottom: '1px solid magenta',
+  },
   MuiBox: { padding: '0rem' },
-
+  tabOfBarOnTop: { height: '5rem' },
   appBarOnTop: {
     paddingLeft: '10rem',
     paddingRight: '17rem',
     backgroundColor: 'white',
+    height: '5rem',
   },
   containerWithSortAndQuery: { paddingLeft: '10rem', paddingRight: '7rem' },
   itemWithNameAndDescription: { borderBottom: ' 1.5px solid #bdbdbd' },
@@ -346,6 +385,87 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired,
 };
+//-------------------------------New CategoryName----------------------------------
+
+// const CategoryName = (props) => {
+//   const { categories, classes, value, getCategories } = props;
+//   // Similar to componentDidMount and componentDidUpdate:
+//   useEffect(() => {
+//     getCategories();
+//   }, []);
+//   return (
+//     <div>
+//       <Grid item>
+//         {categories.map((element) => (
+//           <TabPanel
+//             value={value}
+//             index={element.id}
+//             className={classes.tabpanelName}
+//             // classes={{ root: classes.tabpanelName }}
+//             // classes={{ root: 'MenuItem', selected: 'selected' }}
+//             style={{ paddingLeft: 0, paddingRight: 0 }}
+//           >
+//             <Typography variant="h4" color="primary">
+//               {element.name}
+//             </Typography>
+//             {/* {element.label} */}
+//           </TabPanel>
+//         ))}
+//       </Grid>
+//     </div>
+//   );
+// };
+
+// CategoryName.propTypes = {
+//   // children: PropTypes.node,
+//   // index: PropTypes.any.isRequired,
+//   // value: PropTypes.any.isRequired,
+// };
+//-------------------------------New CategoryNavbar--------------------------------
+// function CategoryNavigation(props) {
+//   const { categories, classes, value, handleCategoryChange } = props;
+//   // Similar to componentDidMount and componentDidUpdate:
+//   useEffect(() => {
+//     getCategories();
+//   }, []);
+//   return (
+//     <div>
+//       <Grid item xs={12} spacing={3}>
+//         <div>
+//           <AppBar
+//             position="static"
+//             color="default"
+//             className={classes.appBarOnTop}
+//           >
+//             <Tabs
+//               value={value}
+//               onChange={handleCategoryChange}
+//               indicatorColor="primary"
+//               textColor="primary"
+//               variant="scrollable"
+//               scrollButtons="auto"
+//               aria-label="scrollable auto tabs example"
+//             >
+//               {categories.map((element) => (
+//                 <Tab
+//                   className={classes.tabOfBarOnTop}
+//                   label={element.name}
+//                   {...a11yProps(element.id)}
+//                 />
+//               ))}
+//             </Tabs>
+//           </AppBar>
+//         </div>
+//       </Grid>
+//     </div>
+//   );
+// }
+
+// CategoryNavigation.propTypes = {
+//   // children: PropTypes.node,
+//   // index: PropTypes.any.isRequired,
+//   // value: PropTypes.any.isRequired,
+// };
 
 function a11yProps(index) {
   return {
@@ -356,39 +476,49 @@ function a11yProps(index) {
 
 const Category = ({
   products: { products, loading },
+  categories: { categories, suppliers },
   getDetailProduct,
   getCategoryProducts,
+  getCategories,
+  getSuppliers,
   history,
+
   props,
 }) => {
   const [value, setValue] = React.useState(0);
   const [checkboxValue, setcheckboxValue] = React.useState({
-    Jablanor: false,
-    Banaras: false,
-    Chiquita: false,
+    checkedValues: [],
   });
   const [apiValue, setApiValue] = React.useState({
-    query: null,
-    filter: null,
+    query: [],
+    filter: [],
+    category: 1,
   });
   const [valueText, setValueText] = React.useState(0);
   const [arrow, setArrow] = useState(false);
   const [valueSlider, setValueSlider] = useState([0, 100]);
 
   useEffect(() => {
-    // const interval = setInterval(() => {
-    //   setvalueText((valueText) => valueText + 1);
-    // }, 5000);
-    // const timer = setTimeout(() => {
-    //   console.log('This will run after 1 second!');
-    // }, 1000);
-    // return () => clearTimeout(timer);
-    // getCategoryProducts(1, history);
-    var query = window.location.search;
-    // window.location.search.toString();
-    var matched = query.match(/\(([^\)]+)\)/g);
-    console.log(matched.toString());
-    console.log('Category');
+    console.log('apiValueCategory ' + apiValue.category);
+
+    console.log('apiValueQuery ' + apiValue.query);
+
+    console.log('apiValueFilter ' + apiValue.filter);
+    getCategoryProducts(
+      apiValue.category,
+      null,
+      apiValue.query.length > 0 ? apiValue.query : null,
+      history
+    );
+  }, [apiValue]);
+
+  useEffect(() => {
+    // console.log('checkbox' + checkboxValue);
+  }, [checkboxValue]);
+
+  useEffect(() => {
+    getCategories();
+    getSuppliers(1);
     getCategoryProducts(1, null, null, history);
   }, []);
 
@@ -447,7 +577,7 @@ const Category = ({
   // };
   function FormRow() {
     return loading ? (
-      <Spinner />
+      <Spinner type={'Big'} />
     ) : (
       <Fragment>
         {products.content.map((product) => (
@@ -464,7 +594,8 @@ const Category = ({
 
   const getProduct = (id) => {
     getDetailProduct(id, history);
-    console.log(id);
+
+    console.log('toto id som poslal: ' + id);
   };
 
   // const handleChange = (e) => {
@@ -512,20 +643,21 @@ const Category = ({
     },
   ];
 
-  const getCurrentSort = (id) => {
-    switch (id) {
-      case 3:
-        return 'sort=rating,asc&';
-      case 4:
-        return 'sort=rating,desc&';
-      //   case 2:
-      //     return {
-      // 		'sort=rating,desc&',
-      //     };
-      default:
-        return null;
-    }
-  };
+  // const getCurrentSort = (id) => {
+  //   switch (id) {
+  //     case 4:
+  //       return 'sort=rating,asc&';
+  //     case 3:
+  //       return 'sort=rating,desc&';
+  //     //   case 2:
+  //     //     return {
+  //     // 		'sort=rating,desc&',
+  //     //     };
+  //     default:
+  //       return null;
+  //   }
+  // };
+
   //----------------API-----------------------------------------------------------
   const handleSort = (id) => {
     // .substring(1);
@@ -534,66 +666,118 @@ const Category = ({
     //   var matched = query.match(/^[a]$/);
     //   console.log(query);
 
-    const { query } = apiValue;
-    const newSort = getCurrentSort(id);
+    // const { query } = apiValue;
+    // const newSort = getCurrentSort(id);
     setApiValue({
       ...apiValue,
-      filter: newSort,
+      filter: id,
     });
-    console.log(id);
-    console.log(newSort + '' + query);
-    getCategoryProducts(1, newSort, query, history);
+    // getCategoryProducts(1, newSort, query, history);
   };
 
   const handleCategoryChange = (event, newValue) => {
-    setValue(newValue);
-    getCategoryProducts(newValue + 1, null, null, history);
-  };
-
-  // QUERY API CALL
-  const handleQueryChange = (event) => {
-    const { filter } = apiValue;
-    const newQuery = event.target.checked
-      ? `;supplier.name=="${event.target.name}"`
-      : null;
-
     setApiValue({
       ...apiValue,
-      query: newQuery,
+      category: newValue + 1,
+      query: [],
+      filter: [],
     });
+    // CleanUP checkbox
     setcheckboxValue({
       ...checkboxValue,
-      [event.target.name]: event.target.checked,
+      checkedValues: [],
+    });
+    getSuppliers(newValue + 1);
+    // Set Value for Category
+    setValue(newValue);
+    // getCategoryProducts(newValue + 1, null, null, history);
+  };
+
+  const handleDeleteCheckboxValue = (event) => {
+    // console.log(event.target.label)
+  };
+
+  // QUERY API CALL + SET current checkbox values to state.
+  const handleQueryChange = (event) => {
+    // SET ACTUAL CHECKED VALUES PICKED CHECKBOX for render purposes
+
+    setcheckboxValue({
+      ...checkboxValue,
+      checkedValues: checkboxValue.checkedValues.includes(event.target.name)
+        ? checkboxValue.checkedValues.filter((c) => c !== event.target.name)
+        : [...checkboxValue.checkedValues, event.target.name],
     });
 
-    getCategoryProducts(1, filter, newQuery, history);
+    // SET ACTUAL CHECKED VALUES PICKED CHECKBOX for API purposes
+    setApiValue({
+      ...apiValue,
+      query: apiValue.query.includes(event.target.name)
+        ? apiValue.query.filter((c) => c !== event.target.name)
+        : [...apiValue.query, event.target.name],
+    });
+
+    // const name = JSON.stringify(event.target.name);
+
+    // const { checkedValues} = checkboxValue;
+    // console.log('stary array ' + checkedValues);
+    // names.includes(event.target.name)
+    //   ? names.filter((c) => c !== event.target.name)
+    //   : names.push(event.target.name);
+
+    // console.log(names);
+
+    // const names = localStorage.getItem('querys')
+    //   ? localStorage.getItem('querys')
+    //   : [];
+    // names.push(JSON.stringify(event.target.name));
+    // console.log(names);
+    // localStorage.setItem('querys', JSON.stringify(names));
+    // console.log(localStorage.getItem('querys'));
+    //...
+
+    // const { filter } = apiValue;
+    // const newQuery = event.target.checked
+    //   ? `;supplier.name=="${event.target.name}"`
+    //   : null;
+
+    // localStorage.setItem('query', [event.target.name]);
+    // var data = localStorage.getItem('query');
+    // console.log(data);
+    // // setApiValue({
+    //   ...apiValue,
+    //   query: newQuery,
+    // });
+
+    // getCategoryProducts(1, filter, newQuery, history);
   };
+
   //----------------------------------------------------------------------------
 
-  const labelArray = [
-    { label: 'FRUITS & VEGETABLES', id: 1 },
-    { label: 'DAIRY & EGGS', id: 2 },
-    { label: 'PANTRY', id: 3 },
-    { label: 'BEVERAGES', id: 4 },
-    { label: 'BEER & WINE', id: 5 },
-    { label: 'MEAT & POULTRY', id: 6 },
-    { label: 'VEGAN & VEGETARIAN', id: 7 },
-    { label: 'ORGANIC GROCERIES', id: 8 },
-    { label: 'SNACKS', id: 9 },
-    { label: 'FROZEN', id: 10 },
-    { label: 'BREAD & BAKERY', id: 11 },
-    { label: 'DELI & PREPARED MEALS', id: 12 },
-    { label: 'FISH & SEAFOOD', id: 13 },
-    { label: 'WORLD CUSINE', id: 14 },
-    { label: 'HOUSEHOLD & CLEANING', id: 15 },
-    { label: 'BABY', id: 16 },
-    { label: 'HEALTH & BEAUTY', id: 17 },
-    { label: 'PET CARE', id: 18 },
-    { label: 'PHARMACY', id: 19 },
-  ];
+  // old mock for navbar
+  // const labelArray = [
+  //   { label: 'FRUITS & VEGETABLES', id: 1 },
+  //   { label: 'DAIRY & EGGS', id: 2 },
+  //   { label: 'PANTRY', id: 3 },
+  //   { label: 'BEVERAGES', id: 4 },
+  //   { label: 'BEER & WINE', id: 5 },
+  //   { label: 'MEAT & POULTRY', id: 6 },
+  //   { label: 'VEGAN & VEGETARIAN', id: 7 },
+  //   { label: 'ORGANIC GROCERIES', id: 8 },
+  //   { label: 'SNACKS', id: 9 },
+  //   { label: 'FROZEN', id: 10 },
+  //   { label: 'BREAD & BAKERY', id: 11 },
+  //   { label: 'DELI & PREPARED MEALS', id: 12 },
+  //   { label: 'FISH & SEAFOOD', id: 13 },
+  //   { label: 'WORLD CUSINE', id: 14 },
+  //   { label: 'HOUSEHOLD & CLEANING', id: 15 },
+  //   { label: 'BABY', id: 16 },
+  //   { label: 'HEALTH & BEAUTY', id: 17 },
+  //   { label: 'PET CARE', id: 18 },
+  //   { label: 'PHARMACY', id: 19 },
+  // ];
   const text = [
-    { text: '🚚Free shipping on order 15$ +', id: 0 },
-    { text: '5 % Off on First Order', id: 1 },
+    { text: '🚚Free shipping on order 15$ +', id: 1 },
+    { text: '5 % Off on First Order', id: 2 },
     { text: 'discount for nothing 3', id: 3 },
   ];
 
@@ -606,9 +790,17 @@ const Category = ({
 
   function Layout() {
     const { Jablanor, Chiquita, Banaras } = checkboxValue;
+
     return (
       <Fragment>
         <Grid container>
+          {/* <CategoryNavigation
+            categories={categories}
+            classes={classes}
+            value={value}
+            handleCategoryChange={handleCategoryChange}
+          /> */}
+
           <Grid item xs={12} spacing={3}>
             <div className={classes.root}>
               <AppBar
@@ -625,13 +817,22 @@ const Category = ({
                   scrollButtons="auto"
                   aria-label="scrollable auto tabs example"
                 >
-                  {labelArray.map((element) => (
-                    <Tab label={element.label} {...a11yProps(element.id)} />
-                  ))}
+                  {categories ? (
+                    categories.map((element) => (
+                      <Tab
+                        className={classes.tabOfBarOnTop}
+                        label={element.name}
+                        {...a11yProps(element.id)}
+                      />
+                    ))
+                  ) : (
+                    <Spinner type={'Small'} />
+                  )}
                 </Tabs>
               </AppBar>
             </div>
           </Grid>
+
           <Grid
             item
             xs={12}
@@ -667,23 +868,33 @@ const Category = ({
               </Grid>
               <Grid item xs={12}>
                 <Grid container>
+                  {/* <CategoryName
+                    // categories={categories}
+                    // classes={classes}
+                    value={value}
+                  /> */}
                   <Grid item>
-                    {labelArray.map((element) => (
-                      <TabPanel
-                        value={value}
-                        index={element.id}
-                        className={classes.tabpanelName}
-                        // classes={{ root: classes.tabpanelName }}
-                        // classes={{ root: 'MenuItem', selected: 'selected' }}
-                        style={{ paddingLeft: 0, paddingRight: 0 }}
-                      >
-                        <Typography variant="h4" className={classes.capitalize}>
-                          {element.label}
-                        </Typography>
-                        {/* {element.label} */}
-                      </TabPanel>
-                    ))}
+                    {categories ? (
+                      categories.map((element) => (
+                        <TabPanel
+                          value={value}
+                          index={element.id}
+                          className={classes.tabpanelName}
+                          // classes={{ root: classes.tabpanelName }}
+                          // classes={{ root: 'MenuItem', selected: 'selected' }}
+                          style={{ paddingLeft: 0, paddingRight: 0 }}
+                        >
+                          <Typography variant="h4" color="primary">
+                            {element.name}
+                          </Typography>
+                          {/* {element.label} */}
+                        </TabPanel>
+                      ))
+                    ) : (
+                      <Spinner type={'Small'} />
+                    )}
                   </Grid>
+
                   <Grid
                     item
                     component={'a'}
@@ -723,28 +934,45 @@ const Category = ({
                       className={classes.icon}
                     />
                   </Grid>
-                  <Grid item>
-                    {text.map((t) => (
-                      <TabPanel value={valueText} index={t.id}>
-                        <Typography variant="h5" align="justify">
-                          {t.text}
-                        </Typography>
-                        {/* {element.label} */}
-                      </TabPanel>
-                    ))}
+                  <Grid item xs={4} className={classes.chipItem}>
+                    {checkboxValue.checkedValues.length < 1
+                      ? null
+                      : checkboxValue.checkedValues.map((value) => (
+                          <Chip
+                            key={value}
+                            // onDelete={handleDeleteCheckboxValue(value)}
+
+                            label={value}
+                            clickable
+                            color="primary"
+                            // onDelete={handleDelete}
+                            icon={<HighlightOffIcon />}
+                            variant="outlined"
+                            className={classes.chip}
+                          />
+                        ))}
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12}>
                 <Grid container className={classes.title}>
-                  <Grid item xs={8}>
+                  {/* <Grid item xs={8}>
                     <Typography variant="body2" align="justify">
                       Jujubes marshmallow danish bonbon jelly beans tart lemon
                       drops toffee. Jujubes pudding pudding. Powder toffee
                       caramels cotton candy liquorice candy gingerbread pudding.
                     </Typography>
-                  </Grid>
-                  <Grid item xs={4}></Grid>
+                  </Grid> */}
+                  {
+                    // text.map((t) => (
+                    //   <TabPanel value={valueText} index={t.id}>
+                    //     <Typography variant="h5" align="justify">
+                    //       {t.text}
+                    //     </Typography>
+                    //     {/* {element.label} */}
+                    //   </TabPanel>
+                    // ))
+                  }
                 </Grid>
               </Grid>
               <Grid item xs={12}></Grid>
@@ -790,49 +1018,34 @@ const Category = ({
                       className={classes.formControl}
                     >
                       <FormLabel component="legend">Suplier</FormLabel>
-                      <FormGroup>
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={Jablanor}
-                              onChange={handleQueryChange}
-                              name="Jablanor"
-                            />
-                          }
-                          label="Jablanor"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={Banaras}
-                              onChange={handleQueryChange}
-                              name="Banaras"
-                            />
-                          }
-                          label="Banaras de luxe"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              checked={Chiquita}
-                              onChange={handleQueryChange}
-                              name="Chiquita"
-                            />
-                          }
-                          label="Chiquita"
-                        />
-                        <FormControlLabel
-                          control={
-                            <Checkbox
-                              // checked={antoine}
-                              // onChange={handleChange}
-                              name="ANAMONDAS"
-                            />
-                          }
-                          label="ANAMONDAS"
-                        />
-                      </FormGroup>
-                      <FormHelperText>Next 20</FormHelperText>
+                      {suppliers ? (
+                        suppliers.map((supplier) => (
+                          <Fragment>
+                            <FormGroup>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    key={supplier.name.toString()}
+                                    checked={
+                                      checkboxValue.checkedValues.length < 1
+                                        ? ''
+                                        : checkboxValue.checkedValues.includes(
+                                            supplier.name
+                                          )
+                                    }
+                                    onChange={handleQueryChange}
+                                    name={supplier.name}
+                                  />
+                                }
+                                label={supplier.name}
+                              />
+                            </FormGroup>
+                            {/* <FormHelperText>Next 20</FormHelperText> */}
+                          </Fragment>
+                        ))
+                      ) : (
+                        <Spinner type={'Small'} />
+                      )}
                     </FormControl>
                   </Grid>
                   <Grid item>
@@ -978,15 +1191,23 @@ const Category = ({
                     <Grid container className={classes.title}>
                       {sortOptions.map((option) => (
                         <Grid item xs={2}>
-                          <div className={classes.root}>
-                            <AppBar position="static">
-                              <Button
-                                onClick={() => handleSort(option.selectedIndex)}
-                              >
+                          <AppBar
+                            position="static"
+                            elevation={0}
+                            className={classes.AppBarSort}
+                          >
+                            <Button
+                              onClick={() => handleSort(option.selectedIndex)}
+                              className={classes.AppBarSortButton}
+                            >
+                              <Typography variant="button">
                                 {option.name}
-                              </Button>
-                            </AppBar>
-                          </div>
+                              </Typography>
+                            </Button>
+                            <div
+                              className={classes.AppBarSortButtonBorder}
+                            ></div>
+                          </AppBar>
                         </Grid>
                       ))}
                       <Grid item xs={2}></Grid>
@@ -994,97 +1215,111 @@ const Category = ({
                   </Grid>
                   <Grid item>
                     <Grid container>
-                      {products.content
-                        ? products.content.map((product) => (
-                            <Grid item onClick={() => getProduct(product.id)}>
-                              {/* <Button> */}
-                              <Card
-                                classes={{ root: classes.elevation }}
-                                position="relative"
-                              >
-                                {product.sale ? (
-                                  <Badge
-                                    position="absolute"
-                                    className={classes.badge}
-                                    color="secondary"
-                                    overlap="circle"
-                                    badgeContent={`-${product.sale * 100}%`}
-                                    // variant="dot"
-                                  ></Badge>
-                                ) : null}
-                                <div className={classes.cardWrapper}>
-                                  {/* <Button keepMounted> */}
-                                  <img
-                                    height="250px"
-                                    width="250px"
-                                    src={product.imageUrl}
-                                  ></img>
-                                  <div
-                                    className={classes.layer}
-                                    style={{ display: 'block' }}
-                                  >
-                                    <ListItemText>
-                                      <Typography
-                                        style={{
-                                          'text-align': 'center',
-                                          'vertical-align': 'middle',
-                                          padding: '25px',
-                                          // 'text-shadow': '0 0 1rem #000',
-                                          'font-weight': '600',
-                                          // 'font-size': '1.5rem',
-                                        }}
-                                        variant="h5"
-                                      ></Typography>{' '}
-                                    </ListItemText>
-                                  </div>
-                                  {/* </Button> */}
-                                </div>
-
-                                <Box
-                                  component="fieldset"
-                                  mb={3}
-                                  borderColor="transparent"
+                      {products.content.length > 0 ? (
+                        products.content.map((product) => (
+                          <Grid item onClick={() => getProduct(product.id)}>
+                            {/* <Button> */}
+                            <Card
+                              classes={{ root: classes.elevation }}
+                              position="relative"
+                            >
+                              {product.sale ? (
+                                <Badge
+                                  position="absolute"
+                                  className={classes.badge}
+                                  color="secondary"
+                                  overlap="circle"
+                                  badgeContent={`-${product.sale * 100}%`}
+                                  // variant="dot"
+                                ></Badge>
+                              ) : null}
+                              <div className={classes.cardWrapper}>
+                                {/* <Button keepMounted> */}
+                                <img
+                                  height="250px"
+                                  width="250px"
+                                  src={product.imageUrl}
+                                ></img>
+                                <div
+                                  className={classes.layer}
+                                  style={{ display: 'block' }}
                                 >
-                                  <Typography component="legend">
-                                    {product.name}
+                                  <ListItemText>
+                                    <Typography
+                                      style={{
+                                        'text-align': 'center',
+                                        'vertical-align': 'middle',
+                                        padding: '25px',
+                                        // 'text-shadow': '0 0 1rem #000',
+                                        'font-weight': '600',
+                                        // 'font-size': '1.5rem',
+                                      }}
+                                      variant="h5"
+                                    ></Typography>{' '}
+                                  </ListItemText>
+                                </div>
+                                {/* </Button> */}
+                              </div>
+
+                              <Box
+                                component="fieldset"
+                                mb={3}
+                                borderColor="transparent"
+                              >
+                                <Typography component="legend">
+                                  {product.name}
+                                  <Typography variant="caption">
+                                    {` (${product.supplier.name})`}
                                   </Typography>
-                                  <CardActions padding="3px">
-                                    {product.sale ? (
-                                      <Fragment>
-                                        <Typography
-                                          variant="caption"
-                                          color="error"
-                                          style={{
-                                            textDecoration: 'line-through',
-                                          }}
-                                        >
-                                          {' '}
-                                          {`${product.price}$`}
-                                        </Typography>
-                                        <Typography>{`${(
-                                          product.price * product.sale
-                                        ).toFixed(2)}$`}</Typography>
-                                      </Fragment>
-                                    ) : (
-                                      <Typography>
+                                </Typography>
+
+                                <CardActions padding="3px">
+                                  {product.sale ? (
+                                    <Fragment>
+                                      <Typography
+                                        variant="caption"
+                                        color="error"
+                                        style={{
+                                          textDecoration: 'line-through',
+                                        }}
+                                      >
                                         {' '}
                                         {`${product.price}$`}
                                       </Typography>
-                                    )}
-                                  </CardActions>
-                                  <Rating
-                                    name="simple-controlled"
-                                    value={product.rating}
-                                    // onChange={(event, newValue) => {
-                                    //   setValue(newValue);
-                                    // }}
-                                  />
-                                </Box>
-                              </Card>
-                              {/* </Button> */}
-                            </Grid>
-                          ))
-                        : null}
+                                      <Typography>{`${(
+                                        product.price * product.sale
+                                      ).toFixed(2)}$`}</Typography>
+                                    </Fragment>
+                                  ) : (
+                                    <Typography>
+                                      {' '}
+                                      {`${product.price}$`}
+                                    </Typography>
+                                  )}
+                                </CardActions>
+                                <Rating
+                                  name="simple-controlled"
+                                  value={product.rating}
+                                  // onChange={(event, newValue) => {
+                                  //   setValue(newValue);
+                                  // }}
+                                />
+                              </Box>
+                            </Card>
+                            {/* </Button> */}
+                          </Grid>
+                        ))
+                      ) : (
+                        <Fragment>
+                          <Grid
+                            item
+                            xs={12}
+                            className={classes.spinnerProducts}
+                          >
+                            <Spinner type={'Big'} />
+                          </Grid>
+                        </Fragment>
+                      )}
                     </Grid>
                   </Grid>
                 </Grid>
@@ -1097,7 +1332,7 @@ const Category = ({
   }
 
   return loading && products === null ? (
-    <Spinner />
+    <Spinner type={'Big'} />
   ) : (
     <Fragment>
       {/* <FormRow /> */}
@@ -1109,15 +1344,20 @@ const Category = ({
 Category.propTypes = {
   products: PropTypes.func.isRequired,
   getCategoryProducts: PropTypes.func.isRequired,
+  getCategories: PropTypes.func.isRequired,
+  getSuppliers: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   // profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   products: state.products,
+  categories: state.categories,
 });
 
 export default connect(mapStateToProps, {
   getDetailProduct,
   getCategoryProducts,
+  getCategories,
+  getSuppliers,
 })(Category);

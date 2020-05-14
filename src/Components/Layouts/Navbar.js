@@ -67,7 +67,8 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '1rem',
   },
   logoContainer: {
-    paddingLeft: '1rem',
+    paddingLeft: '13rem',
+
     textTransform: 'none',
     '&:hover': {
       backgroundColor: 'transparent',
@@ -90,7 +91,7 @@ const useStyles = makeStyles((theme) => ({
   button: {
     borderRadius: '50px',
     marginLeft: '10px',
-    marginRight: '15px',
+    marginRight: '17rem',
   },
   root: {
     display: 'flex',

@@ -12,8 +12,8 @@ const Alert1 = ({ alerts }) => {
     alerts.map((alert) => (
       <div key={alert.id}>
         <Alert
-          // severity="error"
-          color={alert.alertType}
+          severity="error"
+          // color={alert.alertType}
         >
           {' '}
           {alert.msg}{' '}

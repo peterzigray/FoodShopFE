@@ -26,6 +26,7 @@ const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
   }, []);
+  console.log('APP reload');
   return (
     <Provider store={store}>
       <Router>

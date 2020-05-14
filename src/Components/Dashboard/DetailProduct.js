@@ -102,7 +102,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DetailProduct = ({
-  products: { products, loading },
+  products: { product, loading },
+
   getDetailProduct,
   history,
 }) => {
@@ -110,7 +111,7 @@ const DetailProduct = ({
   const [arrow, setArrow] = useState(false);
 
   useEffect(() => {
-    getDetailProduct(1, history);
+    // getDetailProduct(1, history);
   }, []);
 
   const classes = useStyles();
@@ -167,7 +168,7 @@ const DetailProduct = ({
             >
               <Grid item>
                 <div className={classes.cardWrapper}>
-                  <img height="100%" width="100%" src={products.imageUrl}></img>
+                  <img height="100%" width="100%" src={product.imageUrl}></img>
                 </div>
               </Grid>
             </Grid>
@@ -186,13 +187,13 @@ const DetailProduct = ({
                   <Card classes={{ root: classes.elevation }}>
                     <CardContent className={classes.cardCont}>
                       <Typography variant="h2" color="primary" gutterBottom>
-                        {products.name}
+                        {product.name}
                       </Typography>
                     </CardContent>
                     <CardContent className={classes.cardCont2}>
                       <Rating
                         name="simple-controlled"
-                        value={products.rating}
+                        value={product.rating}
                         // onChange={(event, newValue) => {
                         //   setValue(newValue);
                         // }}
@@ -245,7 +246,7 @@ const DetailProduct = ({
                       <Box className={classes.priceArea}>
                         <Typography variant="h2">{'Price: '}</Typography>
                         <Typography variant="h2" className={classes.leftItem}>
-                          {products.price}
+                          {product.price}
                           {'$'}
                         </Typography>
                       </Box>
@@ -273,8 +274,8 @@ const DetailProduct = ({
     );
   }
 
-  return loading && products === null ? (
-    <Spinner />
+  return loading && product === null ? (
+    <Spinner type={'Big'} />
   ) : (
     <Fragment>
       {/* <FormRow /> */}

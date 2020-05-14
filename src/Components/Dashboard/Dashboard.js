@@ -3,7 +3,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import { getCategories } from '../../actions/products';
+import { getCategories, getSuppliers } from '../../actions/categories';
 import { getCategoryProducts } from '../../actions/products';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
@@ -127,9 +127,11 @@ const useStyles = makeStyles((theme) => ({
 // const Typography = Typography(()=>)
 
 const Dashboard = ({
-  products: { categories, loading },
+  // products: { loading },
+  categories: { categories, loading },
   getCategories,
   getCategoryProducts,
+  getSuppliers,
   loadUser,
   history,
 }) => {
@@ -150,6 +152,7 @@ const Dashboard = ({
 
   const getProducts = (id) => {
     getCategoryProducts(id, null, null, history);
+    getSuppliers(id);
   };
 
   var items = [
@@ -187,7 +190,7 @@ const Dashboard = ({
 
   function FormRow() {
     return loading && categories !== null ? (
-      <Spinner />
+      <Spinner type={'Big'} />
     ) : (
       <Fragment>
         <Grid container justify="center" alignItems="center" spacing={4}>
@@ -278,7 +281,7 @@ const Dashboard = ({
   }
 
   return loading && categories === null ? (
-    <Spinner />
+    <Spinner type={'Big'} />
   ) : (
     <Fragment>
       <FormRow />
@@ -288,18 +291,21 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
   products: PropTypes.func.isRequired,
+  // categories: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   // profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  products: state.products,
+  // products: state.products,
+  categories: state.categories,
 });
 
 export default connect(mapStateToProps, {
   getCategories,
   getCategoryProducts,
+  getSuppliers,
   loadUser,
 })(Dashboard);
 // }

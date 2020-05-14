@@ -7,38 +7,62 @@ import {
   CATEGORYPRODUCT_ERROR,
   GET_PRODUCTDETAIL,
   PRODUCTDETAIL_ERROR,
+  GET_SUPPLIERS,
+  SUPPLIERS_ERROR,
 } from './types';
 
 // import setAuthToken from '../utils/setAuthToken';
 
-// Load User
-export const getCategories = () => async (dispatch) => {
-  try {
-    const res = await axios.get(
-      'http://localhost:8080/api/public/code-list/categories'
-    );
-    dispatch({
-      type: GET_CATEGORIES,
-      payload: res.data,
-    });
-  } catch (err) {
-    dispatch(setAlert(err.toString()));
-    dispatch({
-      type: CATEGORIES_ERROR,
-      // payload: { msg: err.toString() },
-    });
-  }
-};
+// GET CATEGORIES
+// export const getCategories = () => async (dispatch) => {
+//   try {
+//     const res = await axios.get(
+//       'http://localhost:8080/api/public/code-list/categories'
+//     );
+//     dispatch({
+//       type: GET_CATEGORIES,
+//       payload: res.data,
+//     });
+//   } catch (err) {
+//     dispatch(setAlert(err.toString()));
+//     dispatch({
+//       type: CATEGORIES_ERROR,
+//       // payload: { msg: err.toString() },
+//     });
+//   }
+// };
+
+// //GET Product Suppliers FOR Filter
+// export const getSuppliers = (categoryId) => async (dispatch) => {
+//   try {
+//     const res = await axios.get(
+//       `http://localhost:8080/api/public/product-management/products/supplier/${categoryId}`
+//     );
+//     dispatch({
+//       type: GET_SUPPLIERS,
+//       payload: res.data,
+//     });
+//   } catch (err) {
+//     dispatch(setAlert(err.toString()));
+//     dispatch({
+//       type: SUPPLIERS_ERROR,
+//       // payload: { msg: err.toString() },
+//     });
+//   }
+// };
 // GET Product and sort API
 export const getCategoryProducts = (id, sort, query, history) => async (
   dispatch
 ) => {
   const newSort = sort ? sort : '';
   const newURL = `browse/?${newSort}query=category.id==(${id})`;
-  const newQuery = query ? query : '';
+  var newQuery = query ? `;supplier.name=in=(${query})` : '';
+  //CONDITION for select queries -->[]
+
+  // const newQuery = query ? `;supplier.name=="${query}"` : '';
 
   // ;name=lig=*a*;sale=nnl=sale&page=0&size=20`;
-
+  console.log('action ' + 'id ' + id + 'sort ' + newSort + 'query ' + newQuery);
   try {
     const res = await axios.get(
       `http://localhost:8080/api/public/product-management/products/browse?${newSort}query=category.id==(${id})${newQuery}`
@@ -79,7 +103,9 @@ export const getCategoryProducts = (id, sort, query, history) => async (
 //   }
 // };
 
+// GET detail of product
 export const getDetailProduct = (id, history) => async (dispatch) => {
+  console.log('getDetail');
   try {
     const res = await axios.get(
       `http://localhost:8080/api/public/product-management/products/${id}`
