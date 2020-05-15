@@ -40,17 +40,6 @@ import HomeIcon from '@material-ui/icons/Inbox';
 
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//   },
-//   menuButton: {
-//     marginRight: theme.spacing(2),
-//   },
-//   title: {
-//     flexGrow: 1,
-//   },
-// }));
 const useStyles = makeStyles((theme) => ({
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -73,8 +62,9 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       backgroundColor: 'transparent',
     },
-
-    // padding: 0,
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: '3rem',
+    },
   },
   tabContainer: {
     marginLeft: 'auto',
@@ -92,6 +82,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '50px',
     marginLeft: '10px',
     marginRight: '17rem',
+    [theme.breakpoints.down('lg')]: {
+      marginRight: '1rem',
+    },
   },
   root: {
     display: 'flex',
