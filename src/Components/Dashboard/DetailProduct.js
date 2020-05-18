@@ -80,16 +80,58 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     boxShadow: ' 0px 0px 0px 0px',
     // marginLeft: 'auto',
-    height: '555px',
-    width: '500px',
+    height: '100%',
+    width: '100%',
+    border: '1px solid grey',
+    marginTop: '5rem',
+  },
+
+  cardWrapperRight: {
+    // display: 'inline-block',
+    position: 'relative',
+    boxShadow: ' 0px 0px 0px 0px',
+    // marginLeft: 'auto',
+    height: '100%',
+    width: '100%',
+    // border: '1px solid grey',
+    marginTop: '5rem',
   },
   elevation: {
     boxShadow: ' 0px 0px 0px 0px',
     // display: 'inline-block',
     // position: 'relative',
   },
-  mainContainer: { marginTop: '5rem', marginBottom: '10rem' },
+  leftContainer: { paddingLeft: '12rem' },
+  leftContainerItem: { width: '100%' },
+  rightContainerItem: { paddingLeft: '2rem', paddingRight: '15rem' },
+  mainContainer: { marginTop: '0', marginBottom: '10rem' },
   // secondGrid: { height: '25em' },
+  icon: {
+    height: '1.4em',
+
+    width: '1.8em',
+    [theme.breakpoints.down('xs')]: {
+      height: '1em',
+      width: '1em',
+    },
+  },
+  tabpanelName: {
+    '& .MuiBox-root': {
+      paddingLeft: 0,
+    },
+    // backgroundColor: 'black',
+    '.MuiBox-root-476': { padding: '0px' },
+  },
+  containerWithNameAndDescription: {
+    paddingTop: '2rem',
+    paddingLeft: '12rem',
+    paddingBottom: '2rem',
+    backgroundColor: '#f5f5f5',
+    [theme.breakpoints.down('lg')]: {
+      paddingLeft: '3.3rem',
+    },
+  },
+
   icon: {
     height: '1.4em',
 
@@ -111,7 +153,7 @@ const DetailProduct = ({
   const [arrow, setArrow] = useState(false);
 
   useEffect(() => {
-    // getDetailProduct(1, history);
+    getDetailProduct(26, history);
   }, []);
 
   const classes = useStyles();
@@ -130,64 +172,130 @@ const DetailProduct = ({
           direction="row"
           justify="flex-start"
           alignItems="flex-start"
-          spacing={4}
           className={classes.mainContainer}
         >
-          <Grid item xs={12}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link
-                color="inherit"
-                href="/"
-                // onClick={handleClick}
-              >
-                Home
-              </Link>
-              <Link
-                color="inherit"
-                href="/product-management/products/browse/?query=category.id==(1)"
-                // onClick={handleClick}
-              >
-                Products
-              </Link>
-              <Link
-                color="textPrimary"
-                href="/category/products/1"
-                // onClick={handleClick}
-                aria-current="page"
-              >
-                Detail
-              </Link>
-            </Breadcrumbs>
-          </Grid>
-          <Grid item md={7}>
-            <Grid
-              container
-              direction="row"
-              justify="flex-end"
-              alignItems="flex-end"
-            >
+          <Grid item xs={12} className={classes.itemOverview}>
+            <Grid container className={classes.containerWithNameAndDescription}>
+              <Grid item xs={12}>
+                <Breadcrumbs aria-label="breadcrumb">
+                  <Link
+                    color="inherit"
+                    href="/"
+                    // onClick={handleClick}
+                  >
+                    Home
+                  </Link>
+                  <Link
+                    color="inherit"
+                    href="/product-management/products/browse/?query=category.id==(1)"
+                    // onClick={handleClick}
+                  >
+                    Products
+                  </Link>
+                  <Link
+                    color="textPrimary"
+                    href="/category/products/1"
+                    // onClick={handleClick}
+                    aria-current="page"
+                  >
+                    Detail
+                  </Link>
+                </Breadcrumbs>
+              </Grid>
+
               <Grid item>
-                <div className={classes.cardWrapper}>
-                  <img height="100%" width="100%" src={product.imageUrl}></img>
+                {/* <TabPanel
+                  // value={value}
+                  // index={element.id}
+                  className={classes.tabpanelName}
+                > */}
+                <div className={classes.tabpanelName}>
+                  <Typography variant="h4" color="primary">
+                    {product.category.name}
+                  </Typography>
+                  {/* {element.label} */}
                 </div>
+                {/* </TabPanel> */}
+              </Grid>
+
+              <Grid
+                item
+                component={'a'}
+                href="https://www.facebook.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="facebook logo"
+                  src={facebook}
+                  className={classes.icon}
+                />
+              </Grid>
+              <Grid
+                item
+                component={'a'}
+                href="https://www.twitter.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="twitter logo"
+                  src={twitter}
+                  className={classes.icon}
+                />
+              </Grid>
+              <Grid
+                item
+                component={'a'}
+                href="https://www.instagram.com"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img
+                  alt="instagram logo"
+                  src={instagram}
+                  className={classes.icon}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography variant="h6" color="primary">
+                  🚚 Discount 50% on Bananas
+                </Typography>
               </Grid>
             </Grid>
           </Grid>
+
           <Grid item md={5}>
             <Grid
               container
               direction="row"
               justify="flex-start"
               alignItems="flex-start"
+              className={classes.leftContainer}
             >
-              <Grid item>
-                {/* <AppBar position="static"> */}
+              <Grid item className={classes.leftContainerItem}>
                 <div className={classes.cardWrapper}>
+                  <img height="100%" width="100%" src={product.imageUrl}></img>
+                </div>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={7}>
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="flex-start"
+            >
+              <Grid item className={classes.rightContainerItem}>
+                {/* <AppBar position="static"> */}
+                <div className={classes.cardWrapperRight}>
                   {/* <Button keepMounted> */}
                   <Card classes={{ root: classes.elevation }}>
                     <CardContent className={classes.cardCont}>
                       <Typography variant="h2" color="primary" gutterBottom>
-                        {product.name}
+                        {product.name.split(' ').slice(0, 2).join(' ')}
                       </Typography>
                     </CardContent>
                     <CardContent className={classes.cardCont2}>

@@ -145,12 +145,12 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarOnTop: {
     paddingLeft: '8.5rem',
-    paddingRight: '17rem',
+    paddingRight: '9.5rem',
     backgroundColor: 'white',
     height: '5rem',
     [theme.breakpoints.down('lg')]: {
       paddingLeft: '0rem',
-      paddingRight: '1.5rem',
+      paddingRight: '3.5rem',
     },
   },
   sortBar: {
@@ -160,10 +160,10 @@ const useStyles = makeStyles((theme) => ({
   },
   containerQueryProductsSort: {
     paddingLeft: '10rem',
-    paddingRight: '7rem',
+    paddingRight: '10rem',
     [theme.breakpoints.down('lg')]: {
       paddingLeft: '0rem',
-      paddingRight: '1rem',
+      paddingRight: '5rem',
     },
   },
   itemWithNameAndDescription: { borderBottom: ' 1.5px solid #bdbdbd' },
@@ -253,6 +253,10 @@ const useStyles = makeStyles((theme) => ({
   },
   elevation: {
     boxShadow: ' 0px 0px 0px 0px',
+    width: '20rem',
+    [theme.breakpoints.down('lg')]: {
+      width: '18rem',
+    },
 
     // zIndex: 1,
   },
@@ -322,7 +326,7 @@ const useStyles = makeStyles((theme) => ({
   },
   slider: { paddingTop: '1.8rem', paddingLeft: '0.4rem' },
   imgforAdvertisment: { borderRadius: '2%', paddingRight: '1rem' },
-  productsRightContainer: { paddingTop: '2.5rem' },
+  productsRightContainer: { paddingTop: '2.5rem', paddingRight: '0' },
 }));
 
 function valuetext(value) {
@@ -647,6 +651,7 @@ const Category = ({
                   </Link> */}
                 </Breadcrumbs>
               </Grid>
+              
               <Grid item xs={12}>
                 <Grid container>
                   {/* <CategoryName
@@ -740,6 +745,7 @@ const Category = ({
                   </Grid>
                 </Grid>
               </Grid>
+             
               <Grid item xs={12}>
                 <Grid container className={classes.title}>
                   {/* <Grid item xs={8}>
@@ -1060,7 +1066,7 @@ const Category = ({
                     </Grid>
                   </Grid>
                   <Grid item>
-                    <Grid container>
+                    <Grid container spacing={1}>
                       {products.content.length > 0 ? (
                         products.content.map((product) => (
                           <Grid item onClick={() => getProduct(product.id)}>
@@ -1113,7 +1119,10 @@ const Category = ({
                                 borderColor="transparent"
                               >
                                 <Typography component="legend">
-                                  {product.name}
+                                  {product.name
+                                    .split(' ')
+                                    .slice(0, 2)
+                                    .join(' ')}
                                   <Typography variant="caption">
                                     {` (${product.supplier.name})`}
                                   </Typography>

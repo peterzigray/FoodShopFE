@@ -81,9 +81,9 @@ const useStyles = makeStyles((theme) => ({
   button: {
     borderRadius: '50px',
     marginLeft: '10px',
-    marginRight: '17rem',
+    marginRight: '10rem',
     [theme.breakpoints.down('lg')]: {
-      marginRight: '1rem',
+      marginRight: '3.4rem',
     },
   },
   root: {
