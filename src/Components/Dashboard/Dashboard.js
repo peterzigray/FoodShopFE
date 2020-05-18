@@ -31,7 +31,9 @@ import { loadUser } from '../../actions/auth';
 import Spinner from '../Layouts/Spinner';
 
 //carusel
-import Carousel from 'react-material-ui-carousel';
+// import Carousel from 'react-material-ui-carousel';
+import Carousel from '@brainhubeu/react-carousel';
+import '@brainhubeu/react-carousel/lib/style.css';
 
 // import './App.css';
 // import ReturnFromAPI from './API/ReturnFromAPI';
@@ -114,15 +116,10 @@ const useStyles = makeStyles((theme) => ({
   inline: {
     display: 'inline',
   },
-
-  // root: {
-  //   flexGrow: 1,
-  // },
-  // paper: {
-  //   padding: theme.spacing(1),
-  //   textAlign: 'center',
-  //   color: theme.palette.text.secondary,
-  // },
+  categoryContainer: {
+    paddingLeft: '6rem',
+    paddingRight: '10rem',
+  },
 }));
 // const Typography = Typography(()=>)
 
@@ -197,7 +194,13 @@ const Dashboard = ({
           <Grid item xs={12} className={classes.carusel}>
             <Grid container justify="center" alignItems="center" spacing={4}>
               <Grid item xs={10}>
-                <Carousel>
+                <Carousel
+                  infinite
+                  slidesPerPage={1}
+                  keepDirectionWhenDragging
+                  animationSpeed={1500}
+                  autoPlay={3000}
+                >
                   {items.map((item) => (
                     <Item item={item} />
                   ))}
@@ -211,7 +214,12 @@ const Dashboard = ({
             </ListItemText>
           </Grid>
           <Grid item>
-            <Grid container spacing={4} justify="center">
+            <Grid
+              container
+              spacing={4}
+              justify="center"
+              className={classes.categoryContainer}
+            >
               {categories
                 ? categories.map((category) => (
                     <Grid item>

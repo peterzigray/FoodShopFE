@@ -49,7 +49,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-
+import { Icon } from 'react-fa';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
 import DoneIcon from '@material-ui/icons/Done';
@@ -76,6 +76,8 @@ import TreeItem from '@material-ui/lab/TreeItem';
 // import './App.css';
 // import ReturnFromAPI from './API/ReturnFromAPI';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
+import Carousel from '@brainhubeu/react-carousel';
+import '@brainhubeu/react-carousel/lib/style.css';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { MenuItem, getContrastRatio } from '@material-ui/core';
@@ -90,9 +92,14 @@ const useStyles = makeStyles((theme) => ({
   chip: { margin: '0.3rem' },
   spinnerProducts: { marginLeft: '35rem' },
   spiner: { width: '110px', height: '100px', backgroundColor: 'red' },
+  advertismentBarr: {
+    // borderBottom: '1px solid grey',
+    // height: '10rem',
+    // paddingTop: '4.5rem',
+  },
   tabpanelName: {
-    '& .MuiBox-root MuiBox-root-476': {
-      padding: 0,
+    '& .MuiBox-root': {
+      paddingLeft: 0,
     },
     // backgroundColor: 'black',
     '.MuiBox-root-476': { padding: '0px' },
@@ -137,7 +144,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBarOnTop: {
-    paddingLeft: '10rem',
+    paddingLeft: '8.5rem',
     paddingRight: '17rem',
     backgroundColor: 'white',
     height: '5rem',
@@ -151,7 +158,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     height: '5rem',
   },
-  containerWithSortAndQuery: {
+  containerQueryProductsSort: {
     paddingLeft: '10rem',
     paddingRight: '7rem',
     [theme.breakpoints.down('lg')]: {
@@ -161,11 +168,11 @@ const useStyles = makeStyles((theme) => ({
   },
   itemWithNameAndDescription: { borderBottom: ' 1.5px solid #bdbdbd' },
   containerWithNameAndDescription: {
-    paddingTop: '3rem',
+    paddingTop: '2rem',
     paddingLeft: '12rem',
     backgroundColor: '#f5f5f5',
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '2rem',
+      paddingLeft: '3.3rem',
     },
   },
   LeftGrid: {
@@ -184,14 +191,26 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   title: {
+    width: '100%',
+    paddingTop: '1rem',
     paddingBottom: '4em',
   },
-  mainItems: {
+  sortBarItem: {
+    backgroundColor: 'white',
+    borderBottom: '1.5px solid #bdbdbd',
+  },
+  queryLeftNavbar: {
     paddingTop: '2em',
     [theme.breakpoints.down('lg')]: {
       paddingLeft: '2rem',
     },
   },
+  priceQuery: { width: '65%', marginLeft: '1.7rem', marginBottom: '2rem' },
+  hiddenWrapper: { backgroundColor: 'red' },
+  sliderItem: { width: '80%' },
+  priceTextBox: { width: 210, marginTop: '1rem' },
+  formGrup: { marginLeft: '0.3rem' },
+
   SelectPanelBroder: {
     flexBasis: '0',
     // borderBottom: '0.07rem solid',
@@ -298,8 +317,12 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline',
   },
   formControl: {
-    margin: theme.spacing(3),
+    margin: '2rem',
+    // borderBottom:'1px solid grey'
   },
+  slider: { paddingTop: '1.8rem', paddingLeft: '0.4rem' },
+  imgforAdvertisment: { borderRadius: '2%', paddingRight: '1rem' },
+  productsRightContainer: { paddingTop: '2.5rem' },
 }));
 
 function valuetext(value) {
@@ -370,8 +393,11 @@ const Category = ({
 
   useEffect(() => {
     console.log('apiValueCategory ' + apiValue.category);
+    const nieco = apiValue.query.toString();
+    const nieco2 = [];
+    nieco2.push(nieco);
 
-    console.log('apiValueQuery ' + apiValue.query);
+    console.log('apiValueQuery ' + typeof nieco2);
 
     console.log('apiValueFilter ' + apiValue.filter);
     getCategoryProducts(
@@ -637,7 +663,6 @@ const Category = ({
                           className={classes.tabpanelName}
                           // classes={{ root: classes.tabpanelName }}
                           // classes={{ root: 'MenuItem', selected: 'selected' }}
-                          style={{ paddingLeft: 0, paddingRight: 0 }}
                         >
                           <Typography variant="h4" color="primary">
                             {element.name}
@@ -689,6 +714,7 @@ const Category = ({
                       className={classes.icon}
                     />
                   </Grid>
+
                   <Grid item xs={4} className={classes.chipItem}>
                     {checkboxValue.checkedValues.length < 1
                       ? null
@@ -706,6 +732,11 @@ const Category = ({
                             className={classes.chip}
                           />
                         ))}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="h6" color="primary">
+                      🚚 Discount 50% on Bananas
+                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -735,223 +766,254 @@ const Category = ({
           </Grid>
 
           <Grid item xs={12}>
-            <Grid container className={classes.containerWithSortAndQuery}>
+            <Grid container className={classes.containerQueryProductsSort}>
               <Grid
                 item
                 xs={12}
                 md={12}
                 lg={2}
-                className={classes.mainItems}
+                className={classes.queryLeftNavbar}
                 spacing={3}
               >
-
-
-
-
-
-                <Hidden mdDown>
-                  <Grid
-                    container
-                    direction="column"
-                    justify="flex-start"
-                    alignItems="flex-start"
-                    classes={{
-                      root: classes.LeftGrid,
-                    }}
-                    // className={classes.LeftGrid}
-                  >
-                    <Grid item md={12}>
-                      <div className={classes.root}>
-                        <Typography id="range-slider" gutterBottom>
+                <FormControl
+                  component="fieldset"
+                  // className={classes.formControl}
+                  className={classes.priceQuery}
+                >
+                  {/* <Typography id="range-slider" gutterBottom>
                           Price
-                        </Typography>
-
-                        <Slider
-                          // value={valueSlider}
-                          // defaultValue={value}
-                          // onChange={handleChange}
-                          valueLabelDisplay="auto"
-                          aria-labelledby="range-slider"
-                          getAriaValueText={valuetext}
+                        </Typography> */}
+                  <FormLabel component="legend">Price</FormLabel>
+                  <FormGroup>
+                    <Slider
+                      className={classes.slider}
+                      // value={valueSlider}
+                      // defaultValue={value}
+                      // onChange={handleChange}
+                      valueLabelDisplay="auto"
+                      aria-labelledby="range-slider"
+                      getAriaValueText={valuetext}
+                    />
+                  </FormGroup>
+                  <div className={classes.priceTextBox}>
+                    <Grid container spacing={2}>
+                      <Grid item xs={5}>
+                        <TextField
+                          label="from"
+                          id="outlined-size-small"
+                          defaultValue={value}
+                          variant="outlined"
+                          size="small"
                         />
-                      </div>
+                      </Grid>
+                      <Grid item xs={2}>
+                        {'-'}
+                      </Grid>
+                      <Grid item xs={5}>
+                        <TextField
+                          label="to"
+                          id="outlined-size-small"
+                          defaultValue="100"
+                          variant="outlined"
+                          size="small"
+                        />
+                      </Grid>
                     </Grid>
-                    <Grid item md={3}>
-                      <FormControl
-                        component="fieldset"
-                        className={classes.formControl}
-                      >
-                        <FormLabel component="legend">Suplier</FormLabel>
-                        {suppliers ? (
-                          suppliers.map((supplier) => (
-                            <Fragment>
-                              <FormGroup>
-                                <FormControlLabel
-                                  control={
-                                    <Checkbox
-                                      key={supplier.name.toString()}
-                                      checked={
-                                        checkboxValue.checkedValues.length < 1
-                                          ? ''
-                                          : checkboxValue.checkedValues.includes(
-                                              supplier.name
-                                            )
-                                      }
-                                      onChange={handleQueryChange}
-                                      name={supplier.name}
-                                    />
-                                  }
-                                  label={supplier.name}
-                                />
-                              </FormGroup>
-                              {/* <FormHelperText>Next 20</FormHelperText> */}
-                            </Fragment>
-                          ))
-                        ) : (
-                          <Spinner type={'Small'} />
-                        )}
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={3}>
-                      <FormControl
-                        component="fieldset"
-                        className={classes.formControl}
-                      >
-                        <FormLabel component="legend">Country</FormLabel>
-                        <FormGroup>
+                  </div>
+                </FormControl>
+
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Suplier</FormLabel>
+                  {suppliers ? (
+                    suppliers.map((supplier) => (
+                      <Fragment>
+                        <FormGroup className={classes.formGrup}>
                           <FormControlLabel
                             control={
                               <Checkbox
-                                // checked={gilad}
-                                // onChange={handleChange}
-                                name="Slovakia"
+                                key={supplier.name.toString()}
+                                checked={
+                                  checkboxValue.checkedValues.length < 1
+                                    ? ''
+                                    : checkboxValue.checkedValues.includes(
+                                        supplier.name
+                                      )
+                                }
+                                onChange={handleQueryChange}
+                                name={supplier.name}
                               />
                             }
-                            label="Slovakia"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={jason}
-                                // onChange={handleChange}
-                                name="Hungary"
-                              />
-                            }
-                            label="Hungary"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={antoine}
-                                // onChange={handleChange}
-                                name="Czech republic"
-                              />
-                            }
-                            label="Czech republic"
-                          />
-                        </FormGroup>
-                        <FormHelperText>Next 20</FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={3}>
-                      <FormControl
-                        component="fieldset"
-                        className={classes.formControl}
-                      >
-                        <FormLabel component="legend">Name</FormLabel>
-                        <FormGroup>
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={gilad}
-                                // onChange={handleChange}
-                                name="Apple"
-                              />
-                            }
-                            label="Apple"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={jason}
-                                // onChange={handleChange}
-                                name="Banana"
-                              />
-                            }
-                            label="Banana"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={antoine}
-                                // onChange={handleChange}
-                                name="Pear"
-                              />
-                            }
-                            label="Pear"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={antoine}
-                                // onChange={handleChange}
-                                name="Pineaple"
-                              />
-                            }
-                            label="Pineaple"
-                          />
-                        </FormGroup>
-                        <FormHelperText>Next 20</FormHelperText>
-                      </FormControl>
-                    </Grid>
-                    <Grid item md={3}>
-                      <FormControl
-                        component="fieldset"
-                        className={classes.formControl}
-                      >
-                        <FormLabel component="legend">Others</FormLabel>
-                        <FormGroup>
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={gilad}
-                                // onChange={handleChange}
-                                name="Seasonal"
-                              />
-                            }
-                            label="Seasonal"
-                          />
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                // checked={jason}
-                                // onChange={handleChange}
-                                name="Availability"
-                              />
-                            }
-                            label="Availability"
+                            label={supplier.name}
                           />
                         </FormGroup>
                         {/* <FormHelperText>Next 20</FormHelperText> */}
-                      </FormControl>
-                    </Grid>
-                  </Grid>
-                </Hidden>
+                      </Fragment>
+                    ))
+                  ) : (
+                    <Spinner type={'Small'} />
+                  )}
+                </FormControl>
+
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Country</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={gilad}
+                          // onChange={handleChange}
+                          name="Slovakia"
+                        />
+                      }
+                      label="Slovakia"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={jason}
+                          // onChange={handleChange}
+                          name="Hungary"
+                        />
+                      }
+                      label="Hungary"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="Czech republic"
+                        />
+                      }
+                      label="Czech republic"
+                    />
+                  </FormGroup>
+                  <FormHelperText>Next 20</FormHelperText>
+                </FormControl>
+
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Name</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={gilad}
+                          // onChange={handleChange}
+                          name="Apple"
+                        />
+                      }
+                      label="Apple"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={jason}
+                          // onChange={handleChange}
+                          name="Banana"
+                        />
+                      }
+                      label="Banana"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="Pear"
+                        />
+                      }
+                      label="Pear"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={antoine}
+                          // onChange={handleChange}
+                          name="Pineaple"
+                        />
+                      }
+                      label="Pineaple"
+                    />
+                  </FormGroup>
+                  <FormHelperText>Next 20</FormHelperText>
+                </FormControl>
+
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Others</FormLabel>
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={gilad}
+                          // onChange={handleChange}
+                          name="Seasonal"
+                        />
+                      }
+                      label="Seasonal"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          // checked={jason}
+                          // onChange={handleChange}
+                          name="Availability"
+                        />
+                      }
+                      label="Availability"
+                    />
+                  </FormGroup>
+                  {/* <FormHelperText>Next 20</FormHelperText> */}
+                </FormControl>
               </Grid>
-              <Grid
-                item
-                xs={12}
-                md={12}
-                lg={10}
-                className={classes.mainItems}
-                spacing={3}
-              >
+              <Grid item xs={12} md={12} lg={10} spacing={3}>
                 <Grid
                   container
                   direction="row"
                   justify="flex-start"
                   alignItems="flex-start"
+                  className={classes.productsRightContainer}
                 >
+                  <Grid item xs={12} md={12} lg={6}>
+                    {/* <div className={classes.advertismentBarr}> */}
+                    {/* <TabPanel
+                      value={'dsaidhasuhdjiashdjis'}
+                      // index={element.id}
+                      className={classes.tabpanelName}
+                  
+                
+                    > */}
+                    {/* <Typography variant="h6" color="primary">
+                      🚚 Discount 50% on Bananas
+                    </Typography> */}
+
+                    <img
+                      className={classes.imgforAdvertisment}
+                      height="250px"
+                      width="780px"
+                      src="https://cdn.dedoles.sk/buxus/images/cache/identity/top_bannery/ponozky_2_99/SK_Vesele_ponozky_uz_od_2_99%E2%82%AC_950x300px.jpg.webp"
+                    ></img>
+                  </Grid>
+                  <Grid item xs={12} md={12} lg={6}>
+                    <img
+                      className={classes.imgforAdvertisment}
+                      height="250px"
+                      width="780px"
+                      src="https://cdn.dedoles.sk/buxus/images/cache/identity/zlata_ponozka/2020/SK_ZlataPonozka_TopKategoria.jpg.webp"
+                    ></img>
+                    {/* </div> */}
+                  </Grid>
                   <Grid item xs={12}>
                     <Grid container className={classes.title}>
                       <Grid item xs={12}>
@@ -971,7 +1033,7 @@ const Category = ({
                             position="static"
                             color="default"
                             elevation={0}
-                            className={classes.sortBar}
+                            className={classes.sortBarItem}
                           >
                             <Tabs
                               value={value}
@@ -1071,7 +1133,9 @@ const Category = ({
                                         {`${product.price}$`}
                                       </Typography>
                                       <Typography>{`${(
-                                        product.price * product.sale
+                                        product.price -
+                                        (product.sale * 100 * product.price) /
+                                          100
                                       ).toFixed(2)}$`}</Typography>
                                     </Fragment>
                                   ) : (

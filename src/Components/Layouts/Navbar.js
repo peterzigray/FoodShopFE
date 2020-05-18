@@ -56,14 +56,14 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '1rem',
   },
   logoContainer: {
-    paddingLeft: '13rem',
+    paddingLeft: '12rem',
 
     textTransform: 'none',
     '&:hover': {
       backgroundColor: 'transparent',
     },
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '3rem',
+      paddingLeft: '3.4rem',
     },
   },
   tabContainer: {
