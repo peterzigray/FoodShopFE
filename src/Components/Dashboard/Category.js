@@ -383,9 +383,9 @@ const Category = ({
   const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
   const [value, setValue] = React.useState(0);
-  const [checkboxValue, setcheckboxValue] = React.useState({
-    checkedValues: [],
-  });
+  // const [checkboxValue, setcheckboxValue] = React.useState({
+  //   checkedValues: [],
+  // });
   const [apiValue, setApiValue] = React.useState({
     query: [],
     filter: [],
@@ -412,9 +412,9 @@ const Category = ({
     );
   }, [apiValue]);
 
-  useEffect(() => {
-    // console.log('checkbox' + checkboxValue);
-  }, [checkboxValue]);
+  // useEffect(() => {
+  //   // console.log('checkbox' + checkboxValue);
+  // }, [checkboxValue]);
 
   useEffect(() => {
     getCategories();
@@ -533,10 +533,10 @@ const Category = ({
       filter: [],
     });
     // CleanUP checkbox
-    setcheckboxValue({
-      ...checkboxValue,
-      checkedValues: [],
-    });
+    // setcheckboxValue({
+    //   ...checkboxValue,
+    //   checkedValues: [],
+    // });
     getSuppliers(newValue + 1);
     // Set Value for Category
     setValue(newValue);
@@ -548,22 +548,22 @@ const Category = ({
   };
 
   // QUERY API CALL + SET current checkbox values to state.
-  const handleQueryChange = (event) => {
+  const handleQueryChange = (event, suplierId) => {
     // SET ACTUAL CHECKED VALUES PICKED CHECKBOX for render purposes
+    // console.log('toto'+ event.target.name);
+    // setcheckboxValue({
+    //   ...checkboxValue,
+    //   checkedValues: checkboxValue.checkedValues.includes(event.target.name)
+    //     ? checkboxValue.checkedValues.filter((c) => c !== event.target.name)
+    //     : [...checkboxValue.checkedValues, event.target.name],
+    // });
 
-    setcheckboxValue({
-      ...checkboxValue,
-      checkedValues: checkboxValue.checkedValues.includes(event.target.name)
-        ? checkboxValue.checkedValues.filter((c) => c !== event.target.name)
-        : [...checkboxValue.checkedValues, event.target.name],
-    });
-
-    // SET ACTUAL CHECKED VALUES PICKED CHECKBOX for API purposes
+    // // SET ACTUAL CHECKED VALUES PICKED CHECKBOX for API purposes
     setApiValue({
       ...apiValue,
-      query: apiValue.query.includes(event.target.name)
-        ? apiValue.query.filter((c) => c !== event.target.name)
-        : [...apiValue.query, event.target.name],
+      query: apiValue.query.includes(suplierId)
+        ? apiValue.query.filter((c) => c !== suplierId)
+        : [...apiValue.query, suplierId],
     });
   };
 
@@ -581,8 +581,6 @@ const Category = ({
   // }, 2000);
 
   function Layout() {
-    const { Jablanor, Chiquita, Banaras } = checkboxValue;
-
     return (
       <Fragment>
         <Grid container>
@@ -651,7 +649,7 @@ const Category = ({
                   </Link> */}
                 </Breadcrumbs>
               </Grid>
-              
+
               <Grid item xs={12}>
                 <Grid container>
                   {/* <CategoryName
@@ -721,7 +719,28 @@ const Category = ({
                   </Grid>
 
                   <Grid item xs={4} className={classes.chipItem}>
-                    {checkboxValue.checkedValues.length < 1
+                    {apiValue.query.length < 1
+                      ? null
+                      : suppliers
+                          .filter((supplier) =>
+                            apiValue.query.includes(supplier.id)
+                          )
+                          .map((supplier) => (
+                            <Chip
+                              key={supplier.id}
+                              // onDelete={handleDeleteCheckboxValue(value)}
+
+                              label={supplier.name}
+                              clickable
+                              color="primary"
+                              // onDelete={handleDelete}
+                              icon={<HighlightOffIcon />}
+                              variant="outlined"
+                              className={classes.chip}
+                            />
+                          ))}
+
+                    {/* {checkboxValue.checkedValues.length < 1
                       ? null
                       : checkboxValue.checkedValues.map((value) => (
                           <Chip
@@ -736,7 +755,7 @@ const Category = ({
                             variant="outlined"
                             className={classes.chip}
                           />
-                        ))}
+                        ))} */}
                   </Grid>
                   <Grid item xs={12}>
                     <Typography variant="h6" color="primary">
@@ -745,7 +764,7 @@ const Category = ({
                   </Grid>
                 </Grid>
               </Grid>
-             
+
               <Grid item xs={12}>
                 <Grid container className={classes.title}>
                   {/* <Grid item xs={8}>
@@ -840,15 +859,22 @@ const Category = ({
                           <FormControlLabel
                             control={
                               <Checkbox
-                                key={supplier.name.toString()}
+                                key={supplier.id}
+                                // .name.toString()}
                                 checked={
-                                  checkboxValue.checkedValues.length < 1
+                                  apiValue.query.length < 1
                                     ? ''
-                                    : checkboxValue.checkedValues.includes(
-                                        supplier.name
-                                      )
+                                    : apiValue.query.includes(supplier.id)
+
+                                  // checkboxValue.checkedValues.length < 1
+                                  //   ? ''
+                                  //   : checkboxValue.checkedValues.includes(
+                                  //       supplier.name
+                                  //     )
                                 }
-                                onChange={handleQueryChange}
+                                onChange={(event) =>
+                                  handleQueryChange(event, supplier.id)
+                                }
                                 name={supplier.name}
                               />
                             }

@@ -65,7 +65,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: 'auto',
   },
   ButtonBuy: { width: '100%' },
-  priceArea: { backgroundColor: '#fff59d', display: 'flex' },
+  priceArea: {
+    color: '#f50057',
+    display: 'flex',
+    borderBottom: '1px solid #bdbdbd',
+  },
   cardCont: {
     // display: 'flex',
     paddingBottom: '0px',
@@ -84,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     border: '1px solid grey',
     marginTop: '5rem',
+    paddingTop: '1rem',
   },
 
   cardWrapperRight: {
@@ -153,7 +158,7 @@ const DetailProduct = ({
   const [arrow, setArrow] = useState(false);
 
   useEffect(() => {
-    getDetailProduct(26, history);
+    // getDetailProduct(27, history);
   }, []);
 
   const classes = useStyles();
@@ -276,7 +281,11 @@ const DetailProduct = ({
             >
               <Grid item className={classes.leftContainerItem}>
                 <div className={classes.cardWrapper}>
-                  <img height="100%" width="100%" src={product.imageUrl}></img>
+                  <img
+                    height="650px"
+                    width="650px"
+                    src={product.imageUrl}
+                  ></img>
                 </div>
               </Grid>
             </Grid>
@@ -334,6 +343,21 @@ const DetailProduct = ({
                       </Grid>
                     </CardContent>
                     <CardContent>
+                      <Box className={classes.priceArea}>
+                        <Typography variant="h2">
+                          {'Price: '}
+                          {product.price}
+                          {' $'}
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          // className={classes.leftItem}
+                        >
+                          {product.price}
+                        </Typography>
+                      </Box>
+                    </CardContent>
+                    <CardContent>
                       <Typography align="justify">
                         Cheesecake liquorice sweet roll jujubes dragée liquorice
                         sugar plum. Soufflé dessert tart liquorice cotton candy
@@ -350,15 +374,7 @@ const DetailProduct = ({
                         marshmallow cake caramels chocolate cake.
                       </Typography>
                     </CardContent>
-                    <CardContent>
-                      <Box className={classes.priceArea}>
-                        <Typography variant="h2">{'Price: '}</Typography>
-                        <Typography variant="h2" className={classes.leftItem}>
-                          {product.price}
-                          {'$'}
-                        </Typography>
-                      </Box>
-                    </CardContent>
+
                     <CardContent>
                       <Box className={classes.priceArea}>
                         <Button

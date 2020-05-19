@@ -55,8 +55,9 @@ export const getCategoryProducts = (id, sort, query, history) => async (
   dispatch
 ) => {
   const newSort = sort ? sort : '';
+
   const newURL = `browse/?${newSort}query=category.id==(${id})`;
-  var newQuery = query ? `;supplier.name=in=(${query})` : '';
+  var newQuery = query ? `;supplier.id=in=(${query})` : '';
   //CONDITION for select queries -->[]
 
   // const newQuery = query ? `;supplier.name=="${query}"` : '';
