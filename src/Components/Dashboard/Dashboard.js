@@ -3,7 +3,11 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import { getCategories, getSuppliers } from '../../actions/categories';
+import {
+  getCategories,
+  getSuppliers,
+  getCarousel,
+} from '../../actions/categories';
 import { getCategoryProducts } from '../../actions/products';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
@@ -125,8 +129,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Dashboard = ({
   // products: { loading },
-  categories: { categories, loading },
+  categories: { categories, loading, carousel },
   getCategories,
+  getCarousel,
   getCategoryProducts,
   getSuppliers,
   loadUser,
@@ -135,6 +140,7 @@ const Dashboard = ({
   useEffect(() => {
     loadUser();
     getCategories();
+    getCarousel();
   }, []);
 
   // function App() {
@@ -148,36 +154,39 @@ const Dashboard = ({
   const classes = useStyles();
 
   const getProducts = (id) => {
+    // history.push(
+    //   `/product-management/products/browse/?query=category.id==(${id})`
+    // );
     getCategoryProducts(id, null, null, history);
     getSuppliers(id);
   };
 
-  var items = [
-    {
-      name: 'Random Name #1',
-      description: 'Probably the most random thing you have ever seen!',
-      img:
-        'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183017/blog-inline-fullwidth_catering.jpg',
-    },
-    {
-      name: 'Random Name #2',
-      description: 'Hello World!',
-      img:
-        'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183052/blog-inline-fullwidth_japanese.jpg',
-    },
-    {
-      name: 'Random Name #2',
-      description: 'Hello World!',
-      img:
-        'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183128/blog-inline-fullwidth_deli.jpg',
-    },
-  ];
+  // var items = [
+  //   {
+  //     name: 'Random Name #1',
+  //     description: 'Probably the most random thing you have ever seen!',
+  //     img:
+  //       'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183017/blog-inline-fullwidth_catering.jpg',
+  //   },
+  //   {
+  //     name: 'Random Name #2',
+  //     description: 'Hello World!',
+  //     img:
+  //       'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183052/blog-inline-fullwidth_japanese.jpg',
+  //   },
+  //   {
+  //     name: 'Random Name #2',
+  //     description: 'Hello World!',
+  //     img:
+  //       'https://s3.amazonaws.com/fooda-wordpress/blog2/wp-content/uploads/2016/09/11183128/blog-inline-fullwidth_deli.jpg',
+  //   },
+  // ];
 
   function Item(props) {
     return (
       <Paper className={classes.itemCarusel}>
         {/* <h2>{props.item.name}</h2> */}
-        <img height="100%" width="100%" src={props.item.img} />
+        <img height="100%" width="100%" src={props.item.imageUrl} />
         {/* <p>{props.item.description}</p>
 
         <Button className="CheckButton">Check it out!</Button> */}
@@ -186,6 +195,7 @@ const Dashboard = ({
   }
 
   function FormRow() {
+    console.log(carousel);
     return loading && categories !== null ? (
       <Spinner type={'Big'} />
     ) : (
@@ -201,9 +211,7 @@ const Dashboard = ({
                   animationSpeed={1500}
                   autoPlay={3000}
                 >
-                  {items.map((item) => (
-                    <Item item={item} />
-                  ))}
+                  {carousel ? carousel.map((it) => <Item item={it} />) : null}
                 </Carousel>
               </Grid>
             </Grid>
@@ -299,7 +307,7 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
   products: PropTypes.func.isRequired,
-  // categories: PropTypes.func.isRequired,
+  categories: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   // profile: PropTypes.object.isRequired,
@@ -315,6 +323,7 @@ export default connect(mapStateToProps, {
   getCategoryProducts,
   getSuppliers,
   loadUser,
+  getCarousel,
 })(Dashboard);
 // }
 // export default Body;

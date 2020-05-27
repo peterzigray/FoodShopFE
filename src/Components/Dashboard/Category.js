@@ -1,4 +1,10 @@
-import React, { Component, Fragment, useEffect, useState } from 'react';
+import React, {
+  Component,
+  Fragment,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -16,7 +22,7 @@ import instagram from '../../assets/instagram.svg';
 import facebook from '../../assets/facebook.svg';
 import twitter from '../../assets/twitter.svg';
 import { getDetailProduct, getCategoryProducts } from '../../actions/products';
-import { getCategories, getSuppliers } from '../../actions/categories';
+import { getCategories, getSuppliers, getNews } from '../../actions/categories';
 import Slider from '@material-ui/core/Slider';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -99,7 +105,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tabpanelName: {
     '& .MuiBox-root': {
-      paddingLeft: 0,
+      padding: '1rem 0 0 0',
     },
     // backgroundColor: 'black',
     '.MuiBox-root-476': { padding: '0px' },
@@ -301,6 +307,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
     position: 'relative',
     boxShadow: ' 0px 0px 0px 0px',
+    cursor: 'pointer',
   },
   layer: {
     position: 'absolute',
@@ -325,7 +332,13 @@ const useStyles = makeStyles((theme) => ({
     // borderBottom:'1px solid grey'
   },
   slider: { paddingTop: '1.8rem', paddingLeft: '0.4rem' },
-  imgforAdvertisment: { borderRadius: '2%', paddingRight: '1rem' },
+  imgforAdvertisment: {
+    borderRadius: '2%',
+    paddingRight: '1rem',
+  },
+  imgforAdvertismentWrapper: {
+    margin: '1rem',
+  },
   productsRightContainer: { paddingTop: '2.5rem', paddingRight: '0' },
 }));
 
@@ -365,14 +378,71 @@ function a11yProps(index) {
     'aria-controls': `scrollable-auto-tabpanel-${index - 1}`,
   };
 }
+function a12yProps(index) {
+  return {
+    id: `scrollable-auto-tab-${index - 1}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index - 1}`,
+  };
+}
+
+const getQueryStringValue = (queryString = window.location.search) => {
+  const values = queryString.match(/(?<=supplier.id=in=\().*?(?=\))/g)
+    ? queryString
+        .match(/(?<=supplier.id=in=\().*?(?=\))/g)
+        .toString()
+        .split(',')
+        .map((x) => +x)
+    : [];
+
+  // const result = values.split(',').map((x) => +x);
+
+  return values;
+};
+
+const getCategoryStringValue = (key, queryString = window.location.search) => {
+  const values = key
+    ? key
+    : Number(
+        Object.values(
+          queryString.match(/(?<=category.id==\().*?(?=\))/g)
+            ? queryString.match(/(?<=category.id==\().*?(?=\))/g)
+            : { 0: 1 }
+        )
+      );
+
+  return values;
+};
+
+const getFilterStringValue = (queryString = window.location.search) => {
+  const values = queryString.match(/(?<=sort=).*?(?=\&)/g)
+    ? queryString.match(/(?<=sort=).*?(?=\&)/g).toString()
+    : null;
+
+  switch (values) {
+    case 'price,desc':
+      return 1;
+    case 'price,asc':
+      return 2;
+    case 'rating,desc':
+      return 3;
+    case 'name,desc':
+      return 4;
+    case 'name,asc':
+      return 5;
+
+    default:
+      return null;
+  }
+};
 
 const Category = ({
   products: { products, loading },
-  categories: { categories, suppliers },
+  categories: { categories, suppliers, news },
   getDetailProduct,
   getCategoryProducts,
   getCategories,
   getSuppliers,
+  getNews,
   history,
 
   props,
@@ -387,39 +457,40 @@ const Category = ({
   //   checkedValues: [],
   // });
   const [apiValue, setApiValue] = React.useState({
-    query: [],
-    filter: [],
-    category: 1,
+    query: getQueryStringValue(),
+    filter: getFilterStringValue(),
+    category: getCategoryStringValue(),
   });
+
   const [valueText, setValueText] = React.useState(0);
   const [arrow, setArrow] = useState(false);
   const [valueSlider, setValueSlider] = useState([0, 100]);
-
+  const [timeLeft, setTimeLeft] = useState(0);
   useEffect(() => {
-    console.log('apiValueCategory ' + apiValue.category);
-    const nieco = apiValue.query.toString();
-    const nieco2 = [];
-    nieco2.push(nieco);
-
-    console.log('apiValueQuery ' + typeof nieco2);
-
-    console.log('apiValueFilter ' + apiValue.filter);
+    setTimeout(() => {
+      setTimeLeft(news.length - 1 <= timeLeft ? 0 : timeLeft + 1);
+    }, 3000);
+  });
+  useEffect(() => {
     getCategoryProducts(
       apiValue.category,
-      null,
+      apiValue.filter ? apiValue.filter : null,
+
       apiValue.query.length > 0 ? apiValue.query : null,
       history
     );
   }, [apiValue]);
 
-  // useEffect(() => {
-  //   // console.log('checkbox' + checkboxValue);
-  // }, [checkboxValue]);
-
   useEffect(() => {
+    getNews();
     getCategories();
-    getSuppliers(1);
-    getCategoryProducts(1, null, null, history);
+    getSuppliers(apiValue.category);
+    getCategoryProducts(
+      apiValue.category,
+      apiValue.filter ? apiValue.filter : null,
+      apiValue.query.length > 0 ? apiValue.query : null,
+      history
+    );
   }, []);
 
   const classes = useStyles();
@@ -466,71 +537,47 @@ const Category = ({
   };
 
   const sortOptions = [
-    { name: 'Price High to Low', activeIndex: 1, selectedIndex: 0 },
+    { name: 'Price High to Low', selectedIndex: 1 },
     {
       name: 'Price Low to High',
 
-      activeIndex: 1,
-      selectedIndex: 1,
+      selectedIndex: 2,
     },
     {
       name: 'Favourite',
 
-      activeIndex: 1,
-      selectedIndex: 2,
+      selectedIndex: 3,
     },
     {
       name: 'A-Z',
 
-      activeIndex: 1,
-      selectedIndex: 3,
+      selectedIndex: 4,
     },
     {
       name: 'Z-A',
 
-      activeIndex: 1,
-      selectedIndex: 4,
+      selectedIndex: 5,
     },
   ];
 
-  // const getCurrentSort = (id) => {
-  //   switch (id) {
-  //     case 4:
-  //       return 'sort=rating,asc&';
-  //     case 3:
-  //       return 'sort=rating,desc&';
-  //     //   case 2:
-  //     //     return {
-  //     // 		'sort=rating,desc&',
-  //     //     };
-  //     default:
-  //       return null;
-  //   }
-  // };
-
   //----------------API-----------------------------------------------------------
   const handleSort = (id) => {
-    // .substring(1);
-    // .match(/^\(([^\)]+)\)$/))
-    //   var query = window.location.search.toString();
-    //   var matched = query.match(/^[a]$/);
-    //   console.log(query);
-
-    // const { query } = apiValue;
-    // const newSort = getCurrentSort(id);
+    console.log(id);
     setApiValue({
       ...apiValue,
       filter: id,
     });
-    // getCategoryProducts(1, newSort, query, history);
   };
 
   const handleCategoryChange = (event, newValue) => {
     setApiValue({
       ...apiValue,
-      category: newValue + 1,
+      category:
+        // getCategoryStringValue(
+        newValue + 1,
+      // ),
       query: [],
-      filter: [],
+      filter: null,
     });
     // CleanUP checkbox
     // setcheckboxValue({
@@ -539,7 +586,7 @@ const Category = ({
     // });
     getSuppliers(newValue + 1);
     // Set Value for Category
-    setValue(newValue);
+    // setValue(newValue);
     // getCategoryProducts(newValue + 1, null, null, history);
   };
 
@@ -557,7 +604,7 @@ const Category = ({
     //     ? checkboxValue.checkedValues.filter((c) => c !== event.target.name)
     //     : [...checkboxValue.checkedValues, event.target.name],
     // });
-
+    console.log(apiValue.query);
     // // SET ACTUAL CHECKED VALUES PICKED CHECKBOX for API purposes
     setApiValue({
       ...apiValue,
@@ -567,10 +614,10 @@ const Category = ({
     });
   };
 
-  const text = [
-    { text: '🚚Free shipping on order 15$ +', id: 1 },
-    { text: '5 % Off on First Order', id: 2 },
-    { text: 'discount for nothing 3', id: 3 },
+  const textMock = [
+    { description: '🚚Free shipping on order 15$ +', id: 1 },
+    { description: '5 % Off on First Order 💖💖💖', id: 2 },
+    { description: 'Discount 50% on Bananas 🍌🍌🍌', id: 3 },
   ];
 
   // setTimeout(() => {
@@ -581,6 +628,7 @@ const Category = ({
   // }, 2000);
 
   function Layout() {
+    console.log(news);
     return (
       <Fragment>
         <Grid container>
@@ -592,7 +640,7 @@ const Category = ({
                 className={classes.appBarOnTop}
               >
                 <Tabs
-                  value={value}
+                  value={apiValue.category - 1}
                   onChange={handleCategoryChange}
                   indicatorColor="primary"
                   textColor="primary"
@@ -661,7 +709,7 @@ const Category = ({
                     {categories ? (
                       categories.map((element) => (
                         <TabPanel
-                          value={value}
+                          value={apiValue.category - 1}
                           index={element.id}
                           className={classes.tabpanelName}
                           // classes={{ root: classes.tabpanelName }}
@@ -719,9 +767,8 @@ const Category = ({
                   </Grid>
 
                   <Grid item xs={4} className={classes.chipItem}>
-                    {apiValue.query.length < 1
-                      ? null
-                      : suppliers
+                    {apiValue.query && suppliers
+                      ? suppliers
                           .filter((supplier) =>
                             apiValue.query.includes(supplier.id)
                           )
@@ -738,7 +785,8 @@ const Category = ({
                               variant="outlined"
                               className={classes.chip}
                             />
-                          ))}
+                          ))
+                      : null}
 
                     {/* {checkboxValue.checkedValues.length < 1
                       ? null
@@ -758,9 +806,19 @@ const Category = ({
                         ))} */}
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography variant="h6" color="primary">
-                      🚚 Discount 50% on Bananas
-                    </Typography>
+                    {news
+                      ? textMock.map((el) => (
+                          <TabPanel
+                            className={classes.tabpanelName}
+                            value={timeLeft}
+                            index={el.id}
+                          >
+                            <Typography variant="h5">
+                              {el.description}
+                            </Typography>
+                          </TabPanel>
+                        ))
+                      : null}
                   </Grid>
                 </Grid>
               </Grid>
@@ -851,42 +909,42 @@ const Category = ({
                   component="fieldset"
                   className={classes.formControl}
                 >
-                  <FormLabel component="legend">Suplier</FormLabel>
                   {suppliers ? (
-                    suppliers.map((supplier) => (
-                      <Fragment>
-                        <FormGroup className={classes.formGrup}>
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                key={supplier.id}
-                                // .name.toString()}
-                                checked={
-                                  apiValue.query.length < 1
-                                    ? ''
-                                    : apiValue.query.includes(supplier.id)
+                    <Fragment>
+                      <FormLabel component="legend">Suplier</FormLabel>
+                      {suppliers.map((supplier) => (
+                        <Fragment>
+                          <FormGroup className={classes.formGrup}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  key={supplier.id}
+                                  // .name.toString()}
+                                  checked={
+                                    apiValue.query.length < 1
+                                      ? ''
+                                      : apiValue.query.includes(supplier.id)
 
-                                  // checkboxValue.checkedValues.length < 1
-                                  //   ? ''
-                                  //   : checkboxValue.checkedValues.includes(
-                                  //       supplier.name
-                                  //     )
-                                }
-                                onChange={(event) =>
-                                  handleQueryChange(event, supplier.id)
-                                }
-                                name={supplier.name}
-                              />
-                            }
-                            label={supplier.name}
-                          />
-                        </FormGroup>
-                        {/* <FormHelperText>Next 20</FormHelperText> */}
-                      </Fragment>
-                    ))
-                  ) : (
-                    <Spinner type={'Small'} />
-                  )}
+                                    // checkboxValue.checkedValues.length < 1
+                                    //   ? ''
+                                    //   : checkboxValue.checkedValues.includes(
+                                    //       supplier.name
+                                    //     )
+                                  }
+                                  onChange={(event) =>
+                                    handleQueryChange(event, supplier.id)
+                                  }
+                                  name={supplier.name}
+                                />
+                              }
+                              label={supplier.name}
+                            />
+                          </FormGroup>
+                          {/* <FormHelperText>Next 20</FormHelperText> */}
+                        </Fragment>
+                      ))}
+                    </Fragment>
+                  ) : null}
                 </FormControl>
 
                 <FormControl
@@ -929,7 +987,7 @@ const Category = ({
                   <FormHelperText>Next 20</FormHelperText>
                 </FormControl>
 
-                <FormControl
+                {/* <FormControl
                   component="fieldset"
                   className={classes.formControl}
                 >
@@ -977,7 +1035,7 @@ const Category = ({
                     />
                   </FormGroup>
                   <FormHelperText>Next 20</FormHelperText>
-                </FormControl>
+                </FormControl> */}
 
                 <FormControl
                   component="fieldset"
@@ -1029,21 +1087,25 @@ const Category = ({
                     {/* <Typography variant="h6" color="primary">
                       🚚 Discount 50% on Bananas
                     </Typography> */}
-
-                    <img
-                      className={classes.imgforAdvertisment}
-                      height="250px"
-                      width="780px"
-                      src="https://cdn.dedoles.sk/buxus/images/cache/identity/top_bannery/ponozky_2_99/SK_Vesele_ponozky_uz_od_2_99%E2%82%AC_950x300px.jpg.webp"
-                    ></img>
+                    <div className={classes.imgforAdvertismentWrapper}>
+                      <img
+                        className={classes.imgforAdvertisment}
+                        height="100%"
+                        width="100%"
+                        src="https://cdn.dedoles.sk/buxus/images/cache/identity/top_bannery/ponozky_2_99/SK_Vesele_ponozky_uz_od_2_99%E2%82%AC_950x300px.jpg.webp"
+                      ></img>
+                    </div>
                   </Grid>
                   <Grid item xs={12} md={12} lg={6}>
-                    <img
-                      className={classes.imgforAdvertisment}
-                      height="250px"
-                      width="780px"
-                      src="https://cdn.dedoles.sk/buxus/images/cache/identity/zlata_ponozka/2020/SK_ZlataPonozka_TopKategoria.jpg.webp"
-                    ></img>
+                    <div className={classes.imgforAdvertismentWrapper}>
+                      <img
+                        className={classes.imgforAdvertisment}
+                        height="100%"
+                        width="100%"
+                        src="https://cdn.dedoles.sk/buxus/images/cache/identity/top_bannery/ponozky_2_99/SK_Vesele_ponozky_uz_od_2_99%E2%82%AC_950x300px.jpg.webp"
+                        // src="https://cdn.dedoles.sk/buxus/images/cache/identity/zlata_ponozka/2020/SK_ZlataPonozka_TopKategoria.jpg.webp"
+                      ></img>
+                    </div>
                     {/* </div> */}
                   </Grid>
                   <Grid item xs={12}>
@@ -1051,7 +1113,7 @@ const Category = ({
                       <Grid item xs={12}>
                         <Fragment>
                           {/* <Button
-                              onClick={() => handleSort(option.selectedIndex)}
+                              
                               className={classes.AppBarSortButton}
                             >
                               <Typography variant="button">
@@ -1068,7 +1130,7 @@ const Category = ({
                             className={classes.sortBarItem}
                           >
                             <Tabs
-                              value={value}
+                              value={apiValue.filter - 1}
                               // onChange={handleCategoryChange}
                               indicatorColor="primary"
                               textColor="primary"
@@ -1078,9 +1140,12 @@ const Category = ({
                             >
                               {sortOptions.map((option) => (
                                 <Tab
+                                  onClick={() =>
+                                    handleSort(option.selectedIndex)
+                                  }
                                   className={classes.tabOfBarOnTop}
                                   label={option.name}
-                                  // {...a11yProps(element.id)}
+                                  {...a12yProps(option.selectedIndex)}
                                 />
                               ))}
                             </Tabs>
@@ -1229,6 +1294,7 @@ Category.propTypes = {
   getCategoryProducts: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   getSuppliers: PropTypes.func.isRequired,
+  getNews: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   // profile: PropTypes.object.isRequired,
 };
@@ -1243,4 +1309,5 @@ export default connect(mapStateToProps, {
   getCategoryProducts,
   getCategories,
   getSuppliers,
+  getNews,
 })(Category);

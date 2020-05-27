@@ -51,29 +51,46 @@ import {
 //   }
 // };
 // GET Product and sort API
+const getCurrentSort = (id) => {
+  switch (id) {
+    case 1:
+      return '&sort=price,desc';
+    case 2:
+      return '&sort=price,asc';
+    case 3:
+      return '&sort=rating,desc';
+    case 4:
+      return '&sort=name,desc';
+    case 5:
+      return '&sort=name,asc';
+
+    default:
+      return '&sort=price,asc';
+  }
+};
 export const getCategoryProducts = (id, sort, query, history) => async (
   dispatch
 ) => {
-  const newSort = sort ? sort : '';
+  const newSort = sort ? getCurrentSort(sort) : '';
 
-  const newURL = `browse/?${newSort}query=category.id==(${id})`;
   var newQuery = query ? `;supplier.id=in=(${query})` : '';
+  const newURL = `browse/?${newSort}&query=category.id==(${id})${newQuery}`;
   //CONDITION for select queries -->[]
 
   // const newQuery = query ? `;supplier.name=="${query}"` : '';
 
   // ;name=lig=*a*;sale=nnl=sale&page=0&size=20`;
-  console.log('action ' + 'id ' + id + 'sort ' + newSort + 'query ' + newQuery);
+
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/public/product-management/products/browse?${newSort}query=category.id==(${id})${newQuery}`
+      `http://localhost:8080/api/public/product-management/products/browse?query=category.id==(${id})${newQuery}${newSort}`
       // ;name=lig=*a*;sale=nnl=sale&page=0&size=20`
     );
     dispatch({
       type: GET_CATEGORYPRODUCT,
       payload: res.data,
     });
-    history.push(`/product-management/products/${newURL}${newQuery}`);
+    history.push(`/product-management/products/${newURL}`);
   } catch (err) {
     dispatch(setAlert(err.toString()));
     dispatch({
