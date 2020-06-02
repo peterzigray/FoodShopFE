@@ -28,24 +28,14 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
+
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import Paper from '@material-ui/core/Paper';
-import ListItem from '@material-ui/core/ListItem';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import InputLabel from '@material-ui/core/InputLabel';
+
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -73,22 +63,13 @@ import Spinner from '../Layouts/Spinner';
 
 import TreeView from '@material-ui/lab/TreeView';
 import Link from '@material-ui/core/Link';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
+
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import TreeItem from '@material-ui/lab/TreeItem';
-
-// import './App.css';
-// import ReturnFromAPI from './API/ReturnFromAPI';
-import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
-import Carousel from '@brainhubeu/react-carousel';
 import '@brainhubeu/react-carousel/lib/style.css';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { MenuItem, getContrastRatio } from '@material-ui/core';
-import CategoryName from './CategoryName';
-import Hidden from '@material-ui/core/Hidden';
+
 // responsive design
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
@@ -105,7 +86,14 @@ const useStyles = makeStyles((theme) => ({
   },
   tabpanelName: {
     '& .MuiBox-root': {
-      padding: '1rem 0 0 0',
+      padding: '0.8rem 0 0 0',
+    },
+    // backgroundColor: 'black',
+    '.MuiBox-root-476': { padding: '0px' },
+  },
+  tabpanelNews: {
+    '& .MuiBox-root': {
+      padding: '0.5rem 0 0.5rem 0',
     },
     // backgroundColor: 'black',
     '.MuiBox-root-476': { padding: '0px' },
@@ -143,7 +131,7 @@ const useStyles = makeStyles((theme) => ({
   },
   MuiBox: { padding: '0rem' },
   tabOfBarOnTop: {
-    height: '5rem',
+    height: '4rem',
     '&:hover': {
       backgroundColor: '#4db6ac',
       color: 'white',
@@ -151,12 +139,12 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarOnTop: {
     paddingLeft: '8.5rem',
-    paddingRight: '9.5rem',
+    paddingRight: '10.5rem',
     backgroundColor: 'white',
-    height: '5rem',
+    height: '4rem',
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '0rem',
-      paddingRight: '3.5rem',
+      paddingLeft: '0.5rem',
+      paddingRight: '0.5rem',
     },
   },
   sortBar: {
@@ -165,20 +153,20 @@ const useStyles = makeStyles((theme) => ({
     height: '5rem',
   },
   containerQueryProductsSort: {
-    paddingLeft: '10rem',
-    paddingRight: '10rem',
+    paddingLeft: '8rem',
+    // paddingRight: '10rem',
     [theme.breakpoints.down('lg')]: {
       paddingLeft: '0rem',
-      paddingRight: '5rem',
+      paddingRight: '0rem',
     },
   },
   itemWithNameAndDescription: { borderBottom: ' 1.5px solid #bdbdbd' },
   containerWithNameAndDescription: {
-    paddingTop: '2rem',
-    paddingLeft: '12rem',
+    paddingTop: '1rem',
+    paddingLeft: '11.3rem',
     backgroundColor: '#f5f5f5',
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '3.3rem',
+      paddingLeft: '3.5rem',
     },
   },
   LeftGrid: {
@@ -188,12 +176,13 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '5em',
   },
   icon: {
-    height: '1.4em',
+    paddingLeft: '0.2em',
+    height: '1em',
 
-    width: '1.8em',
+    width: '1em',
     [theme.breakpoints.down('xs')]: {
-      height: '1em',
-      width: '1em',
+      height: '0.5em',
+      width: '0.5em',
     },
   },
   title: {
@@ -211,10 +200,15 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: '2rem',
     },
   },
-  priceQuery: { width: '65%', marginLeft: '1.7rem', marginBottom: '2rem' },
+  priceQuery: {
+    width: '65%',
+    marginLeft: '1.7rem',
+    marginBottom: '2rem',
+    // backgroundColor: '#26a69a',
+  },
   hiddenWrapper: { backgroundColor: 'red' },
   sliderItem: { width: '80%' },
-  priceTextBox: { width: 210, marginTop: '1rem' },
+  priceTextBox: { width: '100%', marginTop: '1rem' },
   formGrup: { marginLeft: '0.3rem' },
 
   SelectPanelBroder: {
@@ -232,6 +226,7 @@ const useStyles = makeStyles((theme) => ({
   capitalize: {
     textTransform: 'capitalize',
   },
+  productsItem: { marginTop: '1rem' },
   badge: {
     bottom: 210,
     left: 33,
@@ -247,7 +242,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     // maxWidth: 345,
-    marginBottom: '2.5rem',
+    marginBottom: '0.5rem',
   },
   tab: {
     ...theme.typography.tab,
@@ -333,13 +328,18 @@ const useStyles = makeStyles((theme) => ({
   },
   slider: { paddingTop: '1.8rem', paddingLeft: '0.4rem' },
   imgforAdvertisment: {
-    borderRadius: '2%',
-    paddingRight: '1rem',
+    // borderRadius: '2%',
+    // marginRight: '1rem',
   },
   imgforAdvertismentWrapper: {
-    margin: '1rem',
+    padding: '1rem 0 0rem 0',
+    margin: '0 0.5rem 0 0',
   },
-  productsRightContainer: { paddingTop: '2.5rem', paddingRight: '0' },
+  imgforAdvertismentWrapper2: {
+    padding: '1rem 0 0rem 0',
+    margin: '0 0 0 0',
+  },
+  productsRightContainer: { paddingTop: '1.5rem', paddingRight: '4rem' },
 }));
 
 function valuetext(value) {
@@ -419,9 +419,9 @@ const getFilterStringValue = (queryString = window.location.search) => {
     : null;
 
   switch (values) {
-    case 'price,desc':
+    case 'discountedPrice,desc':
       return 1;
-    case 'price,asc':
+    case 'discountedPrice,asc':
       return 2;
     case 'rating,desc':
       return 3;
@@ -466,11 +466,11 @@ const Category = ({
   const [arrow, setArrow] = useState(false);
   const [valueSlider, setValueSlider] = useState([0, 100]);
   const [timeLeft, setTimeLeft] = useState(0);
-  useEffect(() => {
-    setTimeout(() => {
-      setTimeLeft(news.length - 1 <= timeLeft ? 0 : timeLeft + 1);
-    }, 3000);
-  });
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setTimeLeft(news.length - 1 <= timeLeft ? 0 : timeLeft + 1);
+  //   }, 3000);
+  // });
   useEffect(() => {
     getCategoryProducts(
       apiValue.category,
@@ -614,11 +614,11 @@ const Category = ({
     });
   };
 
-  const textMock = [
-    { description: '🚚Free shipping on order 15$ +', id: 1 },
-    { description: '5 % Off on First Order 💖💖💖', id: 2 },
-    { description: 'Discount 50% on Bananas 🍌🍌🍌', id: 3 },
-  ];
+  // const textMock = [
+  //   { description: '🚚Free shipping on order 15$ +', id: 1 },
+  //   { description: '5 % Off on First Order 💖💖💖', id: 2 },
+  //   { description: 'Discount 50% on Bananas 🍌🍌🍌', id: 3 },
+  // ];
 
   // setTimeout(() => {
   //   setValueText(
@@ -715,7 +715,7 @@ const Category = ({
                           // classes={{ root: classes.tabpanelName }}
                           // classes={{ root: 'MenuItem', selected: 'selected' }}
                         >
-                          <Typography variant="h4" color="primary">
+                          <Typography variant="h5" color="primary">
                             {element.name}
                           </Typography>
                           {/* {element.label} */}
@@ -732,6 +732,7 @@ const Category = ({
                     href="https://www.facebook.com"
                     rel="noopener noreferrer"
                     target="_blank"
+                    style={{ paddingLeft: '0.5em' }}
                   >
                     <img
                       alt="facebook logo"
@@ -807,13 +808,13 @@ const Category = ({
                   </Grid>
                   <Grid item xs={12}>
                     {news
-                      ? textMock.map((el) => (
+                      ? news.map((el) => (
                           <TabPanel
-                            className={classes.tabpanelName}
+                            className={classes.tabpanelNews}
                             value={timeLeft}
                             index={el.id}
                           >
-                            <Typography variant="h5">
+                            <Typography variant="h6">
                               {el.description}
                             </Typography>
                           </TabPanel>
@@ -848,13 +849,13 @@ const Category = ({
             </Grid>
           </Grid>
 
-          <Grid item xs={12}>
-            <Grid container className={classes.containerQueryProductsSort}>
+          <Grid item xs={12} className={classes.containerQueryProductsSort}>
+            <Grid container>
               <Grid
                 item
                 xs={12}
                 md={12}
-                lg={2}
+                lg={3}
                 className={classes.queryLeftNavbar}
                 spacing={3}
               >
@@ -868,7 +869,7 @@ const Category = ({
                         </Typography> */}
                   <FormLabel component="legend">Price</FormLabel>
                   <FormGroup>
-                    <Slider
+                    {/* <Slider
                       className={classes.slider}
                       // value={valueSlider}
                       // defaultValue={value}
@@ -876,7 +877,7 @@ const Category = ({
                       valueLabelDisplay="auto"
                       aria-labelledby="range-slider"
                       getAriaValueText={valuetext}
-                    />
+                    /> */}
                   </FormGroup>
                   <div className={classes.priceTextBox}>
                     <Grid container spacing={2}>
@@ -1067,7 +1068,7 @@ const Category = ({
                   {/* <FormHelperText>Next 20</FormHelperText> */}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} md={12} lg={10} spacing={3}>
+              <Grid item xs={12} md={12} lg={9} spacing={3}>
                 <Grid
                   container
                   direction="row"
@@ -1096,10 +1097,11 @@ const Category = ({
                       ></img>
                     </div>
                   </Grid>
+
                   <Grid item xs={12} md={12} lg={6}>
-                    <div className={classes.imgforAdvertismentWrapper}>
+                    <div className={classes.imgforAdvertismentWrapper2}>
                       <img
-                        className={classes.imgforAdvertisment}
+                        // className={classes.imgforAdvertisment}
                         height="100%"
                         width="100%"
                         src="https://cdn.dedoles.sk/buxus/images/cache/identity/top_bannery/ponozky_2_99/SK_Vesele_ponozky_uz_od_2_99%E2%82%AC_950x300px.jpg.webp"
@@ -1156,11 +1158,15 @@ const Category = ({
                       <Grid item xs={2}></Grid>
                     </Grid>
                   </Grid>
-                  <Grid item>
+                  <Grid item className={classes.productsItem}>
                     <Grid container spacing={1}>
                       {products.content.length > 0 ? (
                         products.content.map((product) => (
-                          <Grid item onClick={() => getProduct(product.id)}>
+                          <Grid
+                            item
+                            style={{ width: '13rem' }}
+                            onClick={() => getProduct(product.id)}
+                          >
                             {/* <Button> */}
                             <Card
                               classes={{ root: classes.elevation }}
@@ -1172,15 +1178,15 @@ const Category = ({
                                   className={classes.badge}
                                   color="secondary"
                                   overlap="circle"
-                                  badgeContent={`-${product.sale * 100}%`}
+                                  badgeContent={`-${product.sale}%`}
                                   // variant="dot"
                                 ></Badge>
                               ) : null}
                               <div className={classes.cardWrapper}>
                                 {/* <Button keepMounted> */}
                                 <img
-                                  height="250px"
-                                  width="250px"
+                                  height="190px"
+                                  width="190px"
                                   src={product.imageUrl}
                                 ></img>
                                 <div
@@ -1232,11 +1238,8 @@ const Category = ({
                                         {' '}
                                         {`${product.price}$`}
                                       </Typography>
-                                      <Typography>{`${(
-                                        product.price -
-                                        (product.sale * 100 * product.price) /
-                                          100
-                                      ).toFixed(2)}$`}</Typography>
+                                      <Typography>{`${product.discountedPrice //   100 // (product.sale * 100 * product.price) / // product.price -
+                                        .toFixed(2)}$`}</Typography>
                                     </Fragment>
                                   ) : (
                                     <Typography>

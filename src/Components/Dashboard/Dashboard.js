@@ -47,10 +47,14 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   carusel: {
     // height: '50em',
-    // width: '70em',
-    marginTop: '2rem',
+    width: '100%',
+    // marginTop: '2rem',
     // paddingLeft: '10%',
     // paddingRight: '10%',
+
+    '& .MuiGrid-grid-xs-10': {
+      width: '100%',
+    },
   },
   title: {
     // maxWidth: 345,
@@ -201,15 +205,15 @@ const Dashboard = ({
     ) : (
       <Fragment>
         <Grid container justify="center" alignItems="center" spacing={4}>
-          <Grid item xs={12} className={classes.carusel}>
-            <Grid container justify="center" alignItems="center" spacing={4}>
-              <Grid item xs={10}>
+          <Grid item xs={12}>
+            <Grid container justify="center" alignItems="center">
+              <Grid item className={classes.carusel}>
                 <Carousel
                   infinite
                   slidesPerPage={1}
                   keepDirectionWhenDragging
-                  animationSpeed={1500}
-                  autoPlay={3000}
+                  animationSpeed={1900}
+                  autoPlay={5000}
                 >
                   {carousel ? carousel.map((it) => <Item item={it} />) : null}
                 </Carousel>

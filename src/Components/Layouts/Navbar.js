@@ -45,10 +45,10 @@ const useStyles = makeStyles((theme) => ({
     ...theme.mixins.toolbar,
     paddingTop: '0.02rem',
     [theme.breakpoints.down('md')]: {
-      marginBottom: '0.4em',
+      marginBottom: '0em',
     },
     [theme.breakpoints.down('xs')]: {
-      marginBottom: '0.05em',
+      marginBottom: '1em',
     },
   },
   logo: {
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px',
     marginRight: '10rem',
     [theme.breakpoints.down('lg')]: {
-      marginRight: '3.4rem',
+      marginRight: '2rem',
     },
   },
   root: {

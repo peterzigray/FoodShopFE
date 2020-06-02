@@ -54,9 +54,9 @@ import {
 const getCurrentSort = (id) => {
   switch (id) {
     case 1:
-      return '&sort=price,desc';
+      return '&sort=discountedPrice,desc';
     case 2:
-      return '&sort=price,asc';
+      return '&sort=discountedPrice,asc';
     case 3:
       return '&sort=rating,desc';
     case 4:
@@ -65,7 +65,7 @@ const getCurrentSort = (id) => {
       return '&sort=name,asc';
 
     default:
-      return '&sort=price,asc';
+      return '&sort=discountedPrice,asc';
   }
 };
 export const getCategoryProducts = (id, sort, query, history) => async (
