@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'transparent',
     },
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '3.4rem',
+      paddingLeft: '11.4rem',
     },
   },
   tabContainer: {
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px',
     marginRight: '10rem',
     [theme.breakpoints.down('lg')]: {
-      marginRight: '2rem',
+      marginRight: '9rem',
     },
   },
   root: {

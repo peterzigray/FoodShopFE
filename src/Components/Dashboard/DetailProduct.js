@@ -421,6 +421,7 @@ const DetailProduct = ({
                             <ListItemText variant="body2">
                               Country:
                               <b> {product.country.name}</b>
+                              {/* <svg xmlns={product.country.imageUrl}></svg> */}
                             </ListItemText>
                           </ListItem>
                           <ListItem>

@@ -143,8 +143,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     height: '4rem',
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '0.5rem',
-      paddingRight: '0.5rem',
+      paddingLeft: '8.5rem',
+      paddingRight: '9.5rem',
     },
   },
   sortBar: {
@@ -166,7 +166,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '11.3rem',
     backgroundColor: '#f5f5f5',
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '3.5rem',
+      paddingLeft: '11.5rem',
     },
   },
   LeftGrid: {
@@ -197,7 +197,7 @@ const useStyles = makeStyles((theme) => ({
   queryLeftNavbar: {
     paddingTop: '2em',
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '2rem',
+      paddingLeft: '10rem',
     },
   },
   priceQuery: {
@@ -220,6 +220,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '1rem',
     paddingBottom: '1rem',
     paddingTop: '1.5rem',
+
     backgroundColor: '#f5f5f5',
     // theme.palette.primary.main,
   },
@@ -339,7 +340,11 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem 0 0rem 0',
     margin: '0 0 0 0',
   },
-  productsRightContainer: { paddingTop: '1.5rem', paddingRight: '4rem' },
+  productsRightContainer: {
+    paddingTop: '1.5rem',
+    paddingRight: '10rem',
+    paddingLeft: '5rem',
+  },
 }));
 
 function valuetext(value) {
