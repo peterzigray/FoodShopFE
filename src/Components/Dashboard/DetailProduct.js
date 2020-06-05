@@ -421,7 +421,11 @@ const DetailProduct = ({
                             <ListItemText variant="body2">
                               Country:
                               <b> {product.country.name}</b>
-                              {/* <svg xmlns={product.country.imageUrl}></svg> */}
+                              {/* <img
+                                src="https://s.cdpn.io/3/kiwi.svg"
+                                height="30px"
+                                width="30px"
+                              ></img> */}
                             </ListItemText>
                           </ListItem>
                           <ListItem>

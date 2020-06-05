@@ -141,10 +141,12 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '8.5rem',
     paddingRight: '10.5rem',
     backgroundColor: 'white',
-    height: '4rem',
+    height: '3rem',
+    '& .makeStyles-tabOfBarOnTop-187': { height: '3rem' },
     [theme.breakpoints.down('lg')]: {
       paddingLeft: '8.5rem',
       paddingRight: '9.5rem',
+      height: '3rem',
     },
   },
   sortBar: {
@@ -152,6 +154,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     height: '5rem',
   },
+  breadcrumbs: { paddingLeft: '11.5rem', paddingTop: '1rem' },
   containerQueryProductsSort: {
     paddingLeft: '8rem',
     // paddingRight: '10rem',
@@ -191,6 +194,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: '4em',
   },
   sortBarItem: {
+    '& .makeStyles-tabOfBarOnTop-187': {
+      height: '3rem',
+    },
     backgroundColor: 'white',
     borderBottom: '1.5px solid #bdbdbd',
   },
@@ -324,6 +330,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'inline',
   },
   formControl: {
+    '& .MuiTypography-body1': {
+      fontSize: '0.8rem',
+    },
+
     margin: '2rem',
     // borderBottom:'1px solid grey'
   },
@@ -637,6 +647,54 @@ const Category = ({
     return (
       <Fragment>
         <Grid container>
+          <Grid
+            item
+            xs={12}
+            spacing={3}
+            className={classes.itemWithNameAndDescription}
+          >
+            <Grid container className={classes.containerWithNameAndDescription}>
+              <Grid item xs={4}>
+                {news
+                  ? news.map((el) => (
+                      <TabPanel
+                        className={classes.tabpanelNews}
+                        value={timeLeft}
+                        index={el.id}
+                      >
+                        <Typography variant="body2">
+                          {el.description}
+                        </Typography>
+                      </TabPanel>
+                    ))
+                  : null}
+              </Grid>
+
+              <Grid item xs={12}>
+                <Grid container className={classes.title}>
+                  {/* <Grid item xs={8}>
+                    <Typography variant="body2" align="justify">
+                      Jujubes marshmallow danish bonbon jelly beans tart lemon
+                      drops toffee. Jujubes pudding pudding. Powder toffee
+                      caramels cotton candy liquorice candy gingerbread pudding.
+                    </Typography>
+                  </Grid> */}
+                  {
+                    // text.map((t) => (
+                    //   <TabPanel value={valueText} index={t.id}>
+                    //     <Typography variant="h5" align="justify">
+                    //       {t.text}
+                    //     </Typography>
+                    //     {/* {element.label} */}
+                    //   </TabPanel>
+                    // ))
+                  }
+                </Grid>
+              </Grid>
+              <Grid item xs={12}></Grid>
+            </Grid>
+          </Grid>
+
           <Grid item xs={12} spacing={3}>
             <div className={classes.root}>
               <AppBar
@@ -669,29 +727,28 @@ const Category = ({
             </div>
           </Grid>
 
-          <Grid
-            item
-            xs={12}
-            spacing={3}
-            className={classes.itemWithNameAndDescription}
-          >
-            <Grid container className={classes.containerWithNameAndDescription}>
-              <Grid item xs={12}>
+          <Grid item xs={12} className={classes.containerQueryProductsSort}>
+            <Grid container>
+              <Grid item xs={12} className={classes.breadcrumbs}>
                 <Breadcrumbs aria-label="breadcrumb">
-                  <Link
-                    color="inherit"
-                    href="/"
-                    // onClick={handleClick}
-                  >
-                    Home
-                  </Link>
-                  <Link
-                    color="inherit"
-                    href="/product-management/products/browse/?query=category.id==(1)"
-                    // onClick={handleClick}
-                  >
-                    Products
-                  </Link>
+                  <Typography variant="body2">
+                    <Link
+                      color="inherit"
+                      href="/"
+                      // onClick={handleClick}
+                    >
+                      Home
+                    </Link>
+                  </Typography>
+                  <Typography variant="body2">
+                    <Link
+                      color="inherit"
+                      href="/product-management/products/browse/?query=category.id==(1)"
+                      // onClick={handleClick}
+                    >
+                      Products
+                    </Link>
+                  </Typography>
                   {/* <Link
                     color="textPrimary"
                     href="/components/breadcrumbs/"
@@ -702,160 +759,6 @@ const Category = ({
                   </Link> */}
                 </Breadcrumbs>
               </Grid>
-
-              <Grid item xs={12}>
-                <Grid container>
-                  {/* <CategoryName
-                    // categories={categories}
-                    // classes={classes}
-                    value={value}
-                  /> */}
-                  <Grid item>
-                    {categories ? (
-                      categories.map((element) => (
-                        <TabPanel
-                          value={apiValue.category - 1}
-                          index={element.id}
-                          className={classes.tabpanelName}
-                          // classes={{ root: classes.tabpanelName }}
-                          // classes={{ root: 'MenuItem', selected: 'selected' }}
-                        >
-                          <Typography variant="h5" color="primary">
-                            {element.name}
-                          </Typography>
-                          {/* {element.label} */}
-                        </TabPanel>
-                      ))
-                    ) : (
-                      <Spinner type={'Small'} />
-                    )}
-                  </Grid>
-
-                  <Grid
-                    item
-                    component={'a'}
-                    href="https://www.facebook.com"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    style={{ paddingLeft: '0.5em' }}
-                  >
-                    <img
-                      alt="facebook logo"
-                      src={facebook}
-                      className={classes.icon}
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    component={'a'}
-                    href="https://www.twitter.com"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <img
-                      alt="twitter logo"
-                      src={twitter}
-                      className={classes.icon}
-                    />
-                  </Grid>
-                  <Grid
-                    item
-                    component={'a'}
-                    href="https://www.instagram.com"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <img
-                      alt="instagram logo"
-                      src={instagram}
-                      className={classes.icon}
-                    />
-                  </Grid>
-
-                  <Grid item xs={4} className={classes.chipItem}>
-                    {apiValue.query && suppliers
-                      ? suppliers
-                          .filter((supplier) =>
-                            apiValue.query.includes(supplier.id)
-                          )
-                          .map((supplier) => (
-                            <Chip
-                              key={supplier.id}
-                              // onDelete={handleDeleteCheckboxValue(value)}
-
-                              label={supplier.name}
-                              clickable
-                              color="primary"
-                              // onDelete={handleDelete}
-                              icon={<HighlightOffIcon />}
-                              variant="outlined"
-                              className={classes.chip}
-                            />
-                          ))
-                      : null}
-
-                    {/* {checkboxValue.checkedValues.length < 1
-                      ? null
-                      : checkboxValue.checkedValues.map((value) => (
-                          <Chip
-                            key={value}
-                            // onDelete={handleDeleteCheckboxValue(value)}
-
-                            label={value}
-                            clickable
-                            color="primary"
-                            // onDelete={handleDelete}
-                            icon={<HighlightOffIcon />}
-                            variant="outlined"
-                            className={classes.chip}
-                          />
-                        ))} */}
-                  </Grid>
-                  <Grid item xs={12}>
-                    {news
-                      ? news.map((el) => (
-                          <TabPanel
-                            className={classes.tabpanelNews}
-                            value={timeLeft}
-                            index={el.id}
-                          >
-                            <Typography variant="h6">
-                              {el.description}
-                            </Typography>
-                          </TabPanel>
-                        ))
-                      : null}
-                  </Grid>
-                </Grid>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Grid container className={classes.title}>
-                  {/* <Grid item xs={8}>
-                    <Typography variant="body2" align="justify">
-                      Jujubes marshmallow danish bonbon jelly beans tart lemon
-                      drops toffee. Jujubes pudding pudding. Powder toffee
-                      caramels cotton candy liquorice candy gingerbread pudding.
-                    </Typography>
-                  </Grid> */}
-                  {
-                    // text.map((t) => (
-                    //   <TabPanel value={valueText} index={t.id}>
-                    //     <Typography variant="h5" align="justify">
-                    //       {t.text}
-                    //     </Typography>
-                    //     {/* {element.label} */}
-                    //   </TabPanel>
-                    // ))
-                  }
-                </Grid>
-              </Grid>
-              <Grid item xs={12}></Grid>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} className={classes.containerQueryProductsSort}>
-            <Grid container>
               <Grid
                 item
                 xs={12}
@@ -924,6 +827,7 @@ const Category = ({
                             <FormControlLabel
                               control={
                                 <Checkbox
+                                  size="small"
                                   key={supplier.id}
                                   // .name.toString()}
                                   checked={
@@ -1081,6 +985,116 @@ const Category = ({
                   alignItems="flex-start"
                   className={classes.productsRightContainer}
                 >
+                  <Grid item xs={12}>
+                    <Grid container>
+                      {/* <CategoryName
+                    // categories={categories}
+                    // classes={classes}
+                    value={value}
+                  /> */}
+                      <Grid item>
+                        {categories ? (
+                          categories.map((element) => (
+                            <TabPanel
+                              value={apiValue.category - 1}
+                              index={element.id}
+                              className={classes.tabpanelName}
+                              // classes={{ root: classes.tabpanelName }}
+                              // classes={{ root: 'MenuItem', selected: 'selected' }}
+                            >
+                              <Typography variant="h5" color="primary">
+                                {element.name}
+                              </Typography>
+                              {/* {element.label} */}
+                            </TabPanel>
+                          ))
+                        ) : (
+                          <Spinner type={'Small'} />
+                        )}
+                      </Grid>
+
+                      <Grid
+                        item
+                        component={'a'}
+                        href="https://www.facebook.com"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        style={{ paddingLeft: '0.5em' }}
+                      >
+                        <img
+                          alt="facebook logo"
+                          src={facebook}
+                          className={classes.icon}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        component={'a'}
+                        href="https://www.twitter.com"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          alt="twitter logo"
+                          src={twitter}
+                          className={classes.icon}
+                        />
+                      </Grid>
+                      <Grid
+                        item
+                        component={'a'}
+                        href="https://www.instagram.com"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        <img
+                          alt="instagram logo"
+                          src={instagram}
+                          className={classes.icon}
+                        />
+                      </Grid>
+
+                      <Grid item xs={4} className={classes.chipItem}>
+                        {apiValue.query && suppliers
+                          ? suppliers
+                              .filter((supplier) =>
+                                apiValue.query.includes(supplier.id)
+                              )
+                              .map((supplier) => (
+                                <Chip
+                                  key={supplier.id}
+                                  // onDelete={handleDeleteCheckboxValue(value)}
+
+                                  label={supplier.name}
+                                  clickable
+                                  color="primary"
+                                  // onDelete={handleDelete}
+                                  icon={<HighlightOffIcon />}
+                                  variant="outlined"
+                                  className={classes.chip}
+                                />
+                              ))
+                          : null}
+
+                        {/* {checkboxValue.checkedValues.length < 1
+                      ? null
+                      : checkboxValue.checkedValues.map((value) => (
+                          <Chip
+                            key={value}
+                            // onDelete={handleDeleteCheckboxValue(value)}
+
+                            label={value}
+                            clickable
+                            color="primary"
+                            // onDelete={handleDelete}
+                            icon={<HighlightOffIcon />}
+                            variant="outlined"
+                            className={classes.chip}
+                          />
+                        ))} */}
+                      </Grid>
+                    </Grid>
+                  </Grid>
                   <Grid item xs={12} md={12} lg={6}>
                     {/* <div className={classes.advertismentBarr}> */}
                     {/* <TabPanel
