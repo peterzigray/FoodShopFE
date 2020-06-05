@@ -29,6 +29,7 @@ import Button from '@material-ui/core/Button';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 
+import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
@@ -269,6 +270,7 @@ const useStyles = makeStyles((theme) => ({
     // zIndex: 1,
   },
   root: {
+    marginBottom: '2rem',
     flexGrow: 1,
     // width: 300,
     // boxShadow: 0,
@@ -333,8 +335,11 @@ const useStyles = makeStyles((theme) => ({
     '& .MuiTypography-body1': {
       fontSize: '0.8rem',
     },
+    // '& .PrivateSwitchBase-root-445': {
+    //   padding: '5px',
+    // },
 
-    margin: '2rem',
+    margin: '0.5rem',
     // borderBottom:'1px solid grey'
   },
   slider: { paddingTop: '1.8rem', paddingLeft: '0.4rem' },
@@ -351,9 +356,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 0 0 0',
   },
   productsRightContainer: {
-    paddingTop: '1.5rem',
+    paddingTop: '0rem',
     paddingRight: '10rem',
-    paddingLeft: '5rem',
+    paddingLeft: '3.5rem',
   },
 }));
 
@@ -643,7 +648,17 @@ const Category = ({
   // }, 2000);
 
   function Layout() {
-    console.log(news);
+    // console.log(suppliers.suppliers);
+
+    // {
+    //   suppliers
+    //     ? console.log(
+    //         Object.keys(suppliers)[0].map((supplier) => {
+    //           return supplier.name;
+    //         })
+    //       )
+    //     : null;
+    // }
     return (
       <Fragment>
         <Grid container>
@@ -767,52 +782,37 @@ const Category = ({
                 className={classes.queryLeftNavbar}
                 spacing={3}
               >
-                <FormControl
-                  component="fieldset"
-                  // className={classes.formControl}
-                  className={classes.priceQuery}
-                >
-                  {/* <Typography id="range-slider" gutterBottom>
-                          Price
-                        </Typography> */}
-                  <FormLabel component="legend">Price</FormLabel>
-                  <FormGroup>
-                    {/* <Slider
-                      className={classes.slider}
-                      // value={valueSlider}
-                      // defaultValue={value}
+                <Card className={classes.root} elevation={0}>
+                  <CardContent>
+                    <Typography variant="body2" component="p">
+                      Price
+                    </Typography>
+
+                    <Slider
+                      // value={value}
                       // onChange={handleChange}
                       valueLabelDisplay="auto"
                       aria-labelledby="range-slider"
-                      getAriaValueText={valuetext}
-                    /> */}
-                  </FormGroup>
-                  <div className={classes.priceTextBox}>
-                    <Grid container spacing={2}>
-                      <Grid item xs={5}>
-                        <TextField
-                          label="from"
-                          id="outlined-size-small"
-                          defaultValue={value}
-                          variant="outlined"
-                          size="small"
-                        />
-                      </Grid>
-                      <Grid item xs={2}>
-                        {'-'}
-                      </Grid>
-                      <Grid item xs={5}>
-                        <TextField
-                          label="to"
-                          id="outlined-size-small"
-                          defaultValue="100"
-                          variant="outlined"
-                          size="small"
-                        />
-                      </Grid>
-                    </Grid>
-                  </div>
-                </FormControl>
+                      // getAriaValueText={valuetext}
+                    />
+                  </CardContent>
+                  <CardActions>
+                    <TextField
+                      label="from"
+                      id="outlined-size-small"
+                      defaultValue="0"
+                      variant="outlined"
+                      size="small"
+                    />
+                    <TextField
+                      label="to"
+                      id="outlined-size-small"
+                      defaultValue="100"
+                      variant="outlined"
+                      size="small"
+                    />
+                  </CardActions>
+                </Card>
 
                 <FormControl
                   component="fieldset"
@@ -821,7 +821,7 @@ const Category = ({
                   {suppliers ? (
                     <Fragment>
                       <FormLabel component="legend">Suplier</FormLabel>
-                      {suppliers.map((supplier) => (
+                      {suppliers.suppliers.map((supplier) => (
                         <Fragment>
                           <FormGroup className={classes.formGrup}>
                             <FormControlLabel
@@ -861,119 +861,117 @@ const Category = ({
                   component="fieldset"
                   className={classes.formControl}
                 >
-                  <FormLabel component="legend">Country</FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={gilad}
-                          // onChange={handleChange}
-                          name="Slovakia"
-                        />
-                      }
-                      label="Slovakia"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={jason}
-                          // onChange={handleChange}
-                          name="Hungary"
-                        />
-                      }
-                      label="Hungary"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="Czech republic"
-                        />
-                      }
-                      label="Czech republic"
-                    />
-                  </FormGroup>
-                  <FormHelperText>Next 20</FormHelperText>
-                </FormControl>
+                  {suppliers ? (
+                    <Fragment>
+                      <FormLabel component="legend">Country</FormLabel>
+                      {suppliers.countries.map((country) => (
+                        <Fragment>
+                          <FormGroup className={classes.formGrup}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  size="small"
+                                  key={country.id}
+                                  // .name.toString()}
+                                  checked={
+                                    apiValue.query.length < 1
+                                      ? ''
+                                      : apiValue.query.includes(country.id)
 
-                {/* <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  <FormLabel component="legend">Name</FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={gilad}
-                          // onChange={handleChange}
-                          name="Apple"
-                        />
-                      }
-                      label="Apple"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={jason}
-                          // onChange={handleChange}
-                          name="Banana"
-                        />
-                      }
-                      label="Banana"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="Pear"
-                        />
-                      }
-                      label="Pear"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={antoine}
-                          // onChange={handleChange}
-                          name="Pineaple"
-                        />
-                      }
-                      label="Pineaple"
-                    />
-                  </FormGroup>
-                  <FormHelperText>Next 20</FormHelperText>
-                </FormControl> */}
+                                    // checkboxValue.checkedValues.length < 1
+                                    //   ? ''
+                                    //   : checkboxValue.checkedValues.includes(
+                                    //       supplier.name
+                                    //     )
+                                  }
+                                  onChange={(event) =>
+                                    handleQueryChange(event, country.id)
+                                  }
+                                  name={country.name}
+                                />
+                              }
+                              label={country.name}
+                            />
+                          </FormGroup>
+                        </Fragment>
+                      ))}
+                    </Fragment>
+                  ) : null}
+                  {/* <FormHelperText>Next 20</FormHelperText> */}
+                </FormControl>
 
                 <FormControl
                   component="fieldset"
                   className={classes.formControl}
                 >
-                  <FormLabel component="legend">Others</FormLabel>
-                  <FormGroup>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={gilad}
-                          // onChange={handleChange}
-                          name="Seasonal"
-                        />
-                      }
-                      label="Seasonal"
-                    />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          // checked={jason}
-                          // onChange={handleChange}
-                          name="Availability"
-                        />
-                      }
-                      label="Availability"
-                    />
-                  </FormGroup>
+                  {suppliers ? (
+                    <Fragment>
+                      <FormLabel component="legend">Availabilities</FormLabel>
+                      {suppliers.availabilities.map((availability) => (
+                        <Fragment>
+                          <FormGroup className={classes.formGrup}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  size="small"
+                                  key={availability.id}
+                                  // .name.toString()}
+                                  checked={
+                                    apiValue.query.length < 1
+                                      ? ''
+                                      : apiValue.query.includes(availability.id)
+
+                                    // checkboxValue.checkedValues.length < 1
+                                    //   ? ''
+                                    //   : checkboxValue.checkedValues.includes(
+                                    //       supplier.name
+                                    //     )
+                                  }
+                                  onChange={(event) =>
+                                    handleQueryChange(event, availability.id)
+                                  }
+                                  name={availability.name}
+                                />
+                              }
+                              label={availability.name}
+                            />
+                          </FormGroup>
+                        </Fragment>
+                      ))}
+                    </Fragment>
+                  ) : null}
+                  {/* <FormHelperText>Next 20</FormHelperText> */}
+                </FormControl>
+
+                <FormControl
+                  component="fieldset"
+                  className={classes.formControl}
+                >
+                  <FormLabel component="legend">Seasonal</FormLabel>
+                  {suppliers ? (
+                    <Fragment>
+                      {suppliers.seasonals.map((seasonal) => (
+                        <Fragment>
+                          <FormGroup className={classes.formGrup}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  size="small"
+                                  // .name.toString()}
+                                  checked={seasonal}
+                                  onChange={(event) =>
+                                    handleQueryChange(event, seasonal.id)
+                                  }
+                                  // name={seasonal.name}
+                                />
+                              }
+                              label="seasonal"
+                            />
+                          </FormGroup>
+                        </Fragment>
+                      ))}
+                    </Fragment>
+                  ) : null}
                   {/* <FormHelperText>Next 20</FormHelperText> */}
                 </FormControl>
               </Grid>
@@ -1056,7 +1054,7 @@ const Category = ({
 
                       <Grid item xs={4} className={classes.chipItem}>
                         {apiValue.query && suppliers
-                          ? suppliers
+                          ? suppliers.suppliers
                               .filter((supplier) =>
                                 apiValue.query.includes(supplier.id)
                               )

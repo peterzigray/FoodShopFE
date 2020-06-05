@@ -55,7 +55,8 @@ export const getCategories = () => async (dispatch) => {
 export const getSuppliers = (categoryId) => async (dispatch) => {
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/public/product-management/products/supplier/${categoryId}`
+      `http://localhost:8080/api/public/product-management/products/filters/${categoryId}`
+      // `http://localhost:8080/api/public/product-management/products/supplier/${categoryId}`
     );
     dispatch({
       type: GET_SUPPLIERS,
