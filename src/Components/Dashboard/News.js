@@ -16,7 +16,8 @@ import instagram from '../../assets/instagram.svg';
 import facebook from '../../assets/facebook.svg';
 import twitter from '../../assets/twitter.svg';
 import { getDetailProduct, getCategoryProducts } from '../../actions/products';
-import { getCategories } from '../../actions/categories';
+
+import { getCategories, getSuppliers, getNews } from '../../actions/categories';
 import Slider from '@material-ui/core/Slider';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -68,125 +69,88 @@ import Link from '@material-ui/core/Link';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 
-// import './App.css';
-// import ReturnFromAPI from './API/ReturnFromAPI';
 import ArrowDropUpIcon from '@material-ui/icons/ArrowDropUp';
 
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { MenuItem, getContrastRatio } from '@material-ui/core';
 
-// const useStyles = makeStyles((theme) => ({
-//   skuska: { height: '255px' },
-//   leftItem: {
-//     marginLeft: 'auto',
-//   },
-//   ButtonBuy: { width: '100%' },
-//   priceArea: { backgroundColor: '#fff59d', display: 'flex' },
-//   cardCont: {
-//     // display: 'flex',
-//     paddingBottom: '0px',
-//     paddingTop: '0px',
-//   },
-//   cardCont2: {
-//     //  display: 'flex',
-//     paddingTop: '0px',
-//   },
-//   cardWrapper: {
-//     // display: 'inline-block',
-//     position: 'relative',
-//     boxShadow: ' 0px 0px 0px 0px',
-//     // marginLeft: 'auto',
-//     height: '555px',
-//     width: '500px',
-//   },
-//   elevation: {
-//     boxShadow: ' 0px 0px 0px 0px',
-//     // display: 'inline-block',
-//     // position: 'relative',
-//   },
-//   mainContainer: { marginTop: '5rem', marginBottom: '10rem' },
-//   // secondGrid: { height: '25em' },
-//   icon: {
-//     height: '1.4em',
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-//     width: '1.8em',
-//     [theme.breakpoints.down('xs')]: {
-//       height: '1em',
-//       width: '1em',
-//     },
-//   },
-// }));
-// function TabPanel(props) {
-//   const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index - 1}
+      id={`scrollable-auto-tabpanel-${index - 1}`}
+      aria-labelledby={`scrollable-auto-tab-${index - 1}`}
+      {...other}
+    >
+      {value === index - 1 && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
-//   return (
-//     <div
-//       role="tabpanel"
-//       hidden={value !== index - 1}
-//       id={`scrollable-auto-tabpanel-${index - 1}`}
-//       aria-labelledby={`scrollable-auto-tab-${index - 1}`}
-//       {...other}
-//     >
-//       {value === index - 1 && (
-//         <Box p={3}>
-//           <Typography>{children}</Typography>
-//         </Box>
-//       )}
-//     </div>
-//   );
-// }
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+const useStyles = makeStyles((theme) => ({
+  tabpanelNews: {
+    '& .MuiBox-root': {
+      padding: '0.5rem 0 0.5rem 0',
+    },
+    // backgroundColor: 'black',
+    '.MuiBox-root-476': { padding: '0px' },
+  },
+}));
 
-// TabPanel.propTypes = {
-//   children: PropTypes.node,
-//   index: PropTypes.any.isRequired,
-//   value: PropTypes.any.isRequired,
-// };
-
-const CategoryName = (
+const News = (
   // props,
-  { categories: { categories, loading }, getCategories }
+  { categories: { categories, loading, news }, getCategories, getNews }
 ) => {
-  // const { value } = props;
+  const [timeLeft, setTimeLeft] = useState(0);
 
-  // const [value, setValue] = useState(null);
-  // const [arrow, setArrow] = useState(false);
+  // useEffect(() => {
+  //   getCategories();
+  //   getNews();
+  // }, []);
 
   useEffect(() => {
-    getCategories();
-  }, []);
+    setTimeout(() => {
+      setTimeLeft(news.length - 1 <= timeLeft ? 0 : timeLeft + 1);
+    }, 3000);
+  });
+  const classes = useStyles();
+  console.log(news);
+  console.log(timeLeft);
 
-  // const classes = useStyles();
-
-  console.log('totohladam' + categories);
-  return loading && categories === null ? (
-    <Spinner type={'Big'} />
-  ) : (
+  return (
     <Fragment>
-      <Grid item>
-        {categories.map((element) => (
-          <div
-            // value={value}
-            index={element.id}
-            // className={classes.tabpanelName}
-            // classes={{ root: classes.tabpanelName }}
-            // classes={{ root: 'MenuItem', selected: 'selected' }}
-            style={{ paddingLeft: 0, paddingRight: 0 }}
-          >
-            <Typography variant="h4" color="primary">
-              {element.name}
-            </Typography>
-            {/* {element.label} */}
-          </div>
-        ))}
-      </Grid>
+      {/* {news
+        ? news.map((el) => (
+            <TabPanel
+              className={classes.tabpanelNews}
+              value={timeLeft}
+              index={el.id}
+            >
+              <Typography variant="body2">{el.description}</Typography>
+            </TabPanel>
+          ))
+        : null} */}
     </Fragment>
   );
 };
 
-CategoryName.propTypes = {
+News.propTypes = {
   // products: PropTypes.func.isRequired,
   getCategories: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  getNews: PropTypes.func.isRequired,
   // profile: PropTypes.object.isRequired,
 };
 
@@ -194,4 +158,4 @@ const mapStateToProps = (state) => ({
   categories: state.categories,
 });
 
-export default connect(mapStateToProps, { getCategories })(CategoryName);
+export default connect(mapStateToProps, { getCategories, getNews })(News);

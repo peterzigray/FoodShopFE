@@ -26,6 +26,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
+import Registration from '../../Components/Auth/Registration';
 
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
@@ -128,6 +129,27 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '6rem',
     paddingRight: '10rem',
   },
+  registration: {
+    width: '22rem',
+    height: '15rem',
+    position: 'absolute',
+    top: '30px',
+    left: '180px',
+
+    zIndex: 2,
+  },
+  dicount: {
+    // backgroundColor: '#212121',
+    // opacity: 0.3,
+
+    color: 'white',
+    width: '45rem',
+    height: '15rem',
+    position: 'absolute',
+    top: '200px',
+    left: '720px',
+    zIndex: 3,
+  },
 }));
 // const Typography = Typography(()=>)
 
@@ -161,7 +183,7 @@ const Dashboard = ({
     // history.push(
     //   `/product-management/products/browse/?query=category.id==(${id})`
     // );
-    getCategoryProducts(id, null, null, history);
+    getCategoryProducts(id, null, null, null, null, history);
     getSuppliers(id);
   };
 
@@ -205,10 +227,10 @@ const Dashboard = ({
     ) : (
       <Fragment>
         <Grid container justify="center" alignItems="center" spacing={4}>
-          <Grid item xs={12}>
-            <Grid container justify="center" alignItems="center">
-              <Grid item className={classes.carusel}>
-                <Carousel
+          <Grid item xs={12} style={{ height: 'calc(100vh)' }}>
+            {/* <Grid container justify="center" alignItems="center">
+              <Grid item className={classes.carusel}> */}
+            {/* <Carousel
                   infinite
                   slidesPerPage={1}
                   keepDirectionWhenDragging
@@ -216,16 +238,54 @@ const Dashboard = ({
                   autoPlay={5000}
                 >
                   {carousel ? carousel.map((it) => <Item item={it} />) : null}
-                </Carousel>
-              </Grid>
-            </Grid>
+                </Carousel> */}
+            <div className={classes.registration}>
+              <Registration />
+            </div>
+            <div className={classes.dicount}>
+              <h2
+                // variant="h2"
+                // fontWeight="fontWeightBold"
+                style={{
+                  'text-shadow': '1 1 1rem #000',
+                  'font-weight': '900',
+                  'font-size': '4.5rem',
+                }}
+              >
+                Sign Up and get your 5% discount off
+              </h2>
+            </div>
+            <img
+              height="100%"
+              width="100%"
+              src="https://media.bizj.us/view/img/10778326/inside-giant-store-photo-2*1200xx6480-3652-0-642.jpg"
+              // {carousel[0] ? carousel[1].imageUrl : null}
+              style={{
+                'clip-path': 'polygon(51% 0, 100% 0, 100% 100%, 34% 100%)',
+                'z-index': '1',
+                filter: 'brightness(75%)',
+              }}
+            ></img>
           </Grid>
-          <Grid item>
+          {/* <Grid item xs={6}>
+           
+          </Grid> */}
+          {/* <Grid item xs={12}>
+            <img
+              style={{
+                'clip-path': 'polygon(28% 0, 100% 0%, 100% 100%, 0 100%)',
+              }}
+              height="100%"
+              width="100%"
+              src={carousel[0] ? carousel[1].imageUrl : null}
+            ></img>
+          </Grid> */}
+          <Grid item xs={3}>
             <ListItemText>
               <h1>Shop by category</h1>
             </ListItemText>
           </Grid>
-          <Grid item>
+          <Grid item xs={12}>
             <Grid
               container
               spacing={4}
@@ -238,6 +298,7 @@ const Dashboard = ({
                       <Card
                         key={category.id}
                         elevation={0}
+
                         // onClick={openCategoryDetail()}
                         // className={classes.root}
                       >
@@ -258,6 +319,7 @@ const Dashboard = ({
                               width="250px"
                               alt={category.code}
                               src={category.imageUrl}
+                              style={{ 'border-radius': '50%' }}
                             ></img>
                             <div
                               className={classes.layer}

@@ -93,8 +93,10 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
+    // <Container component="main" maxWidth="xs">
+    //   <CssBaseline />
+
+    <Fragment>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -188,7 +190,8 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
         <Copyright />
       </Box>
       <div className={classes.toolbarMargin}></div>
-    </Container>
+      {/* </Container> */}
+    </Fragment>
   );
 };
 

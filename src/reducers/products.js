@@ -5,8 +5,8 @@ import {
   CATEGORYPRODUCT_ERROR,
   GET_PRODUCTDETAIL,
   PRODUCTDETAIL_ERROR,
-  // GET_SUPPLIERS,
-  // SUPPLIERS_ERROR,
+  GET_BANNER,
+  BANNER_ERROR,
 } from '../actions/types';
 
 const initialState = {
@@ -15,18 +15,19 @@ const initialState = {
   product: null,
   // supplier: null,
   loading: true,
+  banner: null,
 };
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    // case GET_CATEGORIES:
-    //   return {
-    //     ...state,
-    //     loading: false,
-    //     categories: payload,
-    //   };
+    case GET_BANNER:
+      return {
+        ...state,
+        loading: false,
+        categories: payload,
+      };
     case GET_CATEGORYPRODUCT:
       return {
         ...state,
@@ -49,7 +50,7 @@ export default function (state = initialState, action) {
     // case CATEGORIES_ERROR:
     case CATEGORYPRODUCT_ERROR:
     case PRODUCTDETAIL_ERROR:
-      // case SUPPLIERS_ERROR:
+    case BANNER_ERROR:
       return {
         ...state,
         // error: payload,

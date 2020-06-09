@@ -20,3 +20,5 @@ export const GET_NEWS = 'GET_NEWS';
 export const NEWS_ERROR = 'NEWS_ERROR';
 export const GET_CAROUSEL = 'GET_CAROUSEL';
 export const CAROUSEL_ERROR = 'CAROUSEL_ERROR';
+export const BANNER_ERROR = 'BANNER_ERROR';
+export const GET_BANNER = 'GET_BANNER';

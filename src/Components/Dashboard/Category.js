@@ -74,6 +74,7 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 // responsive design
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
+import News from './News';
 
 const useStyles = makeStyles((theme) => ({
   chipItem: { marginLeft: '5rem' },
@@ -262,6 +263,7 @@ const useStyles = makeStyles((theme) => ({
   },
   elevation: {
     boxShadow: ' 0px 0px 0px 0px',
+
     width: '20rem',
     [theme.breakpoints.down('lg')]: {
       width: '18rem',
@@ -455,6 +457,37 @@ const getFilterStringValue = (queryString = window.location.search) => {
   }
 };
 
+const getCountryStringValue = (queryString = window.location.search) => {
+  const values = queryString.match(/(?<=country.id=in=\().*?(?=\))/g)
+    ? queryString
+        .match(/(?<=country.id=in=\().*?(?=\))/g)
+        .toString()
+        .split(',')
+        .map((x) => +x)
+    : [];
+
+  // const result = values.split(',').map((x) => +x);
+
+  return values;
+};
+
+const getAvailabilityStringValue = (
+  key,
+  queryString = window.location.search
+) => {
+  const values = queryString.match(/(?<=availability.id=in=\().*?(?=\))/g)
+    ? queryString
+        .match(/(?<=availability.id=in=\().*?(?=\))/g)
+        .toString()
+        .split(',')
+        .map((x) => +x)
+    : [];
+
+  // const result = values.split(',').map((x) => +x);
+
+  return values;
+};
+
 const Category = ({
   products: { products, loading },
   categories: { categories, suppliers, news },
@@ -478,7 +511,9 @@ const Category = ({
   // });
   const [apiValue, setApiValue] = React.useState({
     query: getQueryStringValue(),
+    country: getCountryStringValue(),
     filter: getFilterStringValue(),
+    availability: getAvailabilityStringValue(),
     category: getCategoryStringValue(),
   });
 
@@ -497,6 +532,9 @@ const Category = ({
       apiValue.filter ? apiValue.filter : null,
 
       apiValue.query.length > 0 ? apiValue.query : null,
+      apiValue.country.length > 0 ? apiValue.country : null,
+      apiValue.availability.length > 0 ? apiValue.availability : null,
+
       history
     );
   }, [apiValue]);
@@ -509,6 +547,8 @@ const Category = ({
       apiValue.category,
       apiValue.filter ? apiValue.filter : null,
       apiValue.query.length > 0 ? apiValue.query : null,
+      apiValue.country.length > 0 ? apiValue.country : null,
+      apiValue.availability.length > 0 ? apiValue.availability : null,
       history
     );
   }, []);
@@ -610,8 +650,27 @@ const Category = ({
     // getCategoryProducts(newValue + 1, null, null, history);
   };
 
+  const handleAvailabilityChange = (event, id) => {
+    setApiValue({
+      ...apiValue,
+      availability: apiValue.availability.includes(id)
+        ? apiValue.availability.filter((c) => c !== id)
+        : [...apiValue.availability, id],
+    });
+  };
+
   const handleDeleteCheckboxValue = (event) => {
     // console.log(event.target.label)
+  };
+
+  const handleCountryChange = (event, id) => {
+    console.log(id);
+    setApiValue({
+      ...apiValue,
+      country: apiValue.country.includes(id)
+        ? apiValue.country.filter((c) => c !== id)
+        : [...apiValue.country, id],
+    });
   };
 
   // QUERY API CALL + SET current checkbox values to state.
@@ -683,6 +742,7 @@ const Category = ({
                       </TabPanel>
                     ))
                   : null}
+                {/* <News /> */}
               </Grid>
 
               <Grid item xs={12}>
@@ -782,198 +842,204 @@ const Category = ({
                 className={classes.queryLeftNavbar}
                 spacing={3}
               >
-                <Card className={classes.root} elevation={0}>
-                  <CardContent>
-                    <Typography variant="body2" component="p">
-                      Price
-                    </Typography>
-
-                    <Slider
-                      // value={value}
-                      // onChange={handleChange}
-                      valueLabelDisplay="auto"
-                      aria-labelledby="range-slider"
-                      // getAriaValueText={valuetext}
-                    />
-                  </CardContent>
-                  <CardActions>
-                    <TextField
-                      label="from"
-                      id="outlined-size-small"
-                      defaultValue="0"
-                      variant="outlined"
-                      size="small"
-                    />
-                    <TextField
-                      label="to"
-                      id="outlined-size-small"
-                      defaultValue="100"
-                      variant="outlined"
-                      size="small"
-                    />
-                  </CardActions>
-                </Card>
-
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
+                <div
+                  style={{
+                    position: 'sticky',
+                    top: '50px',
+                  }}
                 >
-                  {suppliers ? (
-                    <Fragment>
-                      <FormLabel component="legend">Suplier</FormLabel>
-                      {suppliers.suppliers.map((supplier) => (
-                        <Fragment>
-                          <FormGroup className={classes.formGrup}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  size="small"
-                                  key={supplier.id}
-                                  // .name.toString()}
-                                  checked={
-                                    apiValue.query.length < 1
-                                      ? ''
-                                      : apiValue.query.includes(supplier.id)
+                  <Card className={classes.root} elevation={0}>
+                    <CardContent>
+                      <Typography variant="body2" component="p">
+                        Price
+                      </Typography>
 
-                                    // checkboxValue.checkedValues.length < 1
-                                    //   ? ''
-                                    //   : checkboxValue.checkedValues.includes(
-                                    //       supplier.name
-                                    //     )
-                                  }
-                                  onChange={(event) =>
-                                    handleQueryChange(event, supplier.id)
-                                  }
-                                  name={supplier.name}
-                                />
-                              }
-                              label={supplier.name}
-                            />
-                          </FormGroup>
-                          {/* <FormHelperText>Next 20</FormHelperText> */}
-                        </Fragment>
-                      ))}
-                    </Fragment>
-                  ) : null}
-                </FormControl>
+                      <Slider
+                        // value={value}
+                        // onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        aria-labelledby="range-slider"
+                        // getAriaValueText={valuetext}
+                      />
+                    </CardContent>
+                    <CardActions>
+                      <TextField
+                        label="from"
+                        id="outlined-size-small"
+                        defaultValue="0"
+                        variant="outlined"
+                        size="small"
+                      />
+                      <TextField
+                        label="to"
+                        id="outlined-size-small"
+                        defaultValue="100"
+                        variant="outlined"
+                        size="small"
+                      />
+                    </CardActions>
+                  </Card>
 
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  {suppliers ? (
-                    <Fragment>
-                      <FormLabel component="legend">Country</FormLabel>
-                      {suppliers.countries.map((country) => (
-                        <Fragment>
-                          <FormGroup className={classes.formGrup}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  size="small"
-                                  key={country.id}
-                                  // .name.toString()}
-                                  checked={
-                                    apiValue.query.length < 1
-                                      ? ''
-                                      : apiValue.query.includes(country.id)
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                  >
+                    {suppliers ? (
+                      <Fragment>
+                        <FormLabel component="legend">Suplier</FormLabel>
+                        {suppliers.suppliers.map((supplier) => (
+                          <Fragment>
+                            <FormGroup className={classes.formGrup}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    size="small"
+                                    key={supplier.id}
+                                    // .name.toString()}
+                                    checked={
+                                      apiValue.query.length < 1
+                                        ? ''
+                                        : apiValue.query.includes(supplier.id)
 
-                                    // checkboxValue.checkedValues.length < 1
-                                    //   ? ''
-                                    //   : checkboxValue.checkedValues.includes(
-                                    //       supplier.name
-                                    //     )
-                                  }
-                                  onChange={(event) =>
-                                    handleQueryChange(event, country.id)
-                                  }
-                                  name={country.name}
-                                />
-                              }
-                              label={country.name}
-                            />
-                          </FormGroup>
-                        </Fragment>
-                      ))}
-                    </Fragment>
-                  ) : null}
-                  {/* <FormHelperText>Next 20</FormHelperText> */}
-                </FormControl>
+                                      // checkboxValue.checkedValues.length < 1
+                                      //   ? ''
+                                      //   : checkboxValue.checkedValues.includes(
+                                      //       supplier.name
+                                      //     )
+                                    }
+                                    onChange={(event) =>
+                                      handleQueryChange(event, supplier.id)
+                                    }
+                                    name={supplier.name}
+                                  />
+                                }
+                                label={supplier.name}
+                              />
+                            </FormGroup>
+                            {/* <FormHelperText>Next 20</FormHelperText> */}
+                          </Fragment>
+                        ))}
+                      </Fragment>
+                    ) : null}
+                  </FormControl>
 
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  {suppliers ? (
-                    <Fragment>
-                      <FormLabel component="legend">Availabilities</FormLabel>
-                      {suppliers.availabilities.map((availability) => (
-                        <Fragment>
-                          <FormGroup className={classes.formGrup}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  size="small"
-                                  key={availability.id}
-                                  // .name.toString()}
-                                  checked={
-                                    apiValue.query.length < 1
-                                      ? ''
-                                      : apiValue.query.includes(availability.id)
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                  >
+                    {suppliers ? (
+                      <Fragment>
+                        <FormLabel component="legend">Country</FormLabel>
+                        {suppliers.countries.map((country) => (
+                          <Fragment>
+                            <FormGroup className={classes.formGrup}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    size="small"
+                                    key={country.id}
+                                    // .name.toString()}
+                                    checked={
+                                      apiValue.country.length < 1
+                                        ? ''
+                                        : apiValue.country.includes(country.id)
 
-                                    // checkboxValue.checkedValues.length < 1
-                                    //   ? ''
-                                    //   : checkboxValue.checkedValues.includes(
-                                    //       supplier.name
-                                    //     )
-                                  }
-                                  onChange={(event) =>
-                                    handleQueryChange(event, availability.id)
-                                  }
-                                  name={availability.name}
-                                />
-                              }
-                              label={availability.name}
-                            />
-                          </FormGroup>
-                        </Fragment>
-                      ))}
-                    </Fragment>
-                  ) : null}
-                  {/* <FormHelperText>Next 20</FormHelperText> */}
-                </FormControl>
+                                      // checkboxValue.checkedValues.length < 1
+                                      //   ? ''
+                                      //   : checkboxValue.checkedValues.includes(
+                                      //       supplier.name
+                                      //     )
+                                    }
+                                    onChange={(event) =>
+                                      handleCountryChange(event, country.id)
+                                    }
+                                    name={country.name}
+                                  />
+                                }
+                                label={country.name}
+                              />
+                            </FormGroup>
+                          </Fragment>
+                        ))}
+                      </Fragment>
+                    ) : null}
+                    {/* <FormHelperText>Next 20</FormHelperText> */}
+                  </FormControl>
 
-                <FormControl
-                  component="fieldset"
-                  className={classes.formControl}
-                >
-                  <FormLabel component="legend">Seasonal</FormLabel>
-                  {suppliers ? (
-                    <Fragment>
-                      {suppliers.seasonals.map((seasonal) => (
-                        <Fragment>
-                          <FormGroup className={classes.formGrup}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  size="small"
-                                  // .name.toString()}
-                                  checked={seasonal}
-                                  onChange={(event) =>
-                                    handleQueryChange(event, seasonal.id)
-                                  }
-                                  // name={seasonal.name}
-                                />
-                              }
-                              label="seasonal"
-                            />
-                          </FormGroup>
-                        </Fragment>
-                      ))}
-                    </Fragment>
-                  ) : null}
-                  {/* <FormHelperText>Next 20</FormHelperText> */}
-                </FormControl>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                  >
+                    {suppliers ? (
+                      <Fragment>
+                        <FormLabel component="legend">Availabilities</FormLabel>
+                        {suppliers.availabilities.map((availability) => (
+                          <Fragment>
+                            <FormGroup className={classes.formGrup}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    size="small"
+                                    key={availability.id}
+                                    // .name.toString()}
+                                    checked={
+                                      apiValue.availability.length < 1
+                                        ? ''
+                                        : apiValue.availability.includes(
+                                            availability.id
+                                          )
+                                    }
+                                    onChange={(event) =>
+                                      handleAvailabilityChange(
+                                        event,
+                                        availability.id
+                                      )
+                                    }
+                                    name={availability.name}
+                                  />
+                                }
+                                label={availability.name}
+                              />
+                            </FormGroup>
+                          </Fragment>
+                        ))}
+                      </Fragment>
+                    ) : null}
+                    {/* <FormHelperText>Next 20</FormHelperText> */}
+                  </FormControl>
+
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                  >
+                    <FormLabel component="legend">Seasonal</FormLabel>
+                    {suppliers ? (
+                      <Fragment>
+                        {suppliers.seasonals.map((seasonal) => (
+                          <Fragment>
+                            <FormGroup className={classes.formGrup}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    size="small"
+                                    // .name.toString()}
+                                    checked={seasonal}
+                                    onChange={(event) =>
+                                      handleQueryChange(event, seasonal.id)
+                                    }
+                                    // name={seasonal.name}
+                                  />
+                                }
+                                label="seasonal"
+                              />
+                            </FormGroup>
+                          </Fragment>
+                        ))}
+                      </Fragment>
+                    ) : null}
+                    {/* <FormHelperText>Next 20</FormHelperText> */}
+                  </FormControl>
+                </div>
               </Grid>
               <Grid item xs={12} md={12} lg={9} spacing={3}>
                 <Grid
@@ -1184,18 +1250,22 @@ const Category = ({
                             style={{ width: '13rem' }}
                             onClick={() => getProduct(product.id)}
                           >
-                            {/* <Button> */}
                             <Card
                               classes={{ root: classes.elevation }}
+                              style={
+                                product.availability.id > 1
+                                  ? { opacity: '0.5' }
+                                  : null
+                              }
                               position="relative"
                             >
-                              {product.sale ? (
+                              {product.discountedPrice ? (
                                 <Badge
                                   position="absolute"
                                   className={classes.badge}
                                   color="secondary"
                                   overlap="circle"
-                                  badgeContent={`-${product.sale}%`}
+                                  badgeContent={`-${product.discountedPrice}%`}
                                   // variant="dot"
                                 ></Badge>
                               ) : null}
@@ -1274,7 +1344,6 @@ const Category = ({
                                 />
                               </Box>
                             </Card>
-                            {/* </Button> */}
                           </Grid>
                         ))
                       ) : (
