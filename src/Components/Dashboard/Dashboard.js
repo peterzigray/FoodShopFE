@@ -28,6 +28,10 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
 import Registration from '../../Components/Auth/Registration';
 
+// responsive design
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import { useTheme } from '@material-ui/core/styles';
+
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -135,6 +139,15 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: '30px',
     left: '180px',
+    [theme.breakpoints.down('md')]: {
+      left: '40px',
+    },
+    [theme.breakpoints.up('md')]: {
+      left: '80px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      left: '180px',
+    },
 
     zIndex: 2,
   },
@@ -147,8 +160,16 @@ const useStyles = makeStyles((theme) => ({
     height: '15rem',
     position: 'absolute',
     top: '200px',
-    left: '720px',
+    left: '740px',
     zIndex: 3,
+    [theme.breakpoints.up('md')]: {
+      top: '200px',
+      left: '600px',
+    },
+    [theme.breakpoints.up('lg')]: {
+      top: '200px',
+      left: '740px',
+    },
   },
 }));
 // const Typography = Typography(()=>)
@@ -163,6 +184,10 @@ const Dashboard = ({
   loadUser,
   history,
 }) => {
+  // Responsive UI
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('xs'));
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
   useEffect(() => {
     loadUser();
     getCategories();
@@ -247,7 +272,7 @@ const Dashboard = ({
                 // variant="h2"
                 // fontWeight="fontWeightBold"
                 style={{
-                  'text-shadow': '1 1 1rem #000',
+                  'text-shadow': '0 0 1rem #000',
                   'font-weight': '900',
                   'font-size': '4.5rem',
                 }}
@@ -263,7 +288,7 @@ const Dashboard = ({
               style={{
                 'clip-path': 'polygon(51% 0, 100% 0, 100% 100%, 34% 100%)',
                 'z-index': '1',
-                filter: 'brightness(75%)',
+                filter: 'brightness(80%)',
               }}
             ></img>
           </Grid>
