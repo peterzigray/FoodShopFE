@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: 'transparent',
     },
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '11.4rem',
+      paddingLeft: '10.4rem',
     },
   },
   tabContainer: {

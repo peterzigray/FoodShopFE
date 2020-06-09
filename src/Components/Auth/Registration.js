@@ -45,10 +45,15 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: '20px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    width: '100%',
+    height: '100%',
+    // '& .makeStyles-paper-323': {
+    //   marginTop: '6px',
+    // },
   },
   avatar: {
     margin: theme.spacing(1),
@@ -93,10 +98,9 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
   }
 
   return (
-    // <Container component="main" maxWidth="xs">
-    //   <CssBaseline />
-
-    <Fragment>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      {/* <Fragment> */}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -104,6 +108,7 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
+
         <form className={classes.form} onSubmit={(e) => onSubmit(e)}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -186,12 +191,11 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
           </Grid>
         </form>
       </div>
-      <Box mt={5}>
+      {/* <Box mt={5}>
         <Copyright />
-      </Box>
-      <div className={classes.toolbarMargin}></div>
-      {/* </Container> */}
-    </Fragment>
+      </Box> */}
+      {/* <div className={classes.toolbarMargin}></div> */}
+    </Container>
   );
 };
 

@@ -391,6 +391,23 @@ const DetailProduct = ({
                         {/* </Box> */}
                       </Box>
                     </CardContent>
+                    {/* <CardContent>
+                      <form>
+                        <Grid item xs={12} sm={12}>
+                          <TextField
+                            autoComplete="fname"
+                            name="firstName"
+                            variant="outlined"
+                            required
+                            fullWidth
+                            id="firstName"
+                            label="First Name"
+                            value={1}
+                            autoFocus
+                          />
+                        </Grid>
+                      </form>
+                    </CardContent> */}
                     <CardContent>
                       <Box borderBottom={1} className={classes.textArea}>
                         <Typography

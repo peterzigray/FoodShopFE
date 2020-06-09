@@ -27,6 +27,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Paper from '@material-ui/core/Paper';
 import Registration from '../../Components/Auth/Registration';
+import RegistrationForm from '../../Components/Auth/RegistrationForm';
 
 // responsive design
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -134,18 +135,33 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '10rem',
   },
   registration: {
-    width: '22rem',
-    height: '15rem',
+    marginTop: '6rem',
+    backgroundColor: 'white',
+    width: '25rem',
+    height: '25rem',
     position: 'absolute',
+    'border-radius': ' 5px',
     top: '30px',
     left: '180px',
-    [theme.breakpoints.down('md')]: {
+    [theme.breakpoints.up('xs')]: {
+      top: '80px',
       left: '40px',
+      width: '20rem',
+      height: '33rem',
+    },
+    [theme.breakpoints.up('sm')]: {
+      left: '40px',
+      width: '20rem',
+      height: '33rem',
     },
     [theme.breakpoints.up('md')]: {
-      left: '80px',
+      left: '60px',
+      width: '20rem',
+      height: '33rem',
     },
     [theme.breakpoints.up('lg')]: {
+      width: '25rem',
+      height: '33rem',
       left: '180px',
     },
 
@@ -159,17 +175,61 @@ const useStyles = makeStyles((theme) => ({
     width: '45rem',
     height: '15rem',
     position: 'absolute',
+    // float: 'right',
     top: '200px',
-    left: '740px',
+    left: '70px',
     zIndex: 3,
-    [theme.breakpoints.up('md')]: {
+
+    textShadow: '0 0 1rem #000',
+    fontWeight: '900',
+    'font-size': '2.5rem',
+
+    [theme.breakpoints.up('xs')]: {
+      width: '5rem',
+      top: '100px',
+      left: '50px',
+      width: '15rem',
+      height: '5rem',
+      'font-size': '0.9rem',
+    },
+    [theme.breakpoints.up('sm')]: {
+      width: '10rem',
       top: '200px',
-      left: '600px',
+      left: '380px',
+      width: '25rem',
+      height: '15rem',
+      'font-size': '1rem',
+    },
+    [theme.breakpoints.up('md')]: {
+      width: '10rem',
+      top: '200px',
+      left: '450px',
+      width: '35rem',
+      height: '15rem',
+      'font-size': '1.9rem',
     },
     [theme.breakpoints.up('lg')]: {
+      'font-size': '2.2rem',
+      width: '40rem',
       top: '200px',
-      left: '740px',
+      left: '660px',
     },
+  },
+
+  dicountText: {
+    // [theme.breakpoints.down('xs')]: {
+    //   'font-size': '1.5rem',
+    // },
+    // [theme.breakpoints.down('md')]: {
+    //   'font-size': '2.5rem',
+    // },
+    // [theme.breakpoints.down('lg')]: {
+    //   'font-size': '3.5rem',
+    // },
+  },
+  itemTop: {
+    height: '100%',
+    backgroundColor: 'white',
   },
 }));
 // const Typography = Typography(()=>)
@@ -252,45 +312,29 @@ const Dashboard = ({
     ) : (
       <Fragment>
         <Grid container justify="center" alignItems="center" spacing={4}>
-          <Grid item xs={12} style={{ height: 'calc(100vh)' }}>
-            {/* <Grid container justify="center" alignItems="center">
-              <Grid item className={classes.carusel}> */}
-            {/* <Carousel
-                  infinite
-                  slidesPerPage={1}
-                  keepDirectionWhenDragging
-                  animationSpeed={1900}
-                  autoPlay={5000}
-                >
-                  {carousel ? carousel.map((it) => <Item item={it} />) : null}
-                </Carousel> */}
-            <div className={classes.registration}>
-              <Registration />
+          <Grid item xs={12}>
+            <div className={classes.itemTop}>
+              <img
+                height="100%"
+                width="100%"
+                src="https://media.bizj.us/view/img/10778326/inside-giant-store-photo-2*1200xx6480-3652-0-642.jpg"
+                style={{
+                  // 'clip-path': 'polygon(100% 0, 42% 60%, 0 100%, 0% 100%, 9% 50%, 0% 0%)',
+                  'z-index': '1',
+                  filter: 'brightness(80%)',
+                }}
+              ></img>
             </div>
+            <Card className={classes.registration}>
+              <Registration />
+            </Card>
             <div className={classes.dicount}>
               <h2
-                // variant="h2"
-                // fontWeight="fontWeightBold"
-                style={{
-                  'text-shadow': '0 0 1rem #000',
-                  'font-weight': '900',
-                  'font-size': '4.5rem',
-                }}
+              // className={classes.dicountText}
               >
                 Sign Up and get your 5% discount off
               </h2>
             </div>
-            <img
-              height="100%"
-              width="100%"
-              src="https://media.bizj.us/view/img/10778326/inside-giant-store-photo-2*1200xx6480-3652-0-642.jpg"
-              // {carousel[0] ? carousel[1].imageUrl : null}
-              style={{
-                'clip-path': 'polygon(51% 0, 100% 0, 100% 100%, 34% 100%)',
-                'z-index': '1',
-                filter: 'brightness(80%)',
-              }}
-            ></img>
           </Grid>
           {/* <Grid item xs={6}>
            

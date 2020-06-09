@@ -140,14 +140,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBarOnTop: {
-    paddingLeft: '8.5rem',
+    paddingLeft: '7.4rem',
     paddingRight: '10.5rem',
     backgroundColor: 'white',
     height: '3rem',
     '& .makeStyles-tabOfBarOnTop-187': { height: '3rem' },
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '8.5rem',
-      paddingRight: '9.5rem',
+      paddingLeft: '7.4rem',
+      paddingRight: '9.7rem',
       height: '3rem',
     },
   },
@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'white',
     height: '5rem',
   },
-  breadcrumbs: { paddingLeft: '11.5rem', paddingTop: '1rem' },
+  breadcrumbs: { paddingLeft: '10.5rem' },
   containerQueryProductsSort: {
     paddingLeft: '8rem',
     // paddingRight: '10rem',
@@ -171,7 +171,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '11.3rem',
     backgroundColor: '#f5f5f5',
     [theme.breakpoints.down('lg')]: {
-      paddingLeft: '11.5rem',
+      paddingLeft: '10.4rem',
     },
   },
   LeftGrid: {
