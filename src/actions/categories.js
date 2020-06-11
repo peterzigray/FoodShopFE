@@ -9,6 +9,7 @@ import {
   NEWS_ERROR,
   GET_CAROUSEL,
   CAROUSEL_ERROR,
+  GET_BANNER,
 } from './types';
 
 // import setAuthToken from '../utils/setAuthToken';
@@ -56,6 +57,7 @@ export const getSuppliers = (categoryId) => async (dispatch) => {
   try {
     const res = await axios.get(
       `http://localhost:8080/api/public/product-management/products/filters/${categoryId}`
+      ///api/public/product-management/filters/browse?&query=category.id==(1)
       // `http://localhost:8080/api/public/product-management/products/supplier/${categoryId}`
     );
     dispatch({
@@ -71,7 +73,7 @@ export const getSuppliers = (categoryId) => async (dispatch) => {
   }
 };
 
-//GET Product Suppliers FOR Filter
+//GET News
 export const getNews = () => async (dispatch) => {
   try {
     const res = await axios.get(
@@ -79,6 +81,24 @@ export const getNews = () => async (dispatch) => {
     );
     dispatch({
       type: GET_NEWS,
+      payload: res.data,
+    });
+  } catch (err) {
+    dispatch(setAlert(err.toString()));
+    dispatch({
+      type: NEWS_ERROR,
+    });
+  }
+};
+
+//GET Banner
+export const getBanner = (id) => async (dispatch) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:8080/api/public/product-management/categories/banner/${id}`
+    );
+    dispatch({
+      type: GET_BANNER,
       payload: res.data,
     });
   } catch (err) {

@@ -13,6 +13,7 @@ import Badge from '@material-ui/core/Badge';
 import EcoIcon from '@material-ui/icons/Eco';
 import ListIcon from '@material-ui/icons/List';
 
+import EcoRoundedIcon from '@material-ui/icons/EcoRounded';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -147,7 +148,7 @@ const useStyles = makeStyles((theme) => ({
     '& .makeStyles-tabOfBarOnTop-187': { height: '3rem' },
     [theme.breakpoints.down('lg')]: {
       paddingLeft: '7.4rem',
-      paddingRight: '9.7rem',
+      paddingRight: '9rem',
       height: '3rem',
     },
   },
@@ -199,8 +200,11 @@ const useStyles = makeStyles((theme) => ({
     '& .makeStyles-tabOfBarOnTop-187': {
       height: '3rem',
     },
+    marginTop: '2rem',
     backgroundColor: 'white',
+    // border: '1.5px solid #bdbdbd',
     borderBottom: '1.5px solid #bdbdbd',
+    borderTop: '1.5px solid #bdbdbd',
   },
   queryLeftNavbar: {
     paddingTop: '2em',
@@ -488,6 +492,20 @@ const getAvailabilityStringValue = (
   return values;
 };
 
+const getSeasonalStringValue = (queryString = window.location.search) => {
+  const values = queryString.match(/(?<=seasonalFrom>=\().*?(?=\))/g)
+    ? queryString
+        .match(/(?<=availability.id=in=\().*?(?=\))/g)
+        .toString()
+        .split(',')
+        .map((x) => +x)
+    : null;
+
+  // const result = values.split(',').map((x) => +x);
+
+  return values;
+};
+
 const Category = ({
   products: { products, loading },
   categories: { categories, suppliers, news },
@@ -514,6 +532,7 @@ const Category = ({
     country: getCountryStringValue(),
     filter: getFilterStringValue(),
     availability: getAvailabilityStringValue(),
+    seasonal: null,
     category: getCategoryStringValue(),
   });
 
@@ -533,6 +552,7 @@ const Category = ({
 
       apiValue.query.length > 0 ? apiValue.query : null,
       apiValue.country.length > 0 ? apiValue.country : null,
+      apiValue.seasonal ? apiValue.seasonal : null,
       apiValue.availability.length > 0 ? apiValue.availability : null,
 
       history
@@ -548,6 +568,7 @@ const Category = ({
       apiValue.filter ? apiValue.filter : null,
       apiValue.query.length > 0 ? apiValue.query : null,
       apiValue.country.length > 0 ? apiValue.country : null,
+      apiValue.seasonal ? apiValue.seasonal : null,
       apiValue.availability.length > 0 ? apiValue.availability : null,
       history
     );
@@ -638,6 +659,7 @@ const Category = ({
       // ),
       query: [],
       filter: null,
+      seasonal: null,
     });
     // CleanUP checkbox
     // setcheckboxValue({
@@ -661,6 +683,14 @@ const Category = ({
 
   const handleDeleteCheckboxValue = (event) => {
     // console.log(event.target.label)
+  };
+
+  const handleSeasonalChange = (event) => {
+    const date = new Date().getMonth();
+    setApiValue({
+      ...apiValue,
+      seasonal: date + 1,
+    });
   };
 
   const handleCountryChange = (event, id) => {
@@ -707,7 +737,23 @@ const Category = ({
   // }, 2000);
 
   function Layout() {
-    // console.log(suppliers.suppliers);
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const date = new Date();
+    const currentDate = months[date.getMonth()];
+    // console.log(apiValue.suppliers);
 
     // {
     //   suppliers
@@ -884,6 +930,22 @@ const Category = ({
                     component="fieldset"
                     className={classes.formControl}
                   >
+                    <FormLabel component="legend">Seasonal</FormLabel>
+                    <Button
+                      style={{ width: '100%', marginTop: '0.5rem' }}
+                      variant="contained"
+                      color="primary"
+                      href="#contained-buttons"
+                      startIcon={<EcoRoundedIcon />}
+                      onClick={(event) => handleSeasonalChange()}
+                    >
+                      {currentDate}
+                    </Button>
+                  </FormControl>
+                  <FormControl
+                    component="fieldset"
+                    className={classes.formControl}
+                  >
                     {suppliers ? (
                       <Fragment>
                         <FormLabel component="legend">Suplier</FormLabel>
@@ -999,38 +1061,6 @@ const Category = ({
                                   />
                                 }
                                 label={availability.name}
-                              />
-                            </FormGroup>
-                          </Fragment>
-                        ))}
-                      </Fragment>
-                    ) : null}
-                    {/* <FormHelperText>Next 20</FormHelperText> */}
-                  </FormControl>
-
-                  <FormControl
-                    component="fieldset"
-                    className={classes.formControl}
-                  >
-                    <FormLabel component="legend">Seasonal</FormLabel>
-                    {suppliers ? (
-                      <Fragment>
-                        {suppliers.seasonals.map((seasonal) => (
-                          <Fragment>
-                            <FormGroup className={classes.formGrup}>
-                              <FormControlLabel
-                                control={
-                                  <Checkbox
-                                    size="small"
-                                    // .name.toString()}
-                                    checked={seasonal}
-                                    onChange={(event) =>
-                                      handleQueryChange(event, seasonal.id)
-                                    }
-                                    // name={seasonal.name}
-                                  />
-                                }
-                                label="seasonal"
                               />
                             </FormGroup>
                           </Fragment>

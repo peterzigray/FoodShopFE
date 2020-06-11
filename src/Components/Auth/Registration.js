@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     marginTop: '20px',
+    // padding: '2rem',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -168,7 +169,13 @@ const Registration = ({ setAlert, register, isAuthenticated }) => {
             </Grid>
             <Grid item xs={12}>
               <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
+                control={
+                  <Checkbox
+                    value="allowExtraEmails"
+                    color="primary"
+                    size="small"
+                  />
+                }
                 label="I want to receive inspiration, marketing promotions and updates via email."
               />
             </Grid>

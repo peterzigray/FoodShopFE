@@ -268,7 +268,7 @@ const Dashboard = ({
     // history.push(
     //   `/product-management/products/browse/?query=category.id==(${id})`
     // );
-    getCategoryProducts(id, null, null, null, null, history);
+    getCategoryProducts(id, null, null, null, null, null, history);
     getSuppliers(id);
   };
 

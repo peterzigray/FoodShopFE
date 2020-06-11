@@ -75,17 +75,21 @@ export const getCategoryProducts = (
   sort,
   query,
   country,
+  seasonal,
   availability,
   history
 ) => async (dispatch) => {
   const newSort = sort ? getCurrentSort(sort) : '';
   const newCountry = country ? `;country.id=in=(${country})` : '';
+  const newSeasonal = seasonal
+    ? `;seasonalFrom>=${seasonal};seasonalTo<=${seasonal}`
+    : '';
   const newAvailability = availability
     ? `;availability.id=in=(${availability})`
     : '';
 
   const newQuery = query ? `;supplier.id=in=(${query})` : '';
-  const newURL = `browse/?${newSort}&query=category.id==(${id})${newQuery}${newCountry}${newAvailability}`;
+  const newURL = `browse/?${newSort}&query=category.id==(${id})${newQuery}${newCountry}${newSeasonal}${newAvailability}`;
   //CONDITION for select queries -->[]
 
   // const newQuery = query ? `;supplier.name=="${query}"` : '';
@@ -94,7 +98,7 @@ export const getCategoryProducts = (
 
   try {
     const res = await axios.get(
-      `http://localhost:8080/api/public/product-management/products/browse?query=category.id==(${id})${newQuery}${newCountry}${newAvailability}${newSort}`
+      `http://localhost:8080/api/public/product-management/products/browse?query=category.id==(${id})${newQuery}${newCountry}${newSeasonal}${newAvailability}${newSort}`
       // ;name=lig=*a*;sale=nnl=sale&page=0&size=20`
     );
     dispatch({
